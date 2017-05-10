@@ -20,6 +20,7 @@
      - `chmod a+x run.py`
  - Avviare il server:
      - `./run.py`
+ - Il server gira su `http://127.0.0.1:5000`
  
 ## Istruzioni per avviare il server (Linux)
  - Attivare l'ambiente virtuale:
