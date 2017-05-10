@@ -1,0 +1,37 @@
+/* Space out content a bit */
+body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.footer {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+/* Custom page header */
+.header {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.btn-wide {
+    font-size: 26px;
+    line-height: 1.5;
+    padding: 15px 10% 15px 10%;
+}
+
+.spaceddiv {
+    padding-top:2%;
+    padding-bottom:2%;
+}
+
+/* Custom page footer */
+.footer {
+    margin-top: 20px;
+    padding-top: 20px;
+    color: #777;
+    border-top: 1px solid #e5e5e5;
+}
