@@ -1,6 +1,6 @@
-## watson
+# Watson
 
-# Istruzioni per il setup (Linux)
+## Istruzioni per il setup (Linux)
 
  - Clonare la repo: 
      - `git clone git clone https://github.com/ZanSara/watson`
@@ -21,7 +21,7 @@
  - Avviare il server:
      - `./run.py`
  
-# Istruzioni per avviare il server (Linux)
+## Istruzioni per avviare il server (Linux)
  - Attivare l'ambiente virtuale:
      - `. env/bin/activate`
      - Per disattivarlo, `deactivate`
