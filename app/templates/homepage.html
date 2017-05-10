@@ -1,20 +1,18 @@
 {% extends "base_template.html" %}
 {% block content %}
-    <div class="row">
-        <h1 class="text-center">Hello, {{ user.nickname }}!</h1>
-
-        <div class="col-md-2"></div>
-        <div class="col-md-8 spaceddiv">
+    <div class="row spacedrow">
+       
+    <div class="col-md-5 pull-right" style="padding: 12% 0;">
+        <div class="col-md-8 text-center">
+            <h1 class="text-center">Hello, {{ user.nickname }}!</h1>
             <p class="lead"><i>Usa la tecnologia di IBM Watson per capire il tuo stile dalle tue immagini social e scopri il tuo nuovo outfit alla moda!</i></p>
+            <a href="#" class="btn btn-danger btn-wide">Inizia Ora</a>
         </div>
-        <div class="col-md-2"></div>
     </div>
-
-    <div class="row text-center">     
-        <a href="#" class="btn btn-success btn-wide">Inizia Ora</a>
+    
+    <div class="col-md-7 pull-left">
+        <img class="background img-responsive" src="../static/img/bambina.jpg">
     </div>
-        
-    <div class="row text-center">     
-        <img src="../static/img/home_img.png" style="margin-top:20px;">
+       
     </div>
 {% endblock %}
