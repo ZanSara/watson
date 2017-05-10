@@ -13,6 +13,7 @@ def send_css(path):
 ###############################################################
 
 
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -21,9 +22,10 @@ def index():
                            title='Home',
                            user=user)
 
+
 @app.route('/home')
 def home():
     user = {'nickname': 'User'}  # fake user
-    return render_template('home.html',
+    return render_template('homepage.html',
                            title='Home',
                            user=user)
