@@ -20,6 +20,8 @@ def page2():
 @app.route('/page3')
 def page3():
     user = {'nickname': 'User'}  # fake user
+    # here the idea is to show a loading page while the server compute the oufits and then re-render on 
+    # the same page the output page with the outfits
     return render_template('page3.html',
                            title='page3',
                            user=user)
