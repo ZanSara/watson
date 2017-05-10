@@ -31,6 +31,10 @@ def home():
                            user=user)
     
 
+@app.route('/loginTest')
+def loginTest():
+    return render_template('loginTest.html',
+                           title='loginTest')
 @app.route('/page2')
 def page2():
     user = {'nickname': 'User'}  # fake user
