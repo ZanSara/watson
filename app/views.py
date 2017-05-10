@@ -21,6 +21,14 @@ def index():
     return render_template('helloworld.html',
                            title='Home',
                            user=user)
+                        
+
+@app.route('/home')
+def home():
+    user = {'nickname': 'User'}  # fake user
+    return render_template('homepage.html',
+                           title='Home',
+                           user=user)
     
 
 @app.route('/page2')
@@ -29,7 +37,9 @@ def page2():
     return render_template('page2.html',
                            title='page2',
                            user=user)
-@app.route('/page3')
+                           
+                           
+@app.route('/page3', methods=['GET', 'POST'])
 def page3():
     user = {'nickname': 'User'}  # fake user
     # here the idea is to show a loading page while the server compute the oufits and then re-render on 
@@ -39,10 +49,3 @@ def page3():
                            user=user)
 
 
-
-@app.route('/home')
-def home():
-    user = {'nickname': 'User'}  # fake user
-    return render_template('homepage.html',
-                           title='Home',
-                           user=user)
