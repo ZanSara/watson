@@ -13,22 +13,42 @@ def send_css(path):
 ###############################################################
 
 
+
 @app.route('/')
-@app.route('/index')
-def index():
-    user = {'nickname': 'User'}  # fake user
-    return render_template('helloworld.html',
-                           title='Home',
-                           user=user)
+@app.route('/home')
+def home():
+    return render_template('homepage.html',
+                            title='Home',
+                            active_navbar_button="home",
+                            background_class="home-background")
+                           
+@app.route('/about')
+def about():
+    return render_template('about.html',
+                            title='About Us',
+                            active_navbar_button="about",
+                            background_class="about-background")
     
 
+@app.route('/loginTest')
+def loginTest():
+    return render_template('loginTest.html',
+                           title='loginTest')
+
+@app.route('/loginTest2')
+def loginTest2():
+    return render_template('loginTest2.html',
+                           title='loginTest2')
+                           
 @app.route('/page2')
 def page2():
     user = {'nickname': 'User'}  # fake user
     return render_template('page2.html',
                            title='page2',
                            user=user)
-@app.route('/page3')
+                           
+                           
+@app.route('/page3', methods=['GET', 'POST'])
 def page3():
     user = {'nickname': 'User'}  # fake user
     # here the idea is to show a loading page while the server compute the oufits and then re-render on 
@@ -38,9 +58,3 @@ def page3():
                            user=user)
 
 
-@app.route('/home')
-def home():
-    user = {'nickname': 'User'}  # fake user
-    return render_template('home.html',
-                           title='Home',
-                           user=user)
