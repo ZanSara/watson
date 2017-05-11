@@ -1,167 +1,47 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+{% extends "base_template.html" %}
+{% block content %}
 
-<meta name="description"
-	content="2017 Project for Digital Innovation Lab course (powered by IBM Watson) ">
-<meta name="author" content="">
-<link rel="icon" href="../../favicon.ico">
+<div style="padding:10%;">
 
-<title>{{ title }} - EITeam Project</title>
-
-<!-- Bootstrap core CSS (online) -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
-	crossorigin="anonymous">
-<!-- Bootstrap core CSS (offline) -->
-<link rel="stylesheet"
-	href="../static/css/bootstrap/css/bootstrap.min.css">
-<!-- Custom styles for this template -->
-<link rel="stylesheet" href="../static/css/style.css">
-<style type="text/css">
-.animationFade {
-	animation-name: fade;
-	animation-duration: 4s;
-	animation-iteration-count: infinite;
-	animation-fill-mode: both;
-	animation-delay: 0s;
-}
-
-.saving span {
-	font-size: 40px;
-}
-
-.saving span:nth-child(2) {
-	font-size: 60px;
-	animation-name: blink;
-	animation-duration: 1.4s;
-	animation-iteration-count: infinite;
-	animation-fill-mode: both;
-}
-
-.saving span:nth-child(3) {
-	font-size: 60px;
-	animation-name: blink;
-	animation-duration: 1.4s;
-	animation-iteration-count: infinite;
-	animation-fill-mode: both;
-	animation-delay: .2s;
-}
-
-.saving span:nth-child(4) {
-	font-size: 60px;
-	animation-name: blink;
-	animation-duration: 1.4s;
-	animation-iteration-count: infinite;
-	animation-fill-mode: both;
-	animation-delay: .4s;
-}
-
-@keyframes blink { 
-0% {
-	opacity: .2;
-}
-
-20%
-{
-opacity:1;
-}
-100%
-{
-opacity:.2;
-}
-}
-@keyframes fade { 0% {
-	opacity: 0.1;
-}
-20%
-{
-opacity:1;
-}
-80%
-{
-opacity:1;
-}
-100%
-{
-opacity:0;
-}
-}
-</style>
-</head>
-
-
-<body>
-
-	<div class="container">
-		<div class="header clearfix">
-			<nav>
-				<ul class="nav nav-pills pull-right">
-					<li role="presentation" class="active"><a href="#">Home</a></li>
-					<li role="presentation"><a href="#">About</a></li>
-					<li role="presentation"><a href="#">Contact</a></li>
-				</ul>
-			</nav>
-			<a href="/home" class="navbar-brand" style="padding: 0;"><h3
-					class="text-muted">EITeam Project</h3></a>
-		</div>
-
-		<div class="row">
-			<div class="animationFade">
-				<p class="row text-center saving">
-					<span id="changeText">Saving</span><span>.</span><span>.</span><span>.</span>
-				</p>
-			</div>
-		</div>
-
-		<div class="row text-center">
-			<img
-				src="../static/img/simple-pre-loader/images/loader-128x/Preloader_3.gif"
-				style="margin-top: 20px; margin-bottom: 160px;">
+	<div class="row">
+		<div class="animationFade">
+			<p class="row text-center saving">
+				<span id="changeText">Saving</span>
+				<span>.</span>
+				<span>.</span>
+				<span>.</span>
+			</p>
 		</div>
 	</div>
 
-	<footer class="footer">
-		<p>&copy; 2017 EITeam Company, Inc.</p>
-	</footer>
-
+	<div class="row text-center">
+		<img src="../static/img/simple-pre-loader/images/loader-128x/Preloader_3.gif">
 	</div>
-	<!-- /container -->
 
-
-
-	<!-- Bootstrap core JavaScript
-    ================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+</div>
 
 	<script type="text/javascript">
-	//changing every 6 sec the text with a random phrase
-		var text = [ "Understanding your style", "Improving your style", "Learning the trends",
-				"Comparing the trends","Analizing your pictures","Computing similarities", "Predicting your tastes",
-				"Elaborating the outfits","Browsing the catalog","Looking Fashion sites" ];
+	    //changing every 6 sec the text with a random phrase
+		var text = [    "Understanding your style",
+		                "Improving your style", 
+		                "Learning the trends",
+				        "Comparing the trends",
+				        "Analizing your pictures",
+				        "Computing similarities", 
+				        "Predicting your tastes",
+				        "Elaborating the outfits",
+				        "Browsing the catalog",
+				        "Looking for fashion websites" ];
+				        
 		var elem = document.getElementById("changeText");
 		count = Math.floor((Math.random() * 10) + 0);
 		elem.innerHTML = text[count];
 		setInterval(change, 4000);
+		
 		function change() {
 			//count keep values from 0 to 9
 			count = Math.floor((Math.random() * 10) + 0);
 			elem.innerHTML = text[count];
 		}
 	</script>
-	<!-- Include all compiled plugins (below), or include individual files as needed -->
-	<!-- Latest compiled and minified JavaScript -->
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
-		crossorigin="anonymous"></script>
-</body>
-</html>
+{% endblock %}

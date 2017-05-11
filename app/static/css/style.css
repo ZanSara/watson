@@ -11,7 +11,7 @@ body {
     background-size: cover;
     background-position: center;
 }
-.about-background {
+.light-background {
     overflow: hidden;
     background-image: url("/static/img/background_armadio_chiaro.png");
     background-repeat: no-repeat;
@@ -67,3 +67,72 @@ body {
     background: black;
 }
 
+
+
+
+
+/* Stile loader di /page3 */
+
+.animationFade {
+	animation-name: fade;
+	animation-duration: 4s;
+	animation-iteration-count: infinite;
+	animation-fill-mode: both;
+	animation-delay: 0s;
+}
+
+.saving span {
+	font-size: 40px;
+}
+
+.saving span:nth-child(2) {
+	font-size: 60px;
+	animation-name: blink;
+	animation-duration: 1.4s;
+	animation-iteration-count: infinite;
+	animation-fill-mode: both;
+}
+
+.saving span:nth-child(3) {
+	font-size: 60px;
+	animation-name: blink;
+	animation-duration: 1.4s;
+	animation-iteration-count: infinite;
+	animation-fill-mode: both;
+	animation-delay: .2s;
+}
+
+.saving span:nth-child(4) {
+	font-size: 60px;
+	animation-name: blink;
+	animation-duration: 1.4s;
+	animation-iteration-count: infinite;
+	animation-fill-mode: both;
+	animation-delay: .4s;
+}
+
+@keyframes blink { 
+    0% {
+	    opacity: .2;
+    }
+    20% {
+        opacity:1;
+    }
+    100% {
+        opacity:.2;
+    }
+}
+@keyframes fade { 
+    0% {
+	    opacity: 0.1;
+    }
+    20% {
+        opacity:1;
+    }
+    80% {
+        opacity:1;
+    }
+    100% {
+        opacity:0;
+    }
+}
