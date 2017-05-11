@@ -1,11 +1,22 @@
 
+body {
+    background-color: black;
+    margin-top: 50px;
+}
+
 .home-background {
     overflow: hidden;
     background-image: url("/static/img/background_armadio_rosso.png");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    background-color: black;
+}
+.about-background {
+    overflow: hidden;
+    background-image: url("/static/img/background_armadio_chiaro.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
 /* Custom page header */

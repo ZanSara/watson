@@ -15,41 +15,17 @@
     <!-- Bootstrap core CSS (online) -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Bootstrap core CSS (offline) -->
-    <link rel="stylesheet" href="../static/css/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="../static/css/style.css">
   </head>
 
 
   <body class="{{background_class}}">
-
-   <!--div class="container" style="width:100%;">
-      <div class="" style="padding:5px;">
-        
-        
-        <div class="row">
-            <div class="col-md-2">
-                <a href="/home">
-                    <img src="../static/img/EITeam_pink_logo.png" style="width:50%;">
-                </a>
-            </div>
-            
-            <div class="pull-right" style="text-transform:uppercase;">
-                <ul class="custom-nav-btn list-inline">
-                    <li role="presentation" class="active"><a href="#">Home</a></li>
-                    <li role="presentation"><a href="#">About</a></li>
-                    <li role="presentation"><a href="#">Contact</a></li>
-                </ul>
-            </div>
-            
-        </div>
-      </div -->
       
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             
-        
-        
             <div class="navbar-header">
                 <div class="pull-right">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -60,23 +36,23 @@
                     </button>
                 </div>
                 <a href="/">
-                    <img src="../static/img/EITeam_pink_logo.png" style="height:30px; margin:10px;">
+                    <img src="../static/img/EITeam_red_logo.png" style="height:30px; margin:10px;">
                 </a>
             </div>
             <div id="navbar" class="collapse navbar-collapse pull-right">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li {% if active_navbar_button == "home" %}class="active"{% endif %}><a href="/">Home</a></li>
+                    <li {% if active_navbar_button == "about" %}class="active"{% endif %}><a href="/about">About</a></li>
+                    <li {% if active_navbar_button == "login" %}class="active"{% endif %}><a href="/loginTest">Login</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
     </nav>
 
-
+    <div {% if not background_class %} style="background-color:white;" {% endif %}>
       {% block content %}
       {% endblock %}
-      
+    </div> 
 
       <footer class="footer text-center">
         <p>&copy; 2017 EITeam Company, Inc.</p>
@@ -91,6 +67,9 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!-- Offline Bootstrap and jQuery js -->
+    <script src="../static/bootstrap/jQuery/jquery-2.2.4.min.js">
+    <script src="../static/bootstrap/js/bootstrap.min.js">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </body>

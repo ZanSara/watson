@@ -1,3 +1,3 @@
 env/
-app/static/css/bootstrap/
+app/static/bootstrap/
 app/__pycache__/

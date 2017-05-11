@@ -17,17 +17,24 @@ def send_css(path):
 @app.route('/')
 @app.route('/home')
 def home():
-    user = {'nickname': 'User'}  # fake user
     return render_template('homepage.html',
-                           title='Home',
-                           user=user,
-                           background_class="home-background")
+                            title='Home',
+                            active_navbar_button="home",
+                            background_class="home-background")
+                           
+@app.route('/about')
+def about():
+    return render_template('about.html',
+                            title='About Us',
+                            active_navbar_button="about",
+                            background_class="about-background")
     
 
 @app.route('/loginTest')
 def loginTest():
     return render_template('loginTest.html',
                            title='loginTest')
+
 @app.route('/page2')
 def page2():
     user = {'nickname': 'User'}  # fake user
