@@ -21,9 +21,9 @@
   </head>
 
 
-  <body>
+  <body class="{{background_class}}">
 
-   <div class="container" style="width:100%;">
+   <!--div class="container" style="width:100%;">
       <div class="" style="padding:5px;">
         
         
@@ -43,7 +43,35 @@
             </div>
             
         </div>
-      </div>
+      </div -->
+      
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            
+        
+        
+            <div class="navbar-header">
+                <div class="pull-right">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <a href="/">
+                    <img src="../static/img/EITeam_pink_logo.png" style="height:30px; margin:10px;">
+                </a>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse pull-right">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
 
 
       {% block content %}

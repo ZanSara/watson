@@ -20,7 +20,8 @@ def home():
     user = {'nickname': 'User'}  # fake user
     return render_template('homepage.html',
                            title='Home',
-                           user=user)
+                           user=user,
+                           background_class="home-background")
     
 
 @app.route('/loginTest')
