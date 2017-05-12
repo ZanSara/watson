@@ -1,3 +1,10 @@
 env/
-app/static/bootstrap/
+__pycache__/
 app/__pycache__/
+
+app/static/bootstrap/
+
+.project
+.pydevproject
+
+oc

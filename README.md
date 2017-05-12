@@ -16,15 +16,15 @@
      - Per disattivarlo, `deactivate`
  - Una volta attivato l'ambiente virtuale, installarci Flask:
      - `pip3 install flask`
- - Rendere eseguibile il launcher:
-     - `chmod a+x run.py`
+ - Installare i requisiti:
+     - `pip3 install requirements.txt`
  - Avviare il server:
-     - `./run.py`
- - Il server gira su `http://127.0.0.1:5000`
+     - `gunicorn wsgi`
+ - Il server gira su `http://127.0.0.1:8000`
  
 ## Istruzioni per avviare il server (Linux)
  - Attivare l'ambiente virtuale:
      - `. env/bin/activate`
      - Per disattivarlo, `deactivate`
  - Avviare il server:
-     - `./run.py`
+     - `gunicorn wsgi`

@@ -27,7 +27,7 @@ def about():
     return render_template('about.html',
                             title='About Us',
                             active_navbar_button="about",
-                            background_class="about-background")
+                            background_class="light-background")
     
 
 
@@ -50,7 +50,6 @@ def page3():
     # here the idea is to show a loading page while the server compute the oufits and then re-render on 
     # the same page the output page with the outfits
     return render_template('page3.html',
-                           title='page3',
-                           user=user)
+                           title='Loading...')
 
 
