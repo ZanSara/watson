@@ -1,6 +1,11 @@
 {% extends "base_template.html" %}
 {% block content %}
-      <div class="well">
+
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+<div class="well">
         <h1 class="text-center">Hello World!</h1>
       </div>
       <div style="margin:5%;">
@@ -9,6 +14,7 @@
       //https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en-US
       var auth_code = location.search.split('code=')[1]
       var access_token=null
+      authorize()
     	function authorize() {
     	  //this code is obtained by instagram api and
     	  //must be used to perform each call about a user
@@ -33,7 +39,6 @@
     		    });
       }
       function lastPhoto(){
-    	  authorize()
     	  $.ajax({
   		    type: 'GET',
   		    url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token='+access_token+"&count=10",
