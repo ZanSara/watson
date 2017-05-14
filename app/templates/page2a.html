@@ -61,7 +61,7 @@
 		        
         		    console.log('res from Instagram API', res);
         		    for (i = 0; i<res.data.length; i++){
-        		        $("#photo-container").append( '<img id="img-'+i+'" data-id="+'i'+" src="'+res.data[i].images.thumbnail.url+'" style="margin:3px;" onclick=showModal("#img-'+i+'")>');
+        		        $("#photo-container").append( '<img id="img-'+i+'" src="'+res.data[i].images.thumbnail.url+'" style="margin:3px;" onclick=showModal("#img-'+i+'")>');
         		    }
         		});
       	  
@@ -69,7 +69,7 @@
         
         function showModal(imgID){
             $("#image2crop").attr("src", $(imgID).attr("src") );
-            $("#saveButton").attr("onclick", "selectPicture("+$(imgID).attr("data-id")+")" );
+            //$("#saveButton").attr("onclick", "selectPicture("+$(imgID).attr("data-id")+")" );
             
             $('#myModal').modal('show');
         }
