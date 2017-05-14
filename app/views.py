@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, request
 from app import app
 
 
@@ -42,12 +42,13 @@ def page2():
                            title='Scegli le tue immagini')
                            
                            
-@app.route('/page3', methods=['GET', 'POST'])
+@app.route('/page3', methods=['POST'])
 def page3():
-    user = {'nickname': 'User'}  # fake user
     # here the idea is to show a loading page while the server compute the oufits and then re-render on 
     # the same page the output page with the outfits
-    return render_template('page3.html',
-                           title='Loading...')
+    if request.method == 'POST':
+        return render_template('page3.html',
+                                postdata=request.form,
+                                title='Loading...')
 
 

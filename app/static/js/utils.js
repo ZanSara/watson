@@ -36,6 +36,10 @@ function showPhotos(res){
         
         newtick = newbox.find("#tick");
         newtick.attr('id','tick-'+i);
+        
+        newfull = newbox.find("#max-res-img");
+        newfull.attr('id','max-res-img-'+i);
+        newfull.attr('href', res.data[i].images.standard_resolution.url);
                 		        
         $("#photo-container").append(newbox);
     }
@@ -45,7 +49,8 @@ function showPhotos(res){
 
 // Funzione che prepara il modal
 function showModal(imgID){
-    $('#image2crop').attr("src", $(imgID).attr("src") );
+    id = imgID.split('-')[1];
+    $('#image2crop').attr("src", $('#max-res-img-'+id).attr("href") );
     $('#saveButton').attr("onclick", "selectPicture('"+imgID+"')" );
     $('#myModal').modal('show');
 }
@@ -54,10 +59,10 @@ function showModal(imgID){
 function selectPicture(imgID){
     id = imgID.split('-')[1];
     $('#tick-'+id).show();
-    $('#image-'+id).attr('id', '#selected-image-'+id);
+    $('#image-'+id).attr('id', 'selected-image-'+id);
     
-    $('#image-form').append('<input id="load-image-"'+i+' type="file" name="files[]" style="display:none;">');
-    $('#load-image-'+i).val( $(this).find('#img-*').attr('src') );
+    $('#image-form').append('<input id="load-image-'+id+'" type="string" name="image'+id+'" style="display:none;">');
+    $('#load-image-'+id).val( $('#max-res-img-'+id).attr('href') );
     
     $('#myModal').modal('hide');
 }
