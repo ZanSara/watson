@@ -1,26 +1,35 @@
 {% extends "base_template.html" %}
 {% block content %}
     
-    <div class="text-center" style="padding: 5% 0;">
+    <div class="text-center" style="padding: 3% 0;">
     
-        <p class="lead">Scegli le foto che preferisci e premi Continua!</p>
+        <p class="lead">Scegli le foto che preferisci e premi Continua</p>
         
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2" style="padding:0 5% 5% 5%;">
-                <div id="photo-container" class="text-center"></div>
+        <div class="container">
+            <div class="col-md-8 col-md-offset-2" style="padding:0;">
+                <div id="photo-container" class="text-center">
+                
+                    <div id="image" style="position:relative; display:none;">
+                        <div class="inner-img">
+                            <img id="img" src="../static/img/sample_outfit.png">
+                            <img id="tick" src="../static/img/green-tick.png" class="green-tick" style="display:none;">
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
         </div>
         
-        <div class="row text-center">
-            <a class="btn btn-danger btn-wide">
-                Continua!
-            </a>  
+        <div class="container text-center" style="margin-top:3%;">
+            <form id="image-form" action="/page3" enctype="multipart/form-data" method="post">
+                <input class="btn btn-danger btn-wide" type=submit value="Continua">
+            </form>
         </div>
 	    
     </div>
     
     
-    
+        
     
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -36,7 +45,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
-            <button id="saveButton" type="button" class="btn btn-primary" >Salva le modifiche</button>
+            <button id="saveButton" type="button" class="btn btn-primary" >Seleziona</button>
           </div>
         </div>
       </div>
@@ -45,38 +54,8 @@
     
     
     <script type="text/javascript">
+        // lastPhotos sta in /static/js/utils.js
        	document.addEventListener('DOMContentLoaded',lastPhotos, false);
-	
-	    function lastPhotos(){
-      	  var access_token=(window.location.href).split("=")[1]
-      	  $.ajax({
-        		    type: 'GET',
-        		    url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token='+access_token+"&count=10&callback=?",
-        		    xhrFields: {
-        		        withCredentials: false
-		        },
-        		    crossDomain: true,
-        		    dataType: "jsonp",
-		        }).done(function(res) {
-		        
-        		    console.log('res from Instagram API', res);
-        		    for (i = 0; i<res.data.length; i++){
-        		        $("#photo-container").append( '<img id="img-'+i+'" src="'+res.data[i].images.thumbnail.url+'" style="margin:3px;" onclick=showModal("#img-'+i+'")>');
-        		    }
-        		});
-      	  
-        }
-        
-        function showModal(imgID){
-            $("#image2crop").attr("src", $(imgID).attr("src") );
-            //$("#saveButton").attr("onclick", "selectPicture("+$(imgID).attr("data-id")+")" );
-            
-            $('#myModal').modal('show');
-        }
-        
-        function selectPicture(photoID){
-            
-        }
     </script>
     
     

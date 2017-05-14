@@ -38,13 +38,8 @@ def loginTest2():
                            
 @app.route('/page2')
 def page2():
-    return render_template('page2.html',
-                           title='page2')
-                           
-@app.route('/page2a')
-def page2a():
     return render_template('page2a.html',
-                           title='page2a')
+                           title='Scegli le tue immagini')
                            
                            
 @app.route('/page3', methods=['GET', 'POST'])
