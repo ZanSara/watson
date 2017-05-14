@@ -1,0 +1,83 @@
+{% extends "base_template.html" %}
+{% block content %}
+    
+    <div class="text-center" style="padding: 5% 0;">
+    
+        <p class="lead">Scegli le foto che preferisci e premi Continua!</p>
+        
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2" style="padding:0 5% 5% 5%;">
+                <div id="photo-container" class="text-center"></div>
+            </div>
+        </div>
+        
+        <div class="row text-center">
+            <a class="btn btn-danger btn-wide">
+                Continua!
+            </a>  
+        </div>
+	    
+    </div>
+    
+    
+    
+    
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title text-center" id="myModalLabel">Ritaglia la tua immagine!</h4>
+          </div>
+          <div class="modal-body text-center">
+            <p>Ritaglia l'immagine e premi Salva</p>
+            <img id="image2crop" style="width:80%;" src="../static/img/sample_outfit.png">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
+            <button id="saveButton" type="button" class="btn btn-primary" >Salva le modifiche</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    <script type="text/javascript">
+       	document.addEventListener('DOMContentLoaded',lastPhotos, false);
+	
+	    function lastPhotos(){
+      	  var access_token=(window.location.href).split("=")[1]
+      	  $.ajax({
+        		    type: 'GET',
+        		    url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token='+access_token+"&count=10&callback=?",
+        		    xhrFields: {
+        		        withCredentials: false
+		        },
+        		    crossDomain: true,
+        		    dataType: "jsonp",
+		        }).done(function(res) {
+		        
+        		    console.log('res from Instagram API', res);
+        		    for (i = 0; i<res.data.length; i++){
+        		        $("#photo-container").append( '<img id="img-'+i+'" data-id="+'i'+" src="'+res.data[i].images.thumbnail.url+'" style="margin:3px;" onclick=showModal("#img-'+i+'")>');
+        		    }
+        		});
+      	  
+        }
+        
+        function showModal(imgID){
+            $("#image2crop").attr("src", $(imgID).attr("src") );
+            $("#saveButton").attr("onclick", "selectPicture("+$(imgID).attr("data-id")+")" );
+            
+            $('#myModal').modal('show');
+        }
+        
+        function selectPicture(photoID){
+            
+        }
+    </script>
+    
+    
+{% endblock %}

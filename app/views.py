@@ -38,10 +38,13 @@ def loginTest2():
                            
 @app.route('/page2')
 def page2():
-    user = {'nickname': 'User'}  # fake user
     return render_template('page2.html',
-                           title='page2',
-                           user=user)
+                           title='page2')
+                           
+@app.route('/page2a')
+def page2a():
+    return render_template('page2a.html',
+                           title='page2a')
                            
                            
 @app.route('/page3', methods=['GET', 'POST'])
