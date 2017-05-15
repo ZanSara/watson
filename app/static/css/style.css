@@ -106,14 +106,17 @@ body {
     background: black;
 }
 
-
+/*Stile About Us page */
+.italic{
+	font-style: italic;
+}
 
 
 
 /* Stile loader di /page3 */
 
 .animationFade {
-	animation-name: fade;
+	animation-name: blink;
 	animation-duration: 4s;
 	animation-iteration-count: infinite;
 	animation-fill-mode: both;
@@ -121,11 +124,11 @@ body {
 }
 
 .saving span {
-	font-size: 40px;
+	font-size: 20px;
 }
 
 .saving span:nth-child(2) {
-	font-size: 60px;
+	font-size: 25px;
 	animation-name: blink;
 	animation-duration: 1.4s;
 	animation-iteration-count: infinite;
@@ -133,7 +136,7 @@ body {
 }
 
 .saving span:nth-child(3) {
-	font-size: 60px;
+	font-size: 25px;
 	animation-name: blink;
 	animation-duration: 1.4s;
 	animation-iteration-count: infinite;
@@ -142,7 +145,7 @@ body {
 }
 
 .saving span:nth-child(4) {
-	font-size: 60px;
+	font-size: 25px;
 	animation-name: blink;
 	animation-duration: 1.4s;
 	animation-iteration-count: infinite;
