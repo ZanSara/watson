@@ -1,41 +1,120 @@
 {% extends "base_template.html" %}
 {% block content %}
+ 
+ 
+ <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Cropper.js</title>
+  <link rel="stylesheet" href="../static/cropper/dist/cropper.css">
+  <style>
+    .container {
+      max-width: 960px;
+      margin: 20px auto;
+    }
 
-<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-<script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    img {
+      max-width: 100%;
+    }
 
-<div class="well">
-        <h1 class="text-center">Hello World!</h1>
+    .row,
+    .preview {
+      overflow: hidden;
+    }
+
+    .col {
+      float: left;
+    }
+
+    .col-6 {
+      width: 50%;
+    }
+
+    .col-3 {
+      width: 25%;
+    }
+
+    .col-2 {
+      width: 16.7%;
+    }
+
+    .col-1 {
+      width: 8.3%;
+    }
+  </style>
+  <div class="container">
+    <h1>Customize preview for Cropper</h1>
+    <div class="row">
+      <div class="col col-6">
+        <img id="image" src="../static/cropper/docs/images/picture.jpg" alt="Picture">
       </div>
-      <div style="margin:5%;">
-      <script>
-      //It is necessary to install this extension of chrome
-      //https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en-US
-      function lastPhotos(){
-    	  var access_token=(window.location.href).split("=")[1]
-    	  $.ajax({
-  		    type: 'GET',
-  		    url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token='+access_token+"&count=10&callback=?",
-  		    // Disable credentials as they were enabled by default
-  		    xhrFields: {
-  		        withCredentials: false
-  		    },
-  		    crossDomain: true,
-  		    dataType: "jsonp",
-  		    }).always(function(res) {
-  		    console.log('Res from Instagram API', res);
-  		  	for (i = 0; i < res.data.length; i++) { 
-  		  	var photo = document.createElement("IMG");
-  		  	photo.setAttribute("src", res.data[i].images.thumbnail.url);
-		  	document.getElementById("image").appendChild(photo);
-  			}
-  		  	
-  		    });
-    	  
+      <div class="col col-3">
+        <div class="preview"></div>
+      </div>
+      <div class="col col-2">
+        <div class="preview"></div>
+      </div>
+      <div class="col col-1">
+        <div class="preview"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../static/cropper/dist/cropper.js"></script>
+  <script>
+    function each(arr, callback) {
+      var length = arr.length;
+      var i;
+
+      for (i = 0; i < length; i++) {
+        callback.call(arr, arr[i], i, arr);
       }
-          </script>
-      <button onclick="lastPhotos()">Import Photos</button>
-      <div id="image"></div>
-      </div>
+
+      return arr;
+    }
+
+    window.addEventListener('DOMContentLoaded', function () {
+      var image = document.querySelector('#image');
+      var previews = document.querySelectorAll('.preview');
+      var cropper = new Cropper(image, {
+          ready: function () {
+            var clone = this.cloneNode();
+
+            clone.className = ''
+            clone.style.cssText = (
+              'display: block;' +
+              'width: 100%;' +
+              'min-width: 0;' +
+              'min-height: 0;' +
+              'max-width: none;' +
+              'max-height: none;'
+            );
+
+            each(previews, function (elem) {
+              elem.appendChild(clone.cloneNode());
+            });
+          },
+
+          crop: function (e) {
+            var data = e.detail;
+            var cropper = this.cropper;
+            var imageData = cropper.getImageData();
+            var previewAspectRatio = data.width / data.height;
+
+            each(previews, function (elem) {
+              var previewImage = elem.getElementsByTagName('img').item(0);
+              var previewWidth = elem.offsetWidth;
+              var previewHeight = previewWidth / previewAspectRatio;
+              var imageScaledRatio = data.width / previewWidth;
+
+              elem.style.height = previewHeight + 'px';
+              previewImage.style.width = imageData.naturalWidth / imageScaledRatio + 'px';
+              previewImage.style.height = imageData.naturalHeight / imageScaledRatio + 'px';
+              previewImage.style.marginLeft = -data.x / imageScaledRatio + 'px';
+              previewImage.style.marginTop = -data.y / imageScaledRatio + 'px';
+            });
+          }
+        });
+    });
+  </script>
 {% endblock %}
