@@ -28,6 +28,13 @@ def about():
                             title='About Us',
                             active_navbar_button="about",
                             background_class="light-background")
+                            
+@app.route('/about2')
+def about2():
+    return render_template('about2.html',
+                            title='About Us',
+                            active_navbar_button="about",
+                            background_class="light-background")
     
 
 
