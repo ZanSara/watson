@@ -1,7 +1,7 @@
 
 body {
     background-color: black;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 .home-background {
@@ -20,10 +20,11 @@ body {
 }
 .light-background {
     background-color: white;
-    background-image: url("/static/img/background_armadio_chiaro.png"); 
+    background-image: url("/static/img/background_armadio_bianco.png"); 
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
 }
 
 /* Custom page header */
@@ -44,7 +45,7 @@ body {
 
 .about-box img {
     width: 60%;
-    max-width: 250px;
+    max-width: 200px;
     margin: 10%;
 }
 
