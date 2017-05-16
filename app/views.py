@@ -1,5 +1,6 @@
 from flask import render_template, request
 from app import app
+import config as cf
 
 
 ########## Static files servers (Do not modify) ###############
@@ -32,13 +33,15 @@ def about():
 
 
 @app.route('/images')
-def loginTest2():
+def images():
     return render_template('images.html',
-                           title='images')
+                                custom_css=["../static/cropper/dist/cropper.css"],
+                                custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
+                                title='images')
                            
 @app.route('/page2')
 def page2():
-    return render_template('page2a.html',
+    return render_template('page2.html',
                            title='Scegli le tue immagini')
                            
                            

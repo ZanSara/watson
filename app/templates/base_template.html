@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     
     <meta name="description" content="2017 Project for Digital Innovation Lab course (powered by IBM Watson) ">
@@ -19,6 +19,16 @@
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="../static/css/style.css">
     <script src="../static/js/utils.js"></script>
+    
+    <!-- CUSTOM HEAD CONTENT start -->
+    {% for css in custom_css %}
+        <link rel="stylesheet" href="{{ css }}">
+    {% endfor %}
+    {% for js in custom_js %}
+        <script src="{{ js }}"></script>
+    {% endfor %}
+    <!-- CUSTOM HEAD CONTENT end -->
+    
   </head>
 
 
