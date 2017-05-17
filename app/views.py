@@ -21,7 +21,7 @@ def home():
     return render_template('homepage.html',
                             title='Home',
                             active_navbar_button="home",
-                            background_class="home-background")
+                            background_class="home-background", baseLink="http://127.0.0.1:5000/")
                            
 @app.route('/about')
 def about():
