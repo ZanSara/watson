@@ -39,8 +39,24 @@
  </style>
  
  <script>
-      function cutting(imgages,obj) {
-		// informazioni al server o passaggio di parametri [obj si apre con obj.x obj.y obj.width ecc....]
+      function cutting(img,obj) {
+    	  var canvas = document.createElement("canvas");
+    	    canvas.width = img.width;
+    	    canvas.height = img.height;
+    	    var ctx = canvas.getContext("2d");
+    	    ctx.drawImage(img, 0, 0);
+    	    var imgData = ctx.getImageData(obj.x, obj.y,obj.width, obj.height);
+    	    ctx.putImageData(imgData, 0, 0);
+    	    var dataURL = canvas.toDataURL();
+    	    $.ajax({
+    	    	  type: "POST",
+    	    	  url: "/page3",
+    	    	  data: { 
+    	    	     imgBase64: dataURL
+    	    	  }
+    	    	}).done(function(o) {
+    	    	  console.log('saved');
+    	    	});
 		}
         
     	  
