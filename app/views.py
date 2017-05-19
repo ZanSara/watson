@@ -21,7 +21,7 @@ def home():
     return render_template('homepage.html',
                             title='Home',
                             active_navbar_button="home",
-                            background_class="home-background", baseLink="http://127.0.0.1:5000")
+                            background_class="home-background", baseLink="http://127.0.0.1:5000/")
                            
 @app.route('/about')
 def about():
@@ -49,6 +49,7 @@ def page2():
                            
 @app.route('/page3', methods=['POST'])
 def page3():
+    
     # here the idea is to show a loading page while the server compute the oufits and then re-render on 
     # the same page the output page with the outfits
     if request.method == 'POST':
@@ -57,3 +58,17 @@ def page3():
                                 title='Loading...')
 
 
+
+@app.route('/results')
+def results():
+    
+    full_outfit_image = "../static/img/fake_outfit.jpg"
+    items = [
+                { 'top':0, 'left':0, 'width':100, 'height':50 },
+                { 'top':70, 'left':20, 'width':50, 'height':100 }
+            ]
+    
+    return render_template('results.html',
+                            full_outfit = full_outfit_image,
+                            items = items,
+                            title='Outfit trovato')
