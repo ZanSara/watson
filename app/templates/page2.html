@@ -1,7 +1,7 @@
 {% extends "base_template.html" %}
 {% block content %}
     
-    <div class="text-center">
+    <div class="text-center" style="padding: 3% 0;">
     
         <p class="lead">Scegli le foto che preferisci e premi Continua</p>
         
@@ -28,11 +28,27 @@
         </div>
 	    
     </div>
-    
-    
+ <style> 
+ 
+ 
+ 
+ 
+ #image2crop  
+ {width: 100%;}
+ 
+ </style>
+ 
+ <script>
+      function cutting(imgages,obj) {
+		// informazioni al server o passaggio di parametri [obj si apre con obj.x obj.y obj.width ecc....]
+		}
         
-    
+    	  
+    	  
+    </script>
+
     <!-- Modal -->
+    
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -40,24 +56,48 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title text-center" id="myModalLabel">Ritaglia la tua immagine!</h4>
           </div>
-          <div class="modal-body text-center">
+          <div class="modal-body">
             <p>Ritaglia l'immagine e premi Salva</p>
-            <img id="image2crop" style="width:80%;" src="../static/img/sample_outfit.png">
+            <div class="img-container" >
+            <img id="image2crop" src="../static/img/sample_outfit.png" alt="Picture"  >
+            <script>var images = document.getElementById('image2crop')</script>
+          	</div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Chiudi</button>
-            <button id="saveButton" type="button" class="btn btn-primary" >Seleziona</button>
+          <div class="modal-footer text-center">
+            <button type="button" class="btn btn-default" data-dismiss="modal" >Chiudi</button>
+            <button id="saveButton" type="button" class="btn btn-primary" onclick="cutting(document.getElementById('image2crop'),cropper.getData())">Seleziona</button>
           </div>
         </div>
       </div>
     </div>
     
-    
-    
-    <script type="text/javascript">
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+  <script>
+        
+ 		 window.addEventListener('DOMContentLoaded', function () {
+        
+        var cropBoxData;
+        var canvasData;
+        var cropper;
+        
+        $('#myModal').on('shown.bs.modal', function () {
+            cropper = new Cropper( document.getElementById('image2crop'), {
+                autoCropArea: 0.5,
+                ready: function () {
+                    // Strict mode: set crop box data first
+                    cropper.setCropBoxData(cropBoxData).setCanvasData(canvasData);
+                }
+            });
+          }).on('hidden.bs.modal', function () {
+            cropper.destroy();
+        });
+      
+    });
         // lastPhotos sta in /static/js/utils.js
-       	document.addEventListener('DOMContentLoaded',lastPhotos, false);
-    </script>
+        document.addEventListener('DOMContentLoaded',lastPhotos, false);
+
+  </script>
     
     
 {% endblock %}

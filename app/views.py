@@ -21,7 +21,7 @@ def home():
     return render_template('homepage.html',
                             title='Home',
                             active_navbar_button="home",
-                            background_class="home-background", baseLink="http://127.0.0.1:5000/")
+                            background_class="home-background", baseLink="http://127.0.0.1:5000")
                            
 @app.route('/about')
 def about():
@@ -42,6 +42,8 @@ def images():
 @app.route('/page2')
 def page2():
     return render_template('page2.html',
+                                custom_css=["../static/cropper/dist/cropper.css"],
+                                custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
                            title='Scegli le tue immagini')
                            
                            
