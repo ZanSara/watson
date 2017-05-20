@@ -1,0 +1,63 @@
+{% extends "base_template.html" %}
+{% block content %}
+    
+    <div class="text-center">
+    
+        <p class="lead">Ecco il tuo nuovo outfit!</p>
+        
+        <div class="container">
+            <div class="col-md-8 col-md-offset-2" style="padding:0;">
+                <div class="text-center">
+                    <div class="image">
+                        <img src="{{ full_outfit }}" style="max-height:400px; max-width:100%;">
+                        
+                        {% for item in items %}   
+                            <a href="#1" style="border: 1px solid black; top: {{ item.top }}px; left: {{ item.left }}px; width: {{ item.width }}%; height: {{ item.height }}%;"></a>
+                        {% endfor %}
+                        
+                    </div>
+                    
+                    <style>
+                    .image{
+                      position: relative;
+                    }
+                    .image a{
+                      display: block;      
+                      position: absolute;
+                    }
+                    </style>
+                    
+                </div>
+            </div>
+        </div>
+	    
+    </div>
+    
+    
+        
+    
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title text-center" id="myModalLabel">Ritaglia la tua immagine!</h4>
+          </div>
+          <div class="modal-body text-center">
+            <p>Ritaglia l'immagine e premi Salva</p>
+            <img id="image2crop" style="width:80%;" src="../static/img/sample_outfit.png">
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    <script type="text/javascript">
+        // lastPhotos sta in /static/js/utils.js
+       	document.addEventListener('DOMContentLoaded',lastPhotos, false);
+    </script>
+    
+    
+{% endblock %}

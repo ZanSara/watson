@@ -1,5 +1,6 @@
-from flask import render_template, request
+from flask import render_template, request, jsonify
 from app import app
+import json
 import config as cf
 
 
@@ -42,16 +43,38 @@ def images():
 @app.route('/page2')
 def page2():
     return render_template('page2.html',
+                                custom_css=["../static/cropper/dist/cropper.css"],
+                                custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
                            title='Scegli le tue immagini')
                            
                            
 @app.route('/page3', methods=['POST'])
 def page3():
-    # here the idea is to show a loading page while the server compute the oufits and then re-render on 
-    # the same page the output page with the outfits
+    
     if request.method == 'POST':
+    
+        json_data = request.form['imageArray']
+        data = json.loads(json_data)
+        
+        #COMMENTED FOR CICLE TO PRINT THE LINKS RECEIVED 
+        print( json.dumps(data, indent=4) )
+    
         return render_template('page3.html',
-                                postdata=request.form,
-                                title='Loading...')
+                        postdata=request.form,
+                        title='Loading...')
 
 
+
+@app.route('/results')
+def results():
+    
+    full_outfit_image = "../static/img/fake_outfit.jpg"
+    items = [
+                { 'top':0, 'left':0, 'width':100, 'height':50 },
+                { 'top':70, 'left':20, 'width':50, 'height':100 }
+            ]
+    
+    return render_template('results.html',
+                            full_outfit = full_outfit_image,
+                            items = items,
+                            title='Outfit trovato')
