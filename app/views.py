@@ -1,6 +1,8 @@
 from flask import render_template, request, jsonify
 from app import app
 import json
+import requests as req
+from PIL import Image
 import config as cf
 
 
@@ -60,21 +62,43 @@ def page3():
         print( json.dumps(data, indent=4) )
     
         return render_template('page3.html',
-                        postdata=request.form,
+                        postdata=json_data,
                         title='Loading...')
 
 
 
-@app.route('/results')
+@app.route('/results', methods=['POST'])
 def results():
     
-    full_outfit_image = "../static/img/fake_outfit.jpg"
-    items = [
-                { 'top':0, 'left':0, 'width':100, 'height':50 },
-                { 'top':70, 'left':20, 'width':50, 'height':100 }
-            ]
+    if request.method == 'POST':
     
-    return render_template('results.html',
-                            full_outfit = full_outfit_image,
-                            items = items,
-                            title='Outfit trovato')
+        # Fake data from /page3
+        json_data = request.form['imageArray']
+        data = json.loads(json_data)
+        print(data)
+        outdata = data[0]
+        
+        url = outdata['url'] #"https://scontent.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/18513116_1737915606223692_336722120291647488_n.jpg"
+        response = req.get( url ).content # Questo content e' uno stream binario.
+        # Non sapendo come calcolare le dimensioni di un'immagine da uno stream binario
+        # per ora lo salvo in un file temporaneo, lo riapro e ne ottengo w e h.
+        
+        # Salva l'immagine in un file temporaneo sul server
+        with open("temp/outfit.jpg", "wb") as outfit_file:
+            binary_image = bytearray( response )
+            outfit_file.write( binary_image )
+        
+        # Apre l'immagine e ne legge le dimensioni
+        full_outfit_image = Image.open( "temp/outfit.jpg" )
+        width, height = full_outfit_image.size
+        print("dimension:", width, height)
+        
+        # in futuro avro' piu' liste di ritagli, ricorda!
+        items = [
+                    { 'top':(outdata['y']/height)*100, 'left':(outdata['x']/width)*100, 'width':(outdata['w']/width)*100, 'height':(outdata['h']/height)*100 },
+                ]
+        
+        return render_template('results.html',
+                                full_outfit = url,
+                                items = items,
+                                title='Outfit trovato')

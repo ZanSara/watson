@@ -110,6 +110,23 @@ body {
 }
 
 
+.full-outfit {
+    position: relative;
+    display:inline-block; /* QUESTO permette al div di stare attaccato all'immagine */
+}
+.full-outfit img{
+    max-height: 70vh;
+    max-width: 100%;
+}
+.full-outfit a{
+    display: block;      
+    position: absolute;
+}
+
+
+
+
+
 
 
 /* Custom page footer */
