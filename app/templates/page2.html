@@ -22,8 +22,8 @@
         </div>
         
         <div class="container text-center" style="margin-top:3%;">
-            <form id="image-form" action="/page3" enctype="multipart/form-data" method="post">
-               	<input type="hidden" name="imageArray" value = sequence>
+            <form enctype='application/json' id="image-form" action="/page3" enctype="multipart/form-data" method="post">
+               	<input type="hidden" id="imgArray" name="imageArray" value="">
                 <input class="btn btn-danger btn-wide" type=submit value="Continua">
                
             </form>
@@ -36,7 +36,8 @@
  {width: 100%;}
  </style>
  <script>
- var sequence;
+ var sequence =[];
+ 
       function cutting(url,obj) {
     	  var image = {
     		'link': url,
@@ -45,8 +46,12 @@
     		'width': obj.width,
     		'height' : obj.height
     	  }
-    	  sequence.push(image)
+
+    	  sequence.push(JSON.stringify(image));
+    	  document.getElementById('imgArray').value = JSON.stringify(sequence);
+    	  console.log('test1');
 		}
+		
         
     </script>
 
@@ -68,7 +73,7 @@
           </div>
           <div class="modal-footer text-center">
             <button type="button" class="btn btn-default" data-dismiss="modal" >Chiudi</button>
-            <button id="saveButton" type="button" class="btn btn-primary" onclick="cutting(document.getElementById('image2crop').src,cropper.getData())">Seleziona</button>
+            <button id="saveButton" type="button" class="btn btn-primary" >Seleziona</button>
           </div>
         </div>
       </div>
@@ -93,6 +98,8 @@
                 }
             });
           }).on('hidden.bs.modal', function () {
+            console.log('hello');
+            cutting($('#image2crop').attr('src'), cropper.getData());
             cropper.destroy();
         });
       
