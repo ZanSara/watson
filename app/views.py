@@ -51,22 +51,17 @@ def page2():
 @app.route('/page3', methods=['POST'])
 def page3():
     
-    # here the idea is to show a loading page while the server compute the oufits and then re-render on 
-    # the same page the output page with the outfits
-    json_data = request.form['imageArray']
-    data = json.loads(json_data)
-    sequence = []
-    for i in range(0,len(data)):
-        sequence.append(json.loads(data[i]))
-        
-    #COMMENTED FOR CICLE TO PRINT THE LINKS RECEIVED 
-    #for i in range(0,len(sequence)):
-    #    print(sequence[i]['link'])
-    
     if request.method == 'POST':
+    
+        json_data = request.form['imageArray']
+        data = json.loads(json_data)
+        
+        #COMMENTED FOR CICLE TO PRINT THE LINKS RECEIVED 
+        print( json.dumps(data, indent=4) )
+    
         return render_template('page3.html',
-                                postdata=request.form,
-                                title='Loading...')
+                        postdata=request.form,
+                        title='Loading...')
 
 
 

@@ -105,6 +105,9 @@ body {
     -o-transform:scale(1.2); /* Opera */
      transform:scale(1.2);
 }
+#img2crop{ 
+    width: 100%;
+}
 
 
 
