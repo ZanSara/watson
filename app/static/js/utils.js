@@ -2,27 +2,46 @@
 // Funzione che carica le foto da Instagram via AJAX
 function lastPhotos(){
     var access_token=(window.location.href).split("=")[1]
-    $.ajax({
-		    type: 'GET',
-		    url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token='+access_token+"&count=10&callback=?",
-		    xhrFields: {
-		        withCredentials: false
-        },
-		    crossDomain: true,
-		    dataType: "jsonp",
-		    
-        }).done(function(res) {
+    
+    if (access_token == 'debug'){
+    
+        $.get( "/fake_login_service", function() {
+            
+        }).done(function(json_res) {
+            res = JSON.parse(json_res);
             showPhotos(res);
             
-		}).fail(function(res) {
-            alert('Failed!');
-		});
-  
+            $("#loader").hide();
+            $("#main-box").show();
+        
+        }).fail(function() {
+            alert( "error" );
+            
+        });
+ 
+    } else {
+    
+        $.ajax({
+		        type: 'GET',
+		        url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token='+access_token+"&count=10&callback=?",
+		        xhrFields: {
+		            withCredentials: false
+            },
+		        crossDomain: true,
+		        dataType: "jsonp",
+		        
+            }).done(function(res) {
+                showPhotos(res);
+                
+		    }).fail(function(res) {
+                alert('Failed!');
+		    }); 
+    }
 }
 
 // Funzione che renderizza le foto ottenute tramite lastPhotos()
 function showPhotos(res){
-    console.log('res from Instagram API', res);
+    console.log('res from Instagram API', JSON.stringify(res));
     
     for (i = 0; i<res.data.length; i++){
         
@@ -47,8 +66,6 @@ function showPhotos(res){
     }
     $('#img').remove();
     
-    $("#loader").hide();
-    $("#main-box").show();
 }
 
 
