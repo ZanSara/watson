@@ -1,35 +1,34 @@
 {% extends "base_template.html" %}
 {% block content %}
     
-    <div class="text-center" style="padding: 3% 0;">
+    <div class="text-center" style="padding: 1% 0;">
     
-        <p class="lead">Scegli le foto che preferisci e premi Continua</p>
-        
-        <div class="container">
-            <div class="col-md-8 col-md-offset-2" style="padding:0;">
+        <div id="loader" class="text-center">
+            <p>Loading your photos...</p>
+            <img src="../static/img/simple-pre-loader/images/loader-64x/Preloader_2.gif">
+        </div>
+    
+        <div id="main-box" class="container" style="display:none;">
+            <div class="col-md-8 col-md-offset-2" >
+                <p class="lead">Scegli le foto che preferisci e premi Continua</p>     
                 <div id="photo-container" class="text-center">
-                
-                    <div id="image" style="position:relative; display:none;">
+
+                    <div id="image">
                         <div class="inner-img">
                             <img id="img" src="../static/img/sample_outfit.png">
                             <img id="tick" src="../static/img/green-tick.png" class="green-tick" style="display:none;">
-                            <a id="max-res-img" href="#" style="display:hidden;"></a>
+                            <a id="max-res-img" href="#" style="display:none;"></a>
                         </div>
                     </div>
-                    
+                   
                 </div>
-            </div>
-        </div>
-        
-        <div class="container text-center" style="margin-top:3%;">
-        
-            <form id="imageForm" method="post" action="/page3" >
-               	
-               	<input type="hidden" id="imageArray" name="imageArray" value="">
-                <button class="btn btn-danger btn-wide" onclick="prepareForm()">Continua</button>
                 
-            </form>
-            
+                <form id="imageForm" style="margin-top:3%;" method="post" action="/page3" >
+                   	<input type="hidden" id="imageArray" name="imageArray" value="">
+                    <button class="btn btn-danger btn-wide" onclick="prepareForm()">Continua</button>
+                </form>
+                
+            </div>
         </div>
 	    
     </div>

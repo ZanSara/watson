@@ -75,7 +75,7 @@ def page3():
             hsize = int((float(img_cutted.size[1])*float(wpercent)))
             img_resized = img_cutted.resize((basewidth,hsize), Image.ANTIALIAS)
             # save the image
-            img_resized.save("out" + str(i) + ".jpg")
+            img_resized.save("temp/out" + str(i) + ".jpg")
             
         # COMMENTED FOR CICLE TO PRINT THE LINKS RECEIVED 
         print(json.dumps(data, indent=4))
