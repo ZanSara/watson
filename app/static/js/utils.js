@@ -4,23 +4,20 @@ function lastPhotos(){
     var access_token=(window.location.href).split("=")[1]
     
     if (access_token == 'debug'){
-    
+        console.log('debug side');
         $.get( "/fake_login_service", function() {
             
         }).done(function(json_res) {
             res = JSON.parse(json_res);
             showPhotos(res);
             
-            $("#loader").hide();
-            $("#main-box").show();
-        
         }).fail(function() {
             alert( "error" );
             
         });
  
     } else {
-    
+        console.log('production side');
         $.ajax({
 		        type: 'GET',
 		        url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token='+access_token+"&count=10&callback=?",
@@ -41,7 +38,7 @@ function lastPhotos(){
 
 // Funzione che renderizza le foto ottenute tramite lastPhotos()
 function showPhotos(res){
-    console.log('res from Instagram API', JSON.stringify(res));
+    console.log('res from Instagram API', res);
     
     for (i = 0; i<res.data.length; i++){
         
@@ -66,6 +63,8 @@ function showPhotos(res){
     }
     $('#img').remove();
     
+    $("#loader").hide();
+    $("#main-box").show();
 }
 
 
