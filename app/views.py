@@ -4,6 +4,8 @@ import json
 import requests as req
 from PIL import Image
 import config as cf
+import urllib, io
+
 
 
 ########## Static files servers (Do not modify) ###############
@@ -54,12 +56,29 @@ def page2():
 def page3():
     
     if request.method == 'POST':
-    
+        #number of pixels of the cutted images width
+        basewidth = 200
         json_data = request.form['imageArray']
         data = json.loads(json_data)
-        
-        #COMMENTED FOR CICLE TO PRINT THE LINKS RECEIVED 
-        print( json.dumps(data, indent=4) )
+        # load the imgs from the URL
+        for i in range(0, len(data)):
+            file = io.BytesIO(urllib.request.urlopen(data[i]['url']).read())
+            img = Image.open(file)
+            # load the parameters of the img
+            x = data[i]['x']
+            y = data[i]['y']
+            w = data[i]['w']
+            h = data[i]['h']
+            # cut & resize the image
+            img_cutted = img.crop((x, y, x + w, y + h))
+            wpercent = (basewidth/float(img_cutted.size[0]))
+            hsize = int((float(img_cutted.size[1])*float(wpercent)))
+            img_resized = img_cutted.resize((basewidth,hsize), Image.ANTIALIAS)
+            # save the image
+            img_resized.save("out" + str(i) + ".jpg")
+            
+        # COMMENTED FOR CICLE TO PRINT THE LINKS RECEIVED 
+        print(json.dumps(data, indent=4))
     
         return render_template('page3.html',
                         postdata=json_data,
@@ -78,27 +97,27 @@ def results():
         print(data)
         outdata = data[0]
         
-        url = outdata['url'] #"https://scontent.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/18513116_1737915606223692_336722120291647488_n.jpg"
-        response = req.get( url ).content # Questo content e' uno stream binario.
+        url = outdata['url']  # "https://scontent.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/18513116_1737915606223692_336722120291647488_n.jpg"
+        response = req.get(url).content  # Questo content e' uno stream binario.
         # Non sapendo come calcolare le dimensioni di un'immagine da uno stream binario
         # per ora lo salvo in un file temporaneo, lo riapro e ne ottengo w e h.
         
         # Salva l'immagine in un file temporaneo sul server
         with open("temp/outfit.jpg", "wb") as outfit_file:
-            binary_image = bytearray( response )
-            outfit_file.write( binary_image )
+            binary_image = bytearray(response)
+            outfit_file.write(binary_image)
         
         # Apre l'immagine e ne legge le dimensioni
-        full_outfit_image = Image.open( "temp/outfit.jpg" )
+        full_outfit_image = Image.open("temp/outfit.jpg")
         width, height = full_outfit_image.size
         print("dimension:", width, height)
         
         # in futuro avro' piu' liste di ritagli, ricorda!
         items = [
-                    { 'top':(outdata['y']/height)*100, 'left':(outdata['x']/width)*100, 'width':(outdata['w']/width)*100, 'height':(outdata['h']/height)*100 },
+                    { 'top':(outdata['y'] / height) * 100, 'left':(outdata['x'] / width) * 100, 'width':(outdata['w'] / width) * 100, 'height':(outdata['h'] / height) * 100 },
                 ]
         
         return render_template('results.html',
-                                full_outfit = url,
-                                items = items,
+                                full_outfit=url,
+                                items=items,
                                 title='Outfit trovato')
