@@ -50,16 +50,23 @@ def deleteAllImagesInCollection():
         visual_recognition.delete_image(this_collection_id,image["image_id"])
     if(len(images["images"])!=0):
         print("error")
+def getKSimilar(src,collection,k=1):
+    with open(src, 'rb') as img: 
+        res = visual_recognition.find_similar(this_collection_id,img, 50)#number of returned values
+    similars=res["similar_images"]
+    best=similars[0]["image_file"]
+    return best
+    
 #creation object for visual recognition    
 visual_recognition = VisualRecognitionV3('2016-05-20', api_key='5becfc0e7dc544e89e36230e9bb58a609280957c')
-addAllImagesFromFolder()
+#addAllImagesFromFolder()
 #deleteAllImagesInCollection()
 
 #find similarities
-with open(join(folder,"tt0001.jpg"), 'rb') as img: 
-    res = visual_recognition.find_similar(this_collection_id,img, 50)#number of returned values
-    similars=res["similar_images"]
-    for elem in similars:
-        print (elem['image_file'],elem['score'] )
+#with open(join(folder,"tt0001.jpg"), 'rb') as img: 
+   # res = visual_recognition.find_similar(this_collection_id,img, 50)#number of returned values
+   # similars=res["similar_images"]
+    #for elem in similars:
+       # print (elem['image_file'],elem['score'] )
     #visual_recognition.classify(img)
     

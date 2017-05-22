@@ -3,7 +3,7 @@ from flask import request
 import json
 from PIL import Image
 import config as cf
-
+from dataset import manage_collections as m
 
 def outfit_builder(request):
     # Fake data from /page3
@@ -16,16 +16,20 @@ def outfit_builder(request):
     response = req.get(url).content  # Questo content e' uno stream binario.
     # Non sapendo come calcolare le dimensioni di un'immagine da uno stream binario
     # per ora lo salvo in un file temporaneo, lo riapro e ne ottengo w e h.
-    
     # Salva l'immagine in un file temporaneo sul server
     with open("temp/outfit.jpg", "wb") as outfit_file:
         binary_image = bytearray(response)
         outfit_file.write(binary_image)
     
+    # Cerca l'immagine piu simile
+    image=m.getKSimilar("temp/outfit.jpg","fashon_blogger_e4ceff")
+    #in image c'e il percorso del fashion blogger piu simile in locale
+    
     # Apre l'immagine e ne legge le dimensioni
-    full_outfit_image = Image.open("temp/outfit.jpg")
+    full_outfit_image = Image.open(url)
     width, height = full_outfit_image.size
     print("dimension:", width, height)
+    
     
     # in futuro avro' piu' liste di ritagli, ricorda!
     items = [
