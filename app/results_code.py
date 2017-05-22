@@ -26,7 +26,7 @@ def outfit_builder(request):
     #in image c'e il percorso del fashion blogger piu simile in locale
     
     # Apre l'immagine e ne legge le dimensioni
-    full_outfit_image = Image.open(url)
+    full_outfit_image = Image.open("temp/outfit.jpg")
     width, height = full_outfit_image.size
     print("dimension:", width, height)
     
