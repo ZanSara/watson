@@ -1,16 +1,17 @@
 {% extends "base_template.html" %}
 {% block content %}
-    <div class="row vertically-centered">
+    <div class="row vertically-centered"><script> var local = window.location.origin 
+    var url = "https://www.instagram.com/oauth/authorize/?client_id=62f7b14a1a6141a58748d143744e1538&redirect_uri=" + local + "/page2&response_type=token&scope=basic+likes+public_content" </script>
        
         <div class="col-md-5 pull-right" style="padding: 4% 0;">
             <div class="col-md-8 text-center">
                 <h1 class="text-center wide-title">Scopri il tuo nuovo Stile</h1>
                 <p class="wide-description"><i>Grazie alla tecnologia di IBM Watson, capiremo il tuo stile dalle tue immagini social e ti faremo scoprire il tuo nuovo outfit alla moda!</i></p>
-                <a href="https://www.instagram.com/oauth/authorize/?client_id=62f7b14a1a6141a58748d143744e1538&redirect_uri={{baseLink}}page2&response_type=token&scope=basic+likes+public_content" class="btn btn-danger btn-wide">
+                <a id="linkStart" href="www.127.com" class="btn btn-danger btn-wide"> 
                     Inizia Ora
                 </a>
             </div>
         </div>
-    
+    <script> document.getElementById("linkStart").href = url</script>
     </div>
 {% endblock %}

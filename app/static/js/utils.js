@@ -2,24 +2,44 @@
 // Funzione che carica le foto da Instagram via AJAX
 function lastPhotos(){
     var access_token=(window.location.href).split("=")[1]
-    $.ajax({
-		    type: 'GET',
-		    url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token='+access_token+"&count=10&callback=?",
-		    xhrFields: {
-		        withCredentials: false
-        },
-		    crossDomain: true,
-		    dataType: "jsonp",
-		    
-        }).done(function(res) {
+    
+    if (access_token == 'debug'){
+        console.log('debug side');
+        $.get( "/fake_login_service", function() {
+            
+        }).done(function(json_res) {
+            res = JSON.parse(json_res);
             showPhotos(res);
-		});
-  
+            
+        }).fail(function() {
+            alert( "error" );
+            
+        });
+ 
+    } else {
+        console.log('production side');
+        $.ajax({
+		        type: 'GET',
+		        url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token='+access_token+"&count=10&callback=?",
+		        xhrFields: {
+		            withCredentials: false
+            },
+		        crossDomain: true,
+		        dataType: "jsonp",
+		        
+            }).done(function(res) {
+                showPhotos(res);
+                
+		    }).fail(function(res) {
+                alert('Failed!');
+		    }); 
+    }
 }
 
 // Funzione che renderizza le foto ottenute tramite lastPhotos()
 function showPhotos(res){
     console.log('res from Instagram API', res);
+    
     for (i = 0; i<res.data.length; i++){
         
         newbox = $('#image').clone();
@@ -38,10 +58,13 @@ function showPhotos(res){
         newfull = newbox.find("#max-res-img");
         newfull.attr('id','max-res-img-'+i);
         newfull.attr('href', res.data[i].images.standard_resolution.url);
-                		        
+        
         $("#photo-container").append(newbox);
     }
     $('#img').remove();
+    
+    $("#loader").hide();
+    $("#main-box").show();
 }
 
 
@@ -49,24 +72,49 @@ function showPhotos(res){
 function showModal(imgID){
     id = imgID.split('-')[1];
     $('#img2crop').attr("src", $('#max-res-img-'+id).attr("href") );
-    $('#saveButton').attr("onclick", "selectPicture('"+imgID+"', window.cropper.getData() )" );
+    $('#saveButton').attr("onclick", "selectPicture('"+imgID+"', window.cropper.getData(), window.cropper.getImageData() )" );
     $('#myModal').modal('show');
 }
 
 
 // Funzione che seleziona le immagini aperte al click di "Salva"
-function selectPicture(imgID, obj){
+function selectPicture(imgID, obj, imageInfo){
+    
     id = imgID.split('-')[1];
+    image = $('#image-'+id);
     
-    // Imposta i dati del ritaglio sotto #image-* (che diventa poi #selected-image-*) 
-    $('#image-'+id).data('x', obj.x);
-    $('#image-'+id).data('y', obj.y);
-    $('#image-'+id).data('w', obj.width);
-    $('#image-'+id).data('h', obj.height);
+    // Rimuove eventuali mask e crop rimasti
+    $(image.selector).find(".mask").remove();
+    $(image.selector).find(".crop").remove();
     
-    // Mostra il tick e cambia #image-* in selected-image-*
+    // Mostra l'immagine ritagliata
+    var x = (obj.x / imageInfo.naturalWidth)*100; 
+    var y = (obj.y / imageInfo.naturalHeight)*100;
+    var w = (obj.width / imageInfo.naturalWidth)*100;
+    var h = (obj.height / imageInfo.naturalHeight)*100;
+    
+    var cx = x * (100 / (100 - w));
+    var cy = y * (100 / (100 - h));
+    
+    // Imposta i dati del ritaglio sotto #img-*
+    var img = $('#img-'+id)
+    img.data('x', obj.x);
+    img.data('y', obj.y);
+    img.data('w', obj.width);
+    img.data('h', obj.height);
+    
+    var img_url = img.attr('src');
+    var inner = $(image.selector).find(".inner-img");
+    console.log(id, img_url, inner);
+    
+    //$('#img-'+id).addClass('cropped');
+    $(inner.selector).prepend( "<div class='crop' style='position: absolute; top:"+y+"%; left:"+x+"%; background-image: url("+img_url+"); background-position: left "+cx+"% top "+cy+"%; height: "+h+"%; width: "+w+"%;'></div>" );
+    $(inner.selector).prepend( "<div class='mask' style='position: absolute; top:0; left:0; bottom:0; right:0; background-color:black; opacity:0.7;'></div>");
+    
+    
+    // Mostra il tick e seleziona #image-*
     $('#tick-'+id).show();
-    $('#image-'+id).attr('id', 'selected-image-'+id);
+    image.data('selected', 'yes');
     
     // Chiude forzatamente il modale
     $('#myModal').modal('hide');
@@ -82,14 +130,15 @@ function prepareForm() {
     
     // Trova le immagini selezionate e appende i loro dati a un array
     selected_info = [];
-    for (i=0; i<images_number; i++){
-        if ($("#selected-image-"+i).length) { // Significa "se esiste #selected-image-i"
+    for (id=0; id<images_number; id++){
+        if ($("#image-"+id).data('selected') == 'yes' ){
             
-            data = $("#selected-image-"+i).data(); // Dati del ritaglio
-            data.url =  $('#max-res-img-'+i).attr('href') ; // Url dell'immagine
+            data = $("#img-"+id).data(); // Dati del ritaglio
+            data.url =  $('#max-res-img-'+id).attr('href') ; // Url dell'immagine
             selected_info.push( data );
         }
     }
+    
     // Converte in json, mette nel form e invia
     info = JSON.stringify( selected_info );
     $("#imageArray").val(info);

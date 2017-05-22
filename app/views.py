@@ -1,9 +1,13 @@
 from flask import render_template, request, jsonify
-from app import app
+from app import app, results_code
 import json
 import requests as req
 from PIL import Image
 import config as cf
+import urllib, io
+
+#from results_code import outfit_builder
+
 
 
 ########## Static files servers (Do not modify) ###############
@@ -16,6 +20,16 @@ def send_css(path):
     return send_from_directory('css', path)
 ###############################################################
 
+############## FAKE INSTAGRAM LOGIN ###########################
+
+@app.route('/fake_login_service')
+def fake_login_service():
+    return '{"pagination":{},"data":[{"id":"1516271018519773447_5443604958","user":{"id":"5443604958","full_name":"Davide Anghileri","profile_picture":"https://scontent.cdninstagram.com/t51.2885-19/s150x150/18013768_1515373448537386_1346263378741428224_a.jpg","username":"davideanghi"},"images":{"thumbnail":{"width":150,"height":150,"url":"https://scontent.cdninstagram.com/t51.2885-15/s150x150/e35/18513116_1737915606223692_336722120291647488_n.jpg"},"low_resolution":{"width":320,"height":320,"url":"https://scontent.cdninstagram.com/t51.2885-15/s320x320/e35/18513116_1737915606223692_336722120291647488_n.jpg"},"standard_resolution":{"width":640,"height":640,"url":"https://scontent.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/18513116_1737915606223692_336722120291647488_n.jpg"}},"created_time":"1494973612","caption":null,"user_has_liked":false,"likes":{"count":0},"tags":[],"filter":"Normal","comments":{"count":0},"type":"image","link":"https://www.instagram.com/p/BUK4HUyF0EHV0i5vSKS4eVpczJEpZ8K2xIjZwI0/","location":null,"attribution":null,"users_in_photo":[]},{"id":"1516270764621640336_5443604958","user":{"id":"5443604958","full_name":"Davide Anghileri","profile_picture":"https://scontent.cdninstagram.com/t51.2885-19/s150x150/18013768_1515373448537386_1346263378741428224_a.jpg","username":"davideanghi"},"images":{"thumbnail":{"width":150,"height":150,"url":"https://scontent.cdninstagram.com/t51.2885-15/s150x150/e35/18443646_677304585795279_134828987745566720_n.jpg"},"low_resolution":{"width":320,"height":320,"url":"https://scontent.cdninstagram.com/t51.2885-15/s320x320/e35/18443646_677304585795279_134828987745566720_n.jpg"},"standard_resolution":{"width":320,"height":320,"url":"https://scontent.cdninstagram.com/t51.2885-15/s320x320/e35/18443646_677304585795279_134828987745566720_n.jpg"}},"created_time":"1494973582","caption":null,"user_has_liked":false,"likes":{"count":0},"tags":[],"filter":"Normal","comments":{"count":0},"type":"image","link":"https://www.instagram.com/p/BUK4DoUlTKQFkLvO6NBZptMx8FKaSFXo-H7H5s0/","location":null,"attribution":null,"users_in_photo":[]},{"id":"1516270630923964506_5443604958","user":{"id":"5443604958","full_name":"Davide Anghileri","profile_picture":"https://scontent.cdninstagram.com/t51.2885-19/s150x150/18013768_1515373448537386_1346263378741428224_a.jpg","username":"davideanghi"},"images":{"thumbnail":{"width":150,"height":150,"url":"https://scontent.cdninstagram.com/t51.2885-15/s150x150/e35/c0.40.320.320/18513257_520920141631134_422573036160417792_n.jpg"},"low_resolution":{"width":320,"height":400,"url":"https://scontent.cdninstagram.com/t51.2885-15/e35/18513257_520920141631134_422573036160417792_n.jpg"},"standard_resolution":{"width":320,"height":400,"url":"https://scontent.cdninstagram.com/t51.2885-15/e35/18513257_520920141631134_422573036160417792_n.jpg"}},"created_time":"1494973566","caption":null,"user_has_liked":false,"likes":{"count":0},"tags":[],"filter":"Normal","comments":{"count":0},"type":"image","link":"https://www.instagram.com/p/BUK4BrzlJBaEhs2UhknpyptSYyNzvDxwMtx0Kw0/","location":null,"attribution":null,"users_in_photo":[]},{"id":"1516270497108975798_5443604958","user":{"id":"5443604958","full_name":"Davide Anghileri","profile_picture":"https://scontent.cdninstagram.com/t51.2885-19/s150x150/18013768_1515373448537386_1346263378741428224_a.jpg","username":"davideanghi"},"images":{"thumbnail":{"width":150,"height":150,"url":"https://scontent.cdninstagram.com/t51.2885-15/s150x150/e35/18580019_436604413371322_3263082458035257344_n.jpg"},"low_resolution":{"width":320,"height":320,"url":"https://scontent.cdninstagram.com/t51.2885-15/s320x320/e35/18580019_436604413371322_3263082458035257344_n.jpg"},"standard_resolution":{"width":640,"height":640,"url":"https://scontent.cdninstagram.com/t51.2885-15/e35/18580019_436604413371322_3263082458035257344_n.jpg"}},"created_time":"1494973550","caption":null,"user_has_liked":false,"likes":{"count":0},"tags":[],"filter":"Normal","comments":{"count":0},"type":"image","link":"https://www.instagram.com/p/BUK3_vLleC2WqD3ve4E-j2EKRI-ih3N6vyqONs0/","location":null,"attribution":null,"users_in_photo":[]},{"id":"1516270236324036376_5443604958","user":{"id":"5443604958","full_name":"Davide Anghileri","profile_picture":"https://scontent.cdninstagram.com/t51.2885-19/s150x150/18013768_1515373448537386_1346263378741428224_a.jpg","username":"davideanghi"},"images":{"thumbnail":{"width":150,"height":150,"url":"https://scontent.cdninstagram.com/t51.2885-15/s150x150/e35/18514125_303163466796621_4427182839095623680_n.jpg"},"low_resolution":{"width":320,"height":320,"url":"https://scontent.cdninstagram.com/t51.2885-15/e35/18514125_303163466796621_4427182839095623680_n.jpg"},"standard_resolution":{"width":320,"height":320,"url":"https://scontent.cdninstagram.com/t51.2885-15/e35/18514125_303163466796621_4427182839095623680_n.jpg"}},"created_time":"1494973519","caption":null,"user_has_liked":false,"likes":{"count":0},"tags":[],"filter":"Normal","comments":{"count":0},"type":"image","link":"https://www.instagram.com/p/BUK378Tl38YG3TE647xrB8MZuJBz7MXw54kfK80/","location":null,"attribution":null,"users_in_photo":[]},{"id":"1512412022666845639_5443604958","user":{"id":"5443604958","full_name":"Davide Anghileri","profile_picture":"https://scontent.cdninstagram.com/t51.2885-19/s150x150/18013768_1515373448537386_1346263378741428224_a.jpg","username":"davideanghi"},"images":{"thumbnail":{"width":150,"height":150,"url":"https://scontent.cdninstagram.com/t51.2885-15/s150x150/e35/18382405_912226935583699_3818473367799857152_n.jpg"},"low_resolution":{"width":320,"height":320,"url":"https://scontent.cdninstagram.com/t51.2885-15/s320x320/e35/18382405_912226935583699_3818473367799857152_n.jpg"},"standard_resolution":{"width":640,"height":640,"url":"https://scontent.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/18382405_912226935583699_3818473367799857152_n.jpg"}},"created_time":"1494513584","caption":null,"user_has_liked":true,"likes":{"count":1},"tags":[],"filter":"Perpetua","comments":{"count":0},"type":"image","link":"https://www.instagram.com/p/BT9Kri1Fl3HUN1taUahSYKrRFR60SSDmwZy1Ug0/","location":null,"attribution":null,"users_in_photo":[]}],"meta":{"code":200}}'
+
+
+
+###############################################################
+
 
 
 @app.route('/')
@@ -24,7 +38,7 @@ def home():
     return render_template('homepage.html',
                             title='Home',
                             active_navbar_button="home",
-                            background_class="home-background", baseLink="http://127.0.0.1:5000/")
+                            background_class="home-background")
                            
 @app.route('/about')
 def about():
@@ -54,12 +68,29 @@ def page2():
 def page3():
     
     if request.method == 'POST':
-    
+        #number of pixels of the cutted images width
+        basewidth = 200
         json_data = request.form['imageArray']
         data = json.loads(json_data)
-        
-        #COMMENTED FOR CICLE TO PRINT THE LINKS RECEIVED 
-        print( json.dumps(data, indent=4) )
+        # load the imgs from the URL
+        for i in range(0, len(data)):
+            file = io.BytesIO(urllib.request.urlopen(data[i]['url']).read())
+            img = Image.open(file)
+            # load the parameters of the img
+            x = data[i]['x']
+            y = data[i]['y']
+            w = data[i]['w']
+            h = data[i]['h']
+            # cut & resize the image
+            img_cutted = img.crop((x, y, x + w, y + h))
+            wpercent = (basewidth/float(img_cutted.size[0]))
+            hsize = int((float(img_cutted.size[1])*float(wpercent)))
+            img_resized = img_cutted.resize((basewidth,hsize), Image.ANTIALIAS)
+            # save the image
+            img_resized.save("temp/out" + str(i) + ".jpg")
+            
+        # COMMENTED FOR CICLE TO PRINT THE LINKS RECEIVED 
+        print(json.dumps(data, indent=4))
     
         return render_template('page3.html',
                         postdata=json_data,
@@ -71,34 +102,8 @@ def page3():
 def results():
     
     if request.method == 'POST':
-    
-        # Fake data from /page3
-        json_data = request.form['imageArray']
-        data = json.loads(json_data)
-        print(data)
-        outdata = data[0]
-        
-        url = outdata['url'] #"https://scontent.cdninstagram.com/t51.2885-15/s640x640/sh0.08/e35/18513116_1737915606223692_336722120291647488_n.jpg"
-        response = req.get( url ).content # Questo content e' uno stream binario.
-        # Non sapendo come calcolare le dimensioni di un'immagine da uno stream binario
-        # per ora lo salvo in un file temporaneo, lo riapro e ne ottengo w e h.
-        
-        # Salva l'immagine in un file temporaneo sul server
-        with open("temp/outfit.jpg", "wb") as outfit_file:
-            binary_image = bytearray( response )
-            outfit_file.write( binary_image )
-        
-        # Apre l'immagine e ne legge le dimensioni
-        full_outfit_image = Image.open( "temp/outfit.jpg" )
-        width, height = full_outfit_image.size
-        print("dimension:", width, height)
-        
-        # in futuro avro' piu' liste di ritagli, ricorda!
-        items = [
-                    { 'top':(outdata['y']/height)*100, 'left':(outdata['x']/width)*100, 'width':(outdata['w']/width)*100, 'height':(outdata['h']/height)*100 },
-                ]
-        
+        url, items = results_code.outfit_builder(request)
         return render_template('results.html',
-                                full_outfit = url,
-                                items = items,
+                                full_outfit=url,
+                                items=items,
                                 title='Outfit trovato')
