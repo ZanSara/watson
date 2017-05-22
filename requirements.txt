@@ -2,3 +2,4 @@ Flask==0.12.1
 gunicorn==19.7.1
 Pillow==4.1.1
 requests==2.14.2
+watson-developer-cloud=0.26.0
