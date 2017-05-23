@@ -102,8 +102,18 @@ def page3():
 def results():
     
     if request.method == 'POST':
-        url, items = results_code.outfit_builder(request)
+        url = results_code.outfit_builder(request)
+        
+        clothes_type =[
+                        {'code': 'full_body', 'name': 'Full Body', 'images': ["../static/img/sample_outfit.png", "../static/img/sample_outfit.png"] },
+                        {'code': 'upper_body', 'name': 'Upper Body', 'images': ["../static/img/sample_outfit.png"] },
+                        {'code': 'lower_body', 'name': 'Lower Body', 'images': ["../static/img/sample_outfit.png", "../static/img/sample_outfit.png", "../static/img/sample_outfit.png"] }
+                      ] 
+        
         return render_template('results.html',
                                 full_outfit=url,
-                                items=items,
+                                full_body = [1],
+                                upper_body = [1],
+                                lower_body = [1],
+                                clothes_type = clothes_type,
                                 title='Outfit trovato')

@@ -137,8 +137,22 @@ body {
     position: absolute;
 }
 
-
-
+/* Fix carousel image height */
+.carousel-inner {
+    height: 400px;
+}
+.carousel-inner .item {
+    overflow: hidden;
+    max-width: 100%;
+    max-height: 100%;
+}
+.carousel-inner .item img {
+    margin-bottom: 100px;
+    width: auto;
+    min-height: 100%;
+    max-height: none;
+}
+/*****************************/
 
 
 

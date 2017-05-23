@@ -3,7 +3,7 @@ from flask import request
 import json
 from PIL import Image
 import config as cf
-from dataset import manage_collections as m
+from app.static.dataset import manage_collections as m
 
 def outfit_builder(request):
     # Fake data from /page3
@@ -28,11 +28,11 @@ def outfit_builder(request):
     # Apre l'immagine e ne legge le dimensioni
     full_outfit_image = Image.open("temp/outfit.jpg")
     width, height = full_outfit_image.size
-    print("dimension:", width, height)
+    #print("dimension:", width, height)
     
-    
+    url = "../static/dataset/{}".format(image)
     # in futuro avro' piu' liste di ritagli, ricorda!
-    items = [
-                { 'top':(outdata['y'] / height) * 100, 'left':(outdata['x'] / width) * 100, 'width':(outdata['w'] / width) * 100, 'height':(outdata['h'] / height) * 100 },
-            ]
-    return (url, items)
+    #items = [
+    #            { 'top':(outdata['y'] / height) * 100, 'left':(outdata['x'] / width) * 100, 'width':(outdata['w'] / width) * 100, 'height':(outdata['h'] / height) * 100 },
+    #        ]
+    return url#(url, items)
