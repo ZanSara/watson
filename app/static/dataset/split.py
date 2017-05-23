@@ -3,7 +3,7 @@ Created on 21 mag 2017
 
 @author: Antonio
 '''
-import utils as u
+from app.static.dataset import utils as u
 import os
 from shutil import copyfile
 from PIL import Image

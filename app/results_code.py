@@ -30,7 +30,8 @@ def outfit_builder(request):
     width, height = full_outfit_image.size
     #print("dimension:", width, height)
     
-    url = "../static/dataset/{}".format(image)
+    url=image
+    #url = "../static/dataset/{}".format(image)
     # in futuro avro' piu' liste di ritagli, ricorda!
     #items = [
     #            { 'top':(outdata['y'] / height) * 100, 'left':(outdata['x'] / width) * 100, 'width':(outdata['w'] / width) * 100, 'height':(outdata['h'] / height) * 100 },
