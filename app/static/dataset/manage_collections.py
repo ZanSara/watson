@@ -5,7 +5,9 @@
 
 import json
 import os
+print("  importing utils...")
 from app.static.dataset import utils
+print("  imported utils...")
 import config as cf
 from os.path import join, dirname
 from watson_developer_cloud import VisualRecognitionV3
@@ -78,7 +80,10 @@ def getKSimilar(src,collection,k=1):
     return best
     
 #creation object for visual recognition    
+print("creating vr...")
 visual_recognition = VisualRecognitionV3('2016-05-20', api_key='5becfc0e7dc544e89e36230e9bb58a609280957c')
+print("created")
+
 #deleteAllImagesInCollection()
 #addAllImagesFromFolder()
 

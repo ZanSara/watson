@@ -3,7 +3,9 @@ from flask import request
 import json
 from PIL import Image
 import config as cf
+print("importing mc")
 from app.static.dataset import manage_collections as m
+print("imported")
 
 def outfit_builder(request):
     # Fake data from /page3

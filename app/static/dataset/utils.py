@@ -150,6 +150,7 @@ def join(X, Y, listToAppend, iX=0, iY=0, integer=True):
         for i in listToAppend:
             elem.append(Y[index][i])
     return X
+    
 def getFinalList():   
     categories = addId(read(categoryPath, 2))
     images = read(img_categoryPath, 2)
@@ -162,4 +163,4 @@ def getFinalList():
     images_categories_bbox.sort()
     return images_categories_bbox
 
-getFinalList()
+#getFinalList()
