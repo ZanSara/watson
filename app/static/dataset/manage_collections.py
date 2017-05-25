@@ -69,15 +69,20 @@ def deleteAllImagesInCollection():
 def getKSimilar(src,collection,k=1):
     print("############## SRC {}".format(src))
     with open(src, 'rb') as img: 
-        res = visual_recognition.find_similar(this_collection_id,img, 50)#number of returned values
+        res = visual_recognition.find_similar(this_collection_id,img, k)#number of returned values
     similars=res["similar_images"]
-    best=similars[0]["image_file"]
-    
-    best = best[cf.APP_ROOT.__len__():]
-    best = "..{}".format(best)
-    
-    print("############## BEST {}".format(best))
-    return best
+    if(k==1):
+        best=similars[0]["image_file"]    
+        best = best[cf.APP_ROOT.__len__():]
+        best = "..{}".format(best)
+        print("############## BEST {}".format(best))
+        return best
+    else:
+        betters = []
+        for elem in similars:
+            temp = [elem['image_file'],elem['score'],elem['metadata']]          
+            betters.append(temp)
+        return betters
     
 #creation object for visual recognition    
 print("creating vr...")
