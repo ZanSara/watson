@@ -4,10 +4,8 @@
 #Watson developer cloud available at: https://github.com/watson-developer-cloud/python-sdk/blob/master/watson_developer_cloud/visual_recognition_v3.py
 
 import json
-import os
-print("  importing utils...")
-from app.static.dataset import utils
-print("  imported utils...")
+import os, re
+#from app.static.dataset import utils
 import config as cf
 from os.path import join, dirname
 from watson_developer_cloud import VisualRecognitionV3
@@ -71,6 +69,7 @@ def getKSimilar(src,collection,k=1):
     with open(src, 'rb') as img: 
         res = visual_recognition.find_similar(this_collection_id,img, k)#number of returned values
     similars=res["similar_images"]
+
     if(k==1):
         best=similars[0]["image_file"]    
         best = best[cf.APP_ROOT.__len__():]
@@ -83,6 +82,17 @@ def getKSimilar(src,collection,k=1):
             temp = [elem['image_file'],elem['score'],elem['metadata']]          
             betters.append(temp)
         return betters
+
+    #best=similars[0]["image_file"]
+    
+    #print(cf.APP_ROOT)
+    #re.sub(cf.APP_ROOT, '../', best)
+    
+    #best = best[cf.APP_ROOT.__len__():]
+    #best = "..{}".format(best)
+    
+    #print("############## BEST {}".format(best))
+    #return best
     
 #creation object for visual recognition    
 print("creating vr...")

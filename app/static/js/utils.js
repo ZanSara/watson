@@ -144,3 +144,19 @@ function prepareForm() {
     $("#imageArray").val(info);
     $("#imageForm").submit();
 }
+
+
+
+
+function page3redirect(){
+    $.get( "/servic4page3", function() {
+            
+    }).done(function(json_res) {
+        $('#imageArray').val(json_res);
+        $('#imageForm').submit();
+        
+    }).fail(function() {
+        alert( "error" );
+        
+    });
+}
