@@ -63,19 +63,22 @@ def page2():
                                 custom_css=["../static/cropper/dist/cropper.css"],
                                 custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
                            title='Scegli le tue immagini')
-                           
+                
                            
 @app.route('/page3', methods=['POST'])
 def page3():
+    return render_template('page3.html',
+                        title='Loading...')
+    
+
+@app.route('/service4page3')
+def page4():
+    
     if request.method == 'POST':
         json_data = request.form['imageArray']
         bestFB=q.getBestFashionBlogger(json_data)
         print(bestFB)
-        return render_template('page3.html',
-            postdata=json_data,
-            title='Loading...')
-    
-        
+        return json_data
 
 
 
@@ -86,9 +89,9 @@ def results():
         url = results_code.outfit_builder(request)
         
         clothes_type =[
-                        {'code': 'full_body', 'name': 'Full Body', 'images': ["../static/img/sample_outfit.png", "../static/img/sample_outfit.png"] },
-                        {'code': 'upper_body', 'name': 'Upper Body', 'images': ["../static/img/sample_outfit.png"] },
-                        {'code': 'lower_body', 'name': 'Lower Body', 'images': ["../static/img/sample_outfit.png", "../static/img/sample_outfit.png", "../static/img/sample_outfit.png"] }
+                        {'code': 'full_body', 'name': 'Full Body', 'images': ["../static/dataset/collections/full_body/img_00000000119.jpg", "../static/dataset/collections/full_body/img_00000000140.jpg"] },
+                        {'code': 'upper_body', 'name': 'Upper Body', 'images': ["../static/dataset/collections/upper_body/img_00000000238.jpg", "../static/dataset/collections/upper_body/img_00000000361.jpg", "../static/dataset/collections/upper_body/img_00000000397.jpg"] },
+                        {'code': 'lower_body', 'name': 'Lower Body', 'images': ["../static/dataset/collections/lower_body/img_00000000501.jpg", "../static/dataset/collections/lower_body/img_00000001111.jpg"] }
                       ] 
         
         return render_template('results.html',
