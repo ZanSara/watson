@@ -6,10 +6,6 @@ Created on 21 mag 2017
 import os
 import config as cf
 
-categoryPath = "{}/dataset/list_category_cloth.txt".format(cf.APP_STATIC)
-img_categoryPath = "{}/dataset/list_category_img.txt".format(cf.APP_STATIC)
-list_bbox = "{}/dataset/list_bbox.txt".format(cf.APP_STATIC)
-
 import math
 import json
 
@@ -58,11 +54,9 @@ def read_cutted_images():
         a.append(str(x[0] + " " + z1 + " " + z2 + " " + z3 + " " + z4 + " " + z5 + " " + z6 + " " + z7 + " " + z8 + " " + z9 + " " + z10 + " " + z11 + " " + z12 + " " + z13 + " " + z14 + " " + z15 + " " + z16))
 
     content = [x.strip().split(' ') for x in a]
-    all_string = []
-    all_json = []
+    json={}
     for k in range(0, len(content)):
         dict_line = {
-            str(content[k][0]):{
             "fb_x":content[k][1],
             "fb_y":content[k][2],
             "fb_w":content[k][3],
@@ -78,13 +72,10 @@ def read_cutted_images():
             "d_x": content[k][13],
             "d_y": content[k][14],
             "d_w": content[k][15],
-            "d_h": content[k][16]}
+            "d_h": content[k][16]
             }
-        string_line = json.dumps(dict_line)
-        all_string.append(string_line)
-        json_line = json.loads(string_line)
-        all_json.append(json_line)
-    return json.dumps(all_json)
+        json[str(content[k][0])]=dict_line
+    return json
 
 def binarySearchStr(lista, indice, x):
     i = 0
@@ -163,4 +154,4 @@ def getFinalList():
     images_categories_bbox.sort()
     return images_categories_bbox
 
-#getFinalList()
+# getFinalList()

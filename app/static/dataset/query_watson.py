@@ -82,38 +82,38 @@ def getBestFashionBloggerAndClothes(json_data):
                 img2 = Image.open(os.path.join(script_dir, path)) 
     try:
         # it is a upper and down fashion blogger's clothes
-        if(metadata['c_w'] == 0):
+        if(metadata['c_w'] == '0'):
             # ritaglio upper
-            x = metadata['u_x']
-            y = metadata['u_y']
-            w = metadata['u_w']
-            h = metadata['u_h']
+            x = float(metadata['u_x'])
+            y = float(metadata['u_y'])
+            w = float(metadata['u_w'])
+            h = float(metadata['u_h'])
             img_cutted = img2.crop((x, y, x + w, y + h))
             # save the image
             img_cutted.save("temp/upper.jpg")
             upper_similars = m.getKSimilar("temp/upper.jpg", "upper_body_711fdd", 100)
-            print("-----------List of upper similar----------")
-            print(upper_similars)
+            #print("-----------List of upper similar----------")
+            #print(upper_similars)
             # ritaglio down
-            x = metadata['d_x']
-            y = metadata['d_y']
-            w = metadata['d_w']
-            h = metadata['d_h']
+            x = float(metadata['d_x'])
+            y = float(metadata['d_y'])
+            w = float(metadata['d_w'])
+            h = float(metadata['d_h'])
             img_cutted = img2.crop((x, y, x + w, y + h))
             # save the image
             img_cutted.save("temp/down.jpg")
             down_similars = m.getKSimilar("temp/down.jpg", "lower_body_8b6402", 100)
-            print("-----------List of down similar----------")
-            print(down_similars)
+            #print("-----------List of down similar----------")
+            #print(down_similars)
             return {"best_fb":best_fb,
                     "upper": upper_similars,
                     "lower": down_similars}
         else:
             # ritaglio complete
-            x = metadata['c_x']
-            y = metadata['c_y']
-            w = metadata['c_w']
-            h = metadata['c_h']
+            x = float(metadata['c_x'])
+            y = float(metadata['c_y'])
+            w = float(metadata['c_w'])
+            h = float(metadata['c_h'])
             img_cutted = img2.crop((x, y, x + w, y + h))
             # save the image
             img_cutted.save("temp/complete.jpg")
