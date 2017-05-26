@@ -1,17 +1,16 @@
-#Four collection have already been created, and they are bound to the api_key
-#available in this page. There is no need to re-create them neither to re-load
-#images.
-#Watson developer cloud available at: https://github.com/watson-developer-cloud/python-sdk/blob/master/watson_developer_cloud/visual_recognition_v3.py
+# Four collection have already been created, and they are bound to the api_key
+# available in this page. There is no need to re-create them neither to re-load images.
+# Watson developer cloud available at: https://github.com/watson-developer-cloud/python-sdk/blob/master/watson_developer_cloud/visual_recognition_v3.py
 
-import json
-import os
-print("  importing utils...")
-from app.static.dataset import utils
-print("  imported utils...")
-import config as cf
+import json, os, mimetypes
 from os.path import join, dirname
+
+from app.static.dataset import utils
+import config as cf
+
 from watson_developer_cloud import VisualRecognitionV3
-import mimetypes
+
+
 
 upper_body_id="upper_body_711fdd"
 lower_body_id="lower_body_8b6402"
@@ -20,8 +19,11 @@ fashion_blogger_id="fashon_blogger_e4ceff"
 
 #All the function are referred to the collection chosen here below
 #folder=join(cf.APP_STATIC, "dataset/collections/fashion_blogger")
-folder="app/static/dataset/collections/fashion_blogger"
-this_collection_id=fashion_blogger_id
+folder="../static/img/dataset/collections/fashion_blogger"
+#this_collection_id = fashion_blogger_id
+
+#creation object for visual recognition    
+visual_recognition = VisualRecognitionV3('2016-05-20', api_key='5becfc0e7dc544e89e36230e9bb58a609280957c')
 
 
                 
@@ -29,12 +31,16 @@ def deleteAllCollections():
     collections=visual_recognition.list_collections()
     for collection in collections["collections"]:
         visual_recognition.delete_collection(collection["collection_id"])
+        
+
 def createAllCollections():
     visual_recognition.create_collection("upper_body")
     visual_recognition.create_collection("lower_body")
     visual_recognition.create_collection("full_body")
     visual_recognition.create_collection("fashon_blogger")
     print(visual_recognition.list_collections())
+    
+    
 def addAllImagesFromFolder():
     file_list=os.listdir(folder)
     counter=0
@@ -51,9 +57,13 @@ def addAllImagesFromFolder():
                     print(str(file)+" not exists in fashion_cutted.txt")
                     visual_recognition.add_image(this_collection_id, img,metadata)          
     print(getCollectionLength())
+    
+    
 def getCollectionLength():
     images=visual_recognition.list_images(this_collection_id)
     return len(images["images"])
+    
+    
 def deleteAllImagesInCollection():
     images=visual_recognition.list_images(this_collection_id)
     counter=0
@@ -64,8 +74,9 @@ def deleteAllImagesInCollection():
     if(len(images["images"])!=0):
         print("collections not empty")
         
+        
 def getKSimilar(src,collection,k=1):
-    print("############## SRC {}".format(src))
+    #print("############## SRC {}".format(src))
     with open(src, 'rb') as img: 
         res = visual_recognition.find_similar(collection,img, k)#number of returned values
     similars=res["similar_images"]
@@ -73,7 +84,7 @@ def getKSimilar(src,collection,k=1):
         best=similars[0]["image_file"]    
         best = best[cf.APP_ROOT.__len__():]
         best = "..{}".format(best)
-        print("############## BEST {}".format(best))
+        #print("############## BEST {}".format(best))
         return best
     else:
         betters = []
@@ -81,11 +92,34 @@ def getKSimilar(src,collection,k=1):
             temp = [elem['image_file'],elem['score'],elem['metadata']]          
             betters.append(temp)
         return betters
+
+
+def getKSimilar2(src, collection, k=1):
+    """ 
+    Returns the k most similar elements to src
     
-#creation object for visual recognition    
-print("creating vr...")
-visual_recognition = VisualRecognitionV3('2016-05-20', api_key='5becfc0e7dc544e89e36230e9bb58a609280957c')
-print("created")
+        src:    path of the original image
+        k:      n of similar elements to return
+        
+        return a list of k elements similar to src
+    """
+    #print("--- GETKSIM: src {}".format(src))
+    with open(src, 'rb') as img: 
+        similars = visual_recognition.find_similar(collection,img, k)["similar_images"]    #number of returned values  # collection was this_collection_id
+        #print("--- GETKSIM: similar_images: {}".format( [ i['image_id'] for i in similars] ))
+        if (k <= 1):
+            #print("--- GETKSIM: k equal to 1 or lower")
+            best=similars[0]["image_file"]    
+            best = best[cf.APP_ROOT.__len__():]
+            best = "..{}".format(best)
+            #print("--- GETKSIM: best is {}".format(best))
+            return best
+            
+        else:
+            #print("--- GETKSIM: k is greater than 1")
+            #print( json.dumps( [ (e['image_file'], e['score']) for e in similars], indent=4 ))
+            return similars
+    
 
 #deleteAllImagesInCollection()
 #addAllImagesFromFolder()

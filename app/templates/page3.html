@@ -1,53 +1,6 @@
 {% extends "base_template.html" %}
 {% block content %}
-<div style="padding:10%;">
 
-	<div class="contanier">
-		<div class="animationFade">
-			<p class="row text-center saving">
-				<span id="changeText">Starting the app</span>
-				<span>.</span>
-				<span>.</span>
-				<span>.</span>
-			</p>
-		</div>
-	</div>
-
-	<div class="row text-center">
-		<img src="../static/img/simple-pre-loader/images/loader-128x/Preloader_3.gif">
-	</div>
-	
-	<!-- Delete me later -->
-	<form id="imageForm" method="post" action="/results" >
-        <input type="hidden" id="imageArray" name="imageArray" value="{{ postdata }}">
-        <input type='submit' value="Continua">
-    </form>
-
-</div>
-
-	<script type="text/javascript">
-	    //changing every 6 sec the text with a random phrase
-		var text = [    "Understanding your style",
-		                "Improving your style", 
-		                "Learning the trends",
-				        "Comparing the trends",
-				        "Analizing your pictures",
-				        "Computing similarities", 
-				        "Predicting your tastes",
-				        "Elaborating the outfits",
-				        "Browsing the catalog",
-				        "Looking for fashion websites" ];
-				        
-		var elem = document.getElementById("changeText");
-		count = Math.floor((Math.random() * 10) + 0);
-		elem.innerHTML = text[count];
-		setInterval(change, 4000);
-		
-		function change() {
-			//count keep values from 0 to 9
-			count = Math.floor((Math.random() * 10) + 0);
-			elem.innerHTML = text[count];
-		}
-	</script>
+{% include "inner-page3.html" %}
 	
 {% endblock %}

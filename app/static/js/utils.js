@@ -4,9 +4,8 @@ function lastPhotos(){
     var access_token=(window.location.href).split("=")[1]
     
     if (access_token == 'debug'){
-        console.log('debug side');
+    
         $.get( "/fake_login_service", function() {
-            
         }).done(function(json_res) {
             res = JSON.parse(json_res);
             showPhotos(res);
@@ -17,8 +16,6 @@ function lastPhotos(){
         });
  
     } else {
-        console.log('production side');
-        
         $.ajax({
 		        type: 'GET',
 		        url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token='+access_token+"&count=10&callback=?",
@@ -37,8 +34,15 @@ function lastPhotos(){
     }
 }
 
+
+
 // Funzione che renderizza le foto ottenute tramite lastPhotos()
 function showPhotos(res){
+
+    $("#pre-loader").show();
+    $("#main-box").hide();
+    $("#post-loader").hide(); // Who knows
+    
     console.log('res from Instagram API', res);
     
     for (i = 0; i<res.data.length; i++){
@@ -64,9 +68,12 @@ function showPhotos(res){
     }
     $('#img').remove();
     
-    $("#loader").hide();
+    $("#pre-loader").hide();
     $("#main-box").show();
+    $("#post-loader").hide(); // Who knows
 }
+
+
 
 
 // Funzione che prepara il modal
@@ -76,6 +83,8 @@ function showModal(imgID){
     $('#saveButton').attr("onclick", "selectPicture('"+imgID+"', window.cropper.getData(), window.cropper.getImageData() )" );
     $('#myModal').modal('show');
 }
+
+
 
 
 // Funzione che seleziona le immagini aperte al click di "Salva"
@@ -112,7 +121,6 @@ function selectPicture(imgID, obj, imageInfo){
     $(inner.selector).prepend( "<div class='crop' style='position: absolute; top:"+y+"%; left:"+x+"%; background-image: url("+img_url+"); background-position: left "+cx+"% top "+cy+"%; height: "+h+"%; width: "+w+"%;'></div>" );
     $(inner.selector).prepend( "<div class='mask' style='position: absolute; top:0; left:0; bottom:0; right:0; background-color:black; opacity:0.7;'></div>");
     
-    
     // Mostra il tick e seleziona #image-*
     $('#tick-'+id).show();
     image.data('selected', 'yes');
@@ -122,47 +130,52 @@ function selectPicture(imgID, obj, imageInfo){
 }
 
 
-// Funzione che prepara il form per essere inviato a /page3
-function prepareForm() {
+
+
+// Funzione che, date le immagini tagliate, ottiene l'outfit con una AJAX.
+function getOutfitData() {
+
+    $("#pre-loader").hide(); // Who knows
+    $("#main-box").hide();
+    $("#post-loader").show();
+    
+    data =  JSON.stringify( collectSelected() );
+    console.log(data);
+    
+    $.get( "/service4page3", {'data':data}, function() {
+    
+        }).done(function(json_res) {
+        
+            alert( "Success!" );
+            res = JSON.parse(json_res);
+            console.log(res);
+            
+        }).fail(function() {
+            alert( "Error" );
+            
+        });
+
+}
+
+
+
+// Funzione che raccoglie le informazioni sulle foto selezionate
+function collectSelected() {
     
     // Calcola il numero di immagini di Instagram nella pagina
     images_number = $('[id*="image-"]').length;
-    console.log(images_number);
     
     // Trova le immagini selezionate e appende i loro dati a un array
     selected_info = [];
     for (id=0; id<images_number; id++){
         if ($("#image-"+id).data('selected') == 'yes' ){
-            
             data = $("#img-"+id).data(); // Dati del ritaglio
             data.url =  $('#max-res-img-'+id).attr('href') ; // Url dell'immagine
             selected_info.push( data );
         }
     }
-    
-    // Converte in json, mette nel form e invia
-    info = JSON.stringify( selected_info );
-    $("#imageArray").val(info);
-    $("#imageForm").submit();
+    return selected_info;
 }
 
 
 
-/* Funzione che ottiene l'outfit a partire dalle immagini inviate da page2
-function getOutfit(data){
-    console.log(data);
-
-    $.get( "/results",
-        { imageArray: data },
-        function() {
-            
-        }).done(function(json_res) {
-            res = JSON.parse(json_res);
-            console.log(res);
-            
-        }).fail(function(res) {
-            alert( "error" );
-            console.log(res);
-            
-        });
-}*/

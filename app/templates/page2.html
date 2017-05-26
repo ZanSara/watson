@@ -1,13 +1,15 @@
 {% extends "base_template.html" %}
 {% block content %}
-    
+
     <div class="text-center" style="padding: 1% 0;">
     
-        <div id="loader" class="text-center">
+        <div id="pre-loader" class="text-center">
             <p>Loading your photos...</p>
             <img src="../static/img/simple-pre-loader/images/loader-128x/Preloader_2.gif">
         </div>
+        
     
+
         <div id="main-box" class="container" style="display:none;">
             <div class="col-md-8 col-md-offset-2" >
                 <p class="lead">Scegli le foto che preferisci e premi Continua</p>     
@@ -23,12 +25,17 @@
                    
                 </div>
                 
-                <form id="imageForm" style="margin-top:3%;" method="post" action="/results" >
+                <button class="btn btn-danger btn-wide" onclick="getOutfitData()">Continua</button>
+                <!--form id="imageForm" style="margin-top:3%;" method="post" action="/page3" >
                    	<input type="hidden" id="imageArray" name="imageArray" value="">
                     <button class="btn btn-danger btn-wide" onclick="prepareForm()">Continua</button>
-                </form>
+                </form-->
                 
             </div>
+        </div>
+        
+        <div id="post-loader" class="text-center" style="padding: 1% 0; display:none;">
+            {% include "inner-page3.html" %}
         </div>
 	    
     </div>
@@ -90,7 +97,11 @@
       
         });
         
-  </script>
+    </script>
+  
+    
+        
+
     
     
 {% endblock %}
