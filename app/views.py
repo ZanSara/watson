@@ -1,10 +1,10 @@
 from flask import render_template, request, jsonify, session
 
 import json, urllib, io, os, random
-from os import listdir
 import requests as req
 from PIL import Image
 import config as cf
+import shutil
 
 from app import app, results_code
 from app.static.dataset import query_watson as q
@@ -63,7 +63,40 @@ def page2():
                            title='Scegli le tue immagini')
                 
                            
-
+@app.route('/userPicture', methods=['GET', 'POST'])
+def userPicture():  
+    imgs = []
+    listLink = session['links']
+    loadedImages = ""
+    listLink = listLink.split(",")
+    for image in listLink:
+        loadedImages+="<img src='"+image+"'/>"
+        
+                        
+    return loadedImages#"<img src='../static/img/img0.jpg'/>"
+                 
+@app.route('/page2a', methods=['GET', 'POST'])
+def page2a():    
+    if request.method == 'POST':
+        listLink = ""        
+        #if not session.get('logged_in',None):
+        rounded_number = int(round(random.uniform(0, 1), 5) * 100000)
+        session['logged_in'] = rounded_number
+        os.makedirs("app/static/img/"+str(rounded_number))
+        #else:
+        #    rounded_number = session['logged_in']
+        #    listLink = session['links']            
+        f = request.files       
+        for i in range(len(f)-1):
+            el = f["images"+str(i)]      #'image'+
+            listLink+="../static/img/"+str(rounded_number)+"/"+el.filename+","
+            el.save('app/static/img/'+str(rounded_number)+'/'+el.filename)
+        session['links'] = listLink
+        
+    return render_template('page2a.html',
+                                custom_css=["../static/cropper/dist/cropper.css"],
+                                custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
+                           title='Scegli le tue immagini')            
 
 @app.route('/page4')
 def page4():
@@ -101,57 +134,7 @@ def service4page3():
     #print( json.dumps(watson_answer, indent=4) )
     #return q.getBestFashionBloggerAndClothes(json_data)
     return json.dumps( watson_answer )
-    
-    
-    
-
-@app.route('/userPicture', methods=['GET', 'POST'])
-def userPicture():  
-    imgs = []
-    listLink = session['links']
-    #path = "app/static/img"
-    #imagesList = listdir(path)
-    loadedImages = ""
-    #for image in imagesList:
-    #    loadedImages+="<img src='../static/img/"+image+"'/>"
-    listLink = listLink.split(",")
-    for image in listLink:
-        loadedImages+="<img src='"+image+"'/>"
-        
-                        
-    return loadedImages#"<img src='../static/img/img0.jpg'/>"
-               
-               
-                 
-@app.route('/page2a', methods=['GET', 'POST'])
-def page2a():    
-    if request.method == 'POST':
-        listLink = ""
-        
-        #if not session.get('logged_in',None):
-        rounded_number = int(round(random.uniform(0, 1), 5) * 100000)
-        session['logged_in'] = rounded_number
-        os.makedirs("app/static/img/"+str(rounded_number))
-        #else:
-        #    rounded_number = session['logged_in']
-        #    listLink = session['links']            
-        f = request.files#['fileupload']
-        
-        for i in range(len(f)):
-            el = f["images"+str(i)]      #'image'+
-            listLink+="../static/img/"+str(rounded_number)+"/"+el.filename+","
-            el.save('app/static/img/'+str(rounded_number)+'/'+el.filename)
-            #listLink+="../static/img/"+str(rounded_number)+"/img"+str(i)+".jpg,"
-            #el.save('app/static/img/'+str(rounded_number)+'/img'+str(i)+'.jpg')
-        session['links'] = listLink
-    #    for key in request.POST:            
-    #        print(key)
-        
-    return render_template('page2a.html',
-                                custom_css=["../static/cropper/dist/cropper.css"],
-                                custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
-                           title='Scegli le tue immagini')
-
+  
 
 @app.route('/images')
 def images():
@@ -176,6 +159,8 @@ def page3():
 
 @app.route('/results', methods=['POST'])
 def results():
+    #cancella le immagini caricate dall' utente
+    shutil.rmtree("app/static/img/"+str(session["logged_in"]))
     
     data = json.loads(request.form['imageArray'])
     print("JSON received by /results: ", json.dumps(data, indent=4) )
