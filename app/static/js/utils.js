@@ -146,9 +146,12 @@ function getOutfitData() {
     
         }).done(function(json_res) {
         
-            alert( "Success!" );
-            res = JSON.parse(json_res);
-            console.log(res);
+            //alert( "Success!" );
+            //res = JSON.parse(json_res);
+            //console.log(res);
+            
+            $('#imageArray').val(json_res);
+            $('#imageForm').submit();
             
         }).fail(function() {
             alert( "Error" );

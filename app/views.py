@@ -91,15 +91,14 @@ def page4():
 
 @app.route('/service4page3')
 def service4page3():
-
-    # Loads data
-    print('### S4P3: Loading data')
+    
     json_data = request.args.get('data')
     data = json.loads(json_data)
+    
     print(json.dumps(data[:10], indent=4))
     
-    watson_answer = q.funzioneDiProvaSARA(data)
-    print( json.dumps(watson_answer, indent=4) )
+    watson_answer = q.getBestFashionBloggerAndClothes(data)
+    #print( json.dumps(watson_answer, indent=4) )
     #return q.getBestFashionBloggerAndClothes(json_data)
     return json.dumps( watson_answer )
     
@@ -178,7 +177,8 @@ def page3():
 @app.route('/results', methods=['POST'])
 def results():
     
-    print("JSON received by /results: ", request.form['imageArray'])
+    data = json.loads(request.form['imageArray'])
+    print("JSON received by /results: ", json.dumps(data, indent=4) )
     #url = results_code.outfit_builder(request)
     clothes_type =[
                     {'code': 'full_body', 'name': 'Full Body', 'images': ["../static/dataset/collections/full_body/img_00000000119.jpg", "../static/dataset/collections/full_body/img_00000000140.jpg"] },

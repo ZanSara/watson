@@ -82,26 +82,8 @@ def deleteAllImagesInCollection():
         print("collections not empty")
         
         
-def getKSimilar(src,collection,k=1):
-    #print("############## SRC {}".format(src))
-    with open(src, 'rb') as img: 
-        res = visual_recognition.find_similar(collection,img, k)#number of returned values
-    similars=res["similar_images"]
-    if(k==1):
-        best=similars[0]["image_file"]    
-        best = best[cf.APP_ROOT.__len__():]
-        best = "..{}".format(best)
-        #print("############## BEST {}".format(best))
-        return best
-    else:
-        betters = []
-        for elem in similars:
-            temp = [elem['image_file'],elem['score'],elem['metadata']]          
-            betters.append(temp)
-        return betters
 
-
-def getKSimilar2(src, collection, k=1):
+def getKSimilar(src, collection, k=1):
     #print("--- GETKSIM: src {}".format(src))
     with open(src, 'rb') as img: 
         similars = visual_recognition.find_similar(collection,img, k)["similar_images"]    #number of returned values  # collection was this_collection_id
