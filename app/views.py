@@ -53,7 +53,7 @@ def about():
 @app.route('/page1')
 def page1():
     return render_template('page1.html',
-                                                        title='Carica le tue foto dalla galleria')
+                            title='Carica le tue foto dalla galleria')
                            
 @app.route('/page2')
 def page2():
@@ -69,14 +69,14 @@ def page2():
 #                        title='Loading...')
     
 
-#@app.route('/service4page3')
-#def page4():
+@app.route('/page4')
+def page4():
     
-#    if request.method == 'POST':
-#        json_data = request.form['imageArray']
-#        bestFB=q.getBestFashionBlogger(json_data)
-#        print(bestFB)
-#        return json_data
+    if request.method == 'POST':
+        json_data = request.form['imageArray']
+        bestFB=q.getBestFashionBlogger(json_data)
+        print(bestFB)
+        return json_data
 
 
     
@@ -94,7 +94,7 @@ def page2():
 # results riceve e mostra senza bisogno di processare niente
 
 @app.route('/service4page3', methods=['POST'])
-def page4():
+def service4page3():
     
     print("1")
     #number of pixels of the cutted images width
