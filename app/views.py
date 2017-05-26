@@ -1,4 +1,4 @@
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, session
 from app import app, results_code
 import json
 import requests as req
@@ -6,7 +6,9 @@ from PIL import Image
 import config as cf
 import urllib, io
 from app.static.dataset import query_watson as q
-
+from os import listdir
+import os
+import random
 #from results_code import outfit_builder
 
 
@@ -165,6 +167,58 @@ def service4page3():
 
     return json_data
 
+@app.route('/userPicture', methods=['GET', 'POST'])
+def userPicture():  
+    imgs = []
+    listLink = session['links']
+    #path = "app/static/img"
+    #imagesList = listdir(path)
+    loadedImages = ""
+    #for image in imagesList:
+    #    loadedImages+="<img src='../static/img/"+image+"'/>"
+    listLink = listLink.split(",")
+    for image in listLink:
+        loadedImages+="<img src='"+image+"'/>"
+        
+                        
+    return loadedImages#"<img src='../static/img/img0.jpg'/>"
+                 
+@app.route('/page2a', methods=['GET', 'POST'])
+def page2a():    
+    if request.method == 'POST':
+        listLink = ""
+        
+        #if not session.get('logged_in',None):
+        rounded_number = int(round(random.uniform(0, 1), 5) * 100000)
+        session['logged_in'] = rounded_number
+        os.makedirs("app/static/img/"+str(rounded_number))
+        #else:
+        #    rounded_number = session['logged_in']
+        #    listLink = session['links']            
+        f = request.files#['fileupload']
+        
+        for i in range(len(f)):
+            el = f["images"+str(i)]      #'image'+
+            listLink+="../static/img/"+str(rounded_number)+"/"+el.filename+","
+            el.save('app/static/img/'+str(rounded_number)+'/'+el.filename)
+            #listLink+="../static/img/"+str(rounded_number)+"/img"+str(i)+".jpg,"
+            #el.save('app/static/img/'+str(rounded_number)+'/img'+str(i)+'.jpg')
+        session['links'] = listLink
+    #    for key in request.POST:            
+    #        print(key)
+        
+    return render_template('page2a.html',
+                                custom_css=["../static/cropper/dist/cropper.css"],
+                                custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
+                           title='Scegli le tue immagini')
+
+
+@app.route('/images')
+def images():
+    return render_template('images.html',
+                                custom_css=["../static/cropper/dist/cropper.css"],
+                                custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
+                                title='images')
 
 
 @app.route('/results', methods=['POST'])
