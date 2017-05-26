@@ -3,11 +3,10 @@
 # Watson developer cloud available at: https://github.com/watson-developer-cloud/python-sdk/blob/master/watson_developer_cloud/visual_recognition_v3.py
 
 import json, os, mimetypes
-from os.path import join, dirname
+from os.path import join, dirname, normpath
 
 from app.static.dataset import utils
 import config as cf
-
 from watson_developer_cloud import VisualRecognitionV3
 
 
@@ -17,7 +16,7 @@ lower_body_id="lower_body_8b6402"
 full_body_id="full_body_2ae404"
 fashion_blogger_id="fashon_blogger_e4ceff"
 
-#All the function are referred to the collection chosen here below
+##All the function are referred to the collection chosen here below
 #folder=join(cf.APP_STATIC, "dataset/collections/fashion_blogger")
 folder="../static/img/dataset/collections/fashion_blogger"
 #this_collection_id = fashion_blogger_id
@@ -44,18 +43,26 @@ def createAllCollections():
 def addAllImagesFromFolder():
     file_list=os.listdir(folder)
     counter=0
+    print("Number of images added from " + folder + " :")
     for file in file_list:
             counter+=1
             print(counter)
-            with open(join(folder,file), 'rb') as img:           
+            url=folder+"/"+file
+            print(url)
+            print(normpath(url))
+            with open(url, 'rb') as img:   
+                print(img)        
                 json_cutted_images =utils.read_cutted_images()             
                 try:
                     metadata=json_cutted_images[str(file)]
                     visual_recognition.add_image(this_collection_id, img,metadata)               
                 except:
-                    metadata={"error":"Metadata not present"}
-                    print(str(file)+" not exists in fashion_cutted.txt")
-                    visual_recognition.add_image(this_collection_id, img,metadata)          
+                    try:
+                        metadata={"error":"Metadata not present"}
+                        print(str(file)+" not exists in fashion_cutted.txt")
+                        visual_recognition.add_image(this_collection_id, img,metadata)  
+                    except:          
+                        print(str(file)+"create an error, images not added")      
     print(getCollectionLength())
     
     
@@ -95,14 +102,6 @@ def getKSimilar(src,collection,k=1):
 
 
 def getKSimilar2(src, collection, k=1):
-    """ 
-    Returns the k most similar elements to src
-    
-        src:    path of the original image
-        k:      n of similar elements to return
-        
-        return a list of k elements similar to src
-    """
     #print("--- GETKSIM: src {}".format(src))
     with open(src, 'rb') as img: 
         similars = visual_recognition.find_similar(collection,img, k)["similar_images"]    #number of returned values  # collection was this_collection_id
@@ -117,7 +116,7 @@ def getKSimilar2(src, collection, k=1):
             
         else:
             #print("--- GETKSIM: k is greater than 1")
-            #print( json.dumps( [ (e['image_file'], e['score']) for e in similars], indent=4 ))
+            #print( json.dumps( [ (e['image_file'], e['score']) for e in similars[:20]], indent=4 ))
             return similars
     
 
@@ -126,10 +125,10 @@ def getKSimilar2(src, collection, k=1):
 
 #find similarities
 #with open(join(folder,"tt0005.jpg"), 'rb') as img: 
-    #res = visual_recognition.find_similar(this_collection_id,img, 50)#number of returned values
-    #similars=res["similar_images"]
-    #for elem in similars:
-    #    print (elem['image_file'],elem['score'], elem["metadata"] )
+#    res = visual_recognition.find_similar(this_collection_id,img, 50)#number of returned values
+#    similars=res["similar_images"]
+#    for elem in similars:
+#        print (elem['image_file'],elem['score'], elem["metadata"] )
     #visual_recognition.classify(img)
 
     

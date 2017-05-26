@@ -1,6 +1,7 @@
-from flask import render_template, request, jsonify
+from flask import render_template, request, jsonify, session
 
-import json, urllib, io
+import json, urllib, io, os, random
+from os import listdir
 import requests as req
 from PIL import Image
 import config as cf
@@ -8,6 +9,7 @@ import config as cf
 from app import app, results_code
 from app.static.dataset import query_watson as q
 from app.static.dataset import manage_collections as m
+#from results_code import outfit_builder
 
 
 
@@ -103,72 +105,61 @@ def service4page3():
     
     
     
-    
-    
-    
-    basewidth = 200     #number of pixels of the cutted images width
-    fb_array = []       #array to put all the fb images similar
-    
-    print('### S4P3: Getting similarities')
-    
-    for i, res in enumerate(data):
-        x = res['x']
-        y = res['y']
-        w = res['w']
-        h = res['h']
-        img_from_url = io.BytesIO( req.get( res['url'] ).content )  # Questo content e' uno stream binario.
-                                                                        #file = io.BytesIO(urllib.request.urlopen(data[i]['url']).read())
-        with Image.open(img_from_url) as img:
-                
-            img_cutted = img.crop( (x, y, x + w, y + h) )
-            
-            wpercent = basewidth / img_cutted.size[0]       #wpercent = basewidth / float(img_cutted.size[0])
-            hsize = img_cutted.size[1] * wpercent           #hsize = int((float(img_cutted.size[1])*float(wpercent)))
-            
-            img_resized = img_cutted.resize( (basewidth, int(hsize)), Image.ANTIALIAS)
-            img_resized.save("temp/out{}.jpg".format(i))
-            
-            similar = m.getKSimilar("temp/out{}.jpg".format(i), "fashon_blogger_e4ceff", 100)
-            
-    print('### S4P3: Getting similarities')
 
-    similar.sort()
-    #fb_array_cumulative = []
-    #temp=[]
-    for i in range(0,len(fb_array)):
-        if(i==0):
-            temp.append(fb_array[i][0])#append image_file_name
-            temp.append(fb_array[i][1])#score
-            temp.append(fb_array[i][2])#metadata
-        else:
-            if (temp[0]==fb_array[i][0]):
-                temp[1]+=fb_array[i][1]
-            else:
-                 fb_array_cumulative.append(temp)
-                 temp=[]
-                 temp.append(fb_array[i][0])#append image_file_name
-                 temp.append(fb_array[i][1])#score
-                 temp.append(fb_array[i][2])
-    fb_array_cumulative.append(temp)
-    fb_array_cumulative.sort(key=lambda x: x[1], reverse=True)
-    
-    print("4")
+@app.route('/userPicture', methods=['GET', 'POST'])
+def userPicture():  
+    imgs = []
+    listLink = session['links']
+    #path = "app/static/img"
+    #imagesList = listdir(path)
+    loadedImages = ""
+    #for image in imagesList:
+    #    loadedImages+="<img src='../static/img/"+image+"'/>"
+    listLink = listLink.split(",")
+    for image in listLink:
+        loadedImages+="<img src='"+image+"'/>"
+        
+                        
+    return loadedImages#"<img src='../static/img/img0.jpg'/>"
+               
+               
+                 
+@app.route('/page2a', methods=['GET', 'POST'])
+def page2a():    
+    if request.method == 'POST':
+        listLink = ""
+        
+        #if not session.get('logged_in',None):
+        rounded_number = int(round(random.uniform(0, 1), 5) * 100000)
+        session['logged_in'] = rounded_number
+        os.makedirs("app/static/img/"+str(rounded_number))
+        #else:
+        #    rounded_number = session['logged_in']
+        #    listLink = session['links']            
+        f = request.files#['fileupload']
+        
+        for i in range(len(f)):
+            el = f["images"+str(i)]      #'image'+
+            listLink+="../static/img/"+str(rounded_number)+"/"+el.filename+","
+            el.save('app/static/img/'+str(rounded_number)+'/'+el.filename)
+            #listLink+="../static/img/"+str(rounded_number)+"/img"+str(i)+".jpg,"
+            #el.save('app/static/img/'+str(rounded_number)+'/img'+str(i)+'.jpg')
+        session['links'] = listLink
+    #    for key in request.POST:            
+    #        print(key)
+        
+    return render_template('page2a.html',
+                                custom_css=["../static/cropper/dist/cropper.css"],
+                                custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
+                           title='Scegli le tue immagini')
 
-    sum=0
-    for elem in fb_array:
-        sum+=elem[1]
-    for elem in fb_array_cumulative:
-        sum-=elem[1]
-    print(sum)
-    print(fb_array_cumulative)
-    print(fb_array_cumulative[0])
-    # COMMENTED FOR CICLE TO PRINT THE LINKS RECEIVED 
-    print(json.dumps(data, indent=4))
-    
-    print("5")
 
-    return json_data
-
+@app.route('/images')
+def images():
+    return render_template('images.html',
+                                custom_css=["../static/cropper/dist/cropper.css"],
+                                custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
+                                title='images')
 
 
 @app.route('/page3', methods=['POST'])

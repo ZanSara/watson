@@ -158,6 +158,8 @@ def funzioneDiProvaSARA(data):
     similars = matchBlogger(data)
     if len(similars) < 1:
         return {'errore': 'Nessun elemento simile trovato'}
+    print(similars)
+        
     best = similars[0]
     print('### S4P3: the most similar item is {} ({})'.format(best['image_file'], best['score']))
     img = openPath(best['image_file'])
@@ -172,8 +174,8 @@ def matchBlogger(data, basewidth=200):
         Dato l'array in arrivo da /page2,
         taglia le immagini e ottiene le risposte da watson
     """
-    print('### S4P3: Getting similarities')
-    all_similarities = []
+    print('### matchBlogger: Getting similarities')
+    allsim = []
     for i, res in enumerate(data):
         x = res['x']
         y = res['y']
@@ -191,15 +193,23 @@ def matchBlogger(data, basewidth=200):
             img_resized.save("temp/out{}.jpg".format(i))
             
             similar = m.getKSimilar2("temp/out{}.jpg".format(i), "fashon_blogger_e4ceff", 100)
-            print('### S4P3: found {} similar\n'.format( len(similar) ))
-            all_similarities += similar
+            print('### matchBlogger: found {} similar\n'.format( len(similar) ))
+            allsim += similar
             
-    print('### S4P3: similars\n')
-    print(json.dumps( [ [s['image_file'], s['score']] for s in all_similarities[:10]], indent=4))
-    sorted_similars = sorted(all_similarities, key=lambda k: k['score'], reverse=True)
-    sorted_and_squared = [ item.update({'score': item['score'] ** 2 }) for item in sorted_similars]
+    #print('### matchBlogger: similars\n')
+    #print(json.dumps( [ [s['image_file'], s['score']] for s in allsim[:10]], indent=4))
+    print( [ [s['image_file'], s['score']] for s in allsim[:10]] )
     
-    return sorted_and_squared
+    for item in allsim:
+        allsim['score'] = allsim['score']**2
+        #[ item.update({'score': item['score'] ** 2 }) for item in allsim]
+    print(allsim)
+    print('@@@@@@@@@@@@@@@@@@')
+    
+    sortedsim = sorted(allsim, key=lambda k: k['score'], reverse=True)
+    print(sortedsim)
+    
+    return sortedsim
     
 
 
@@ -213,7 +223,7 @@ def openPath(path):
         img2 = Image.open(path)     # tries to use the url obtained from watson (don't work in localhost)
         
     except:
-        print('### S4P3: localhost mode\n')
+        print('### openPath: localhost mode\n')
         
         # load the path (from here + collections/fashon_blogger/ttXXXXX.jpg)
         position = best['image_file'].find("collections") 
@@ -221,20 +231,20 @@ def openPath(path):
         script_dir = os.path.dirname(os.path.abspath(__file__))
         
         try:
-            print('### S4P3: path to image is {}'.format( os.path.join(script_dir, path) ) )
+            print('### openPath: path to image is {}'.format( os.path.join(script_dir, path) ) )
             img2 = Image.open(os.path.join(script_dir, path))
             
         except:
         
-            print("### S4P3: Image of the most similar fashion blogger not found, used tt0002.jpg by default")
+            print("### openPath: Image of the most similar fashion blogger not found, used tt0002.jpg by default")
             try:
-                print('### S4P3: online path to default image is {}'.format( "{}{}".format(cf.APP_ROOT, "static/dataset/collections/fashion_blogger/tt0002.jpg") ) )
+                print('### openPath: online path to default image is {}'.format( "{}{}".format(cf.APP_ROOT, "static/dataset/collections/fashion_blogger/tt0002.jpg") ) )
                 img2 = Image.open("{}/{}".format(cf.APP_ROOT, "static/dataset/collections/fashion_blogger/tt0002.jpg") )
             except:
             
                 # load the path (from here + collections/fashon_blogger/tt0002.jpg)
                 path = 'collections/fashion_blogger/tt0002.jpg'
-                print('### S4P3: offline path to default image is {}'.format( os.path.join(script_dir, path) ) )
+                print('### openPath: offline path to default image is {}'.format( os.path.join(script_dir, path) ) )
                 img2 = Image.open(os.path.join(script_dir, path))
     
     return img2
@@ -250,7 +260,7 @@ def matchClothes(img, metadata):
         # it is a upper and down fashion blogger's clothes
         if(metadata['c_w'] == '0'):
             # ritaglio upper
-            print('### S4P3: crop upper\n')
+            print('### matchClothes: crop upper\n')
             x = float(metadata['u_x'])
             y = float(metadata['u_y'])
             w = float(metadata['u_w'])
@@ -261,7 +271,7 @@ def matchClothes(img, metadata):
             upper_similars = m.getKSimilar2("temp/upper.jpg", "upper_body_711fdd", 100)
             
             # ritaglio down
-            print('### S4P3: crop lower\n')
+            print('### matchClothes: crop lower\n')
             x = float(metadata['d_x'])
             y = float(metadata['d_y'])
             w = float(metadata['d_w'])
@@ -275,7 +285,7 @@ def matchClothes(img, metadata):
             
         else:
             # ritaglio complete
-            print('### S4P3: crop full\n')
+            print('### matchClothes: crop full\n')
             x = float(metadata['c_x'])
             y = float(metadata['c_y'])
             w = float(metadata['c_w'])
