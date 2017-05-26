@@ -23,7 +23,7 @@
                    
                 </div>
                 
-                <form id="imageForm" style="margin-top:3%;" method="post" action="/page3" >
+                <form id="imageForm" style="margin-top:3%;" method="post" action="/results" >
                    	<input type="hidden" id="imageArray" name="imageArray" value="">
                     <button class="btn btn-danger btn-wide" onclick="prepareForm()">Continua</button>
                 </form>
@@ -63,12 +63,10 @@
       </div>
     </div>
     
-  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
-  <script>
+    <script>
         
         // lastPhotos sta in /static/js/utils.js
-        document.addEventListener('DOMContentLoaded',lastPhotos, false);
+        document.addEventListener('DOMContentLoaded', lastPhotos() );
 
         // Codice di cropper.js
         document.addEventListener('DOMContentLoaded', function () {
@@ -91,6 +89,7 @@
             });
       
         });
+        
   </script>
     
     

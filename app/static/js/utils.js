@@ -18,6 +18,7 @@ function lastPhotos(){
  
     } else {
         console.log('production side');
+        
         $.ajax({
 		        type: 'GET',
 		        url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token='+access_token+"&count=10&callback=?",
@@ -144,3 +145,24 @@ function prepareForm() {
     $("#imageArray").val(info);
     $("#imageForm").submit();
 }
+
+
+
+/* Funzione che ottiene l'outfit a partire dalle immagini inviate da page2
+function getOutfit(data){
+    console.log(data);
+
+    $.get( "/results",
+        { imageArray: data },
+        function() {
+            
+        }).done(function(json_res) {
+            res = JSON.parse(json_res);
+            console.log(res);
+            
+        }).fail(function(res) {
+            alert( "error" );
+            console.log(res);
+            
+        });
+}*/

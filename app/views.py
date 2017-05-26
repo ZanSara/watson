@@ -65,39 +65,123 @@ def page2():
                            title='Scegli le tue immagini')
                 
                            
-@app.route('/page3', methods=['POST'])
-def page3():
-    return render_template('page3.html',
-                        title='Loading...')
+#@app.route('/page3', methods=['POST'])
+#def page3():
+#    return render_template('page3.html',
+#                        title='Loading...')
     
 
-@app.route('/service4page3')
+#@app.route('/service4page3')
+#def page4():
+    
+#    if request.method == 'POST':
+#        json_data = request.form['imageArray']
+#        bestFB=q.getBestFashionBlogger(json_data)
+#        print(bestFB)
+#        return json_data
+
+
+    
+# page2 manda i dati a page3
+# page3 ritorna la pagina di caricamento
+# page3 submitta i dati ricevuto da page2 cosi come sono
+# results calcola tutto e si mostra
+
+# OPPURE
+
+# page2 manda i dati a page3
+# page3 ritorna la pagina di caricamento
+# page3 processa i dati con una AJAX a service4page3
+# pare3 riceve i dati e submitta tutto a results
+# results riceve e mostra senza bisogno di processare niente
+
+@app.route('/service4page3', methods=['POST'])
 def page4():
     
-    if request.method == 'POST':
-        json_data = request.form['imageArray']
-        bestFB=q.getBestFashionBlogger(json_data)
-        print(bestFB)
-        return json_data
+    print("1")
+    #number of pixels of the cutted images width
+    basewidth = 200
+    #array to put all the fb images similar
+    fb_array = []
+    json_data = request.form['imageArray']
+    data = json.loads(json_data)
+    # load the imgs from the URL
+    print("2")
+
+    for i in range(0, len(data)):
+        file = io.BytesIO(urllib.request.urlopen(data[i]['url']).read())
+        img = Image.open(file)
+        # load the parameters of the img
+        x = data[i]['x']
+        y = data[i]['y']
+        w = data[i]['w']
+        h = data[i]['h']
+        # cut & resize the image
+        img_cutted = img.crop((x, y, x + w, y + h))
+        wpercent = (basewidth/float(img_cutted.size[0]))
+        hsize = int((float(img_cutted.size[1])*float(wpercent)))
+        img_resized = img_cutted.resize((basewidth,hsize), Image.ANTIALIAS)
+        # save the image
+        img_resized.save("temp/out" + str(i) + ".jpg")
+        fb_similars = m.getKSimilar("temp/out" + str(i) + ".jpg","fashon_blogger_e4ceff",100)
+        print(fb_similars)
+        for fb in fb_similars:
+            fb_array.append(fb)
+    
+    print("3")
+
+    fb_array.sort()
+    fb_array_cumulative = []
+    temp=[]
+    for i in range(0,len(fb_array)):
+        if(i==0):
+            temp.append(fb_array[i][0])#append image_file_name
+            temp.append(fb_array[i][1])#score
+            temp.append(fb_array[i][2])#metadata
+        else:
+            if (temp[0]==fb_array[i][0]):
+                temp[1]+=fb_array[i][1]
+            else:
+                 fb_array_cumulative.append(temp)
+                 temp=[]
+                 temp.append(fb_array[i][0])#append image_file_name
+                 temp.append(fb_array[i][1])#score
+                 temp.append(fb_array[i][2])
+    fb_array_cumulative.append(temp)
+    fb_array_cumulative.sort(key=lambda x: x[1], reverse=True)
+    
+    print("4")
+
+    sum=0
+    for elem in fb_array:
+        sum+=elem[1]
+    for elem in fb_array_cumulative:
+        sum-=elem[1]
+    print(sum)
+    print(fb_array_cumulative)
+    print(fb_array_cumulative[0])
+    # COMMENTED FOR CICLE TO PRINT THE LINKS RECEIVED 
+    print(json.dumps(data, indent=4))
+    
+    print("5")
+
+    return json_data
 
 
 
 @app.route('/results', methods=['POST'])
 def results():
     
-    if request.method == 'POST':
-        url = results_code.outfit_builder(request)
-        
-        clothes_type =[
-                        {'code': 'full_body', 'name': 'Full Body', 'images': ["../static/dataset/collections/full_body/img_00000000119.jpg", "../static/dataset/collections/full_body/img_00000000140.jpg"] },
-                        {'code': 'upper_body', 'name': 'Upper Body', 'images': ["../static/dataset/collections/upper_body/img_00000000238.jpg", "../static/dataset/collections/upper_body/img_00000000361.jpg", "../static/dataset/collections/upper_body/img_00000000397.jpg"] },
-                        {'code': 'lower_body', 'name': 'Lower Body', 'images': ["../static/dataset/collections/lower_body/img_00000000501.jpg", "../static/dataset/collections/lower_body/img_00000001111.jpg"] }
-                      ] 
-        
-        return render_template('results.html',
-                                full_outfit=url,
-                                full_body = [1],
-                                upper_body = [1],
-                                lower_body = [1],
-                                clothes_type = clothes_type,
-                                title='Outfit trovato')
+    print("JSON received by /results: ", request.form['imageArray'])
+    #url = results_code.outfit_builder(request)
+    clothes_type =[
+                    {'code': 'full_body', 'name': 'Full Body', 'images': ["../static/dataset/collections/full_body/img_00000000119.jpg", "../static/dataset/collections/full_body/img_00000000140.jpg"] },
+                    {'code': 'upper_body', 'name': 'Upper Body', 'images': ["../static/dataset/collections/upper_body/img_00000000238.jpg", "../static/dataset/collections/upper_body/img_00000000361.jpg", "../static/dataset/collections/upper_body/img_00000000397.jpg"] },
+                    {'code': 'lower_body', 'name': 'Lower Body', 'images': ["../static/dataset/collections/lower_body/img_00000000501.jpg", "../static/dataset/collections/lower_body/img_00000001111.jpg"] }
+                  ] 
+    
+    return render_template('results.html',
+                            #full_outfit=url,
+                            jsondata = request.form['imageArray'],
+                            clothes_type = clothes_type,
+                            title='Outfit trovato')

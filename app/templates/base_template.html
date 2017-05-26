@@ -18,18 +18,40 @@
     <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="../static/css/style.css">
-    <script src="../static/js/utils.js"></script>
+    <script type="text/javascript" src="../static/js/utils.js"></script>
     
     <!-- CUSTOM HEAD CONTENT start -->
     {% for css in custom_css %}
         <link rel="stylesheet" href="{{ css }}">
     {% endfor %}
     {% for js in custom_js %}
-        <script src="{{ js }}"></script>
+        <script type="text/javascript" src="{{ js }}"></script>
     {% endfor %}
     <!-- CUSTOM HEAD CONTENT end -->
     
+    
+     <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script   type="text/javascript"
+			  src="https://code.jquery.com/jquery-1.9.1.min.js"
+			  integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ="
+			  crossorigin="anonymous"></script>
+	
+    <!-- Offline Bootstrap and jQuery js >
+    <script src="../static/bootstrap/jQuery/jquery-1.9.1.min.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script-->
+    
+    <!-- Latest compiled and minified JavaScript -->
+    <script type="text/javascript"
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+            crossorigin="anonymous"></script>
+    
   </head>
+  
+  
   <body class="{{background_class}}">
       
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -72,20 +94,5 @@
 
     </div> <!-- /container -->
 
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-
-    <!-- Offline Bootstrap and jQuery js >
-    <script src="../static/bootstrap/jQuery/jquery-2.2.4.min.js"></script>
-    <script src="../static/bootstrap/js/bootstrap.min.js"></script-->
-    
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    
   </body>
 </html>
