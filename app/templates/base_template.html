@@ -74,7 +74,9 @@
                 <ul class="nav navbar-nav">
                     <li {% if active_navbar_button == "home" %}class="active"{% endif %}><a href="/">Home</a></li>
                     <li {% if active_navbar_button == "about" %}class="active"{% endif %}><a href="/about">About</a></li>
-                    <li {% if active_navbar_button == "logout" %}class="active"{% endif %}><a href="https://instagram.com/accounts/logout">Instagram Logout</a></li>
+                    {% if not active_navbar_button %}
+                        <li><a href="https://instagram.com/accounts/logout">Logout</a></li>
+                    {% endif %}
                 </ul>
             </div><!--/.nav-collapse -->
         </div>

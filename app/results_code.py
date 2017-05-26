@@ -7,6 +7,7 @@ from app.static.dataset import manage_collections as m
 
 
 
+
 def outfit_builder(request):
     # Fake data from /page3
     json_data = request.form['imageArray']

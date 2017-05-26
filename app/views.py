@@ -190,4 +190,5 @@ def results():
                             #full_outfit=url,
                             jsondata = request.form['imageArray'],
                             clothes_type = clothes_type,
+                            data = data,
                             title='Outfit trovato')
