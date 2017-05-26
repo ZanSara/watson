@@ -9,7 +9,7 @@ print("  importing utils...")
 from app.static.dataset import utils
 print("  imported utils...")
 import config as cf
-from os.path import join, dirname
+from os.path import join, dirname, normpath
 from watson_developer_cloud import VisualRecognitionV3
 import mimetypes
 
@@ -38,10 +38,13 @@ def createAllCollections():
 def addAllImagesFromFolder():
     file_list=os.listdir(folder)
     counter=0
+    print("Number of images added from " + folder + " :")
     for file in file_list:
             counter+=1
             print(counter)
-            with open(join(folder,file), 'rb') as img:           
+            url=normpath(join(folder,file))
+            print(url)
+            with open(url, 'rb') as img:           
                 json_cutted_images =utils.read_cutted_images()             
                 try:
                     metadata=json_cutted_images[str(file)]
@@ -95,7 +98,7 @@ print("created")
     #res = visual_recognition.find_similar(this_collection_id,img, 50)#number of returned values
     #similars=res["similar_images"]
     #for elem in similars:
-    #    print (elem['image_file'],elem['score'], elem["metadata"] )
+        #print (elem['image_file'],elem['score'], elem["metadata"] )
     #visual_recognition.classify(img)
 
     
