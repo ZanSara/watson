@@ -50,12 +50,10 @@ def about():
     
 
 
-@app.route('/images')
-def images():
-    return render_template('images.html',
-                                custom_css=["../static/cropper/dist/cropper.css"],
-                                custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
-                                title='images')
+@app.route('/page1')
+def page1():
+    return render_template('page1.html',
+                                                        title='Carica le tue foto dalla galleria')
                            
 @app.route('/page2')
 def page2():
