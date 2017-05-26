@@ -73,8 +73,46 @@ function showPhotos(res){
     $("#post-loader").hide(); // Who knows
 }
 
+//Funzione che renderizza le immagini caricate dall' utente
+function loadLocalPhotos(){
+	
+    var folder = "../userPicture";
+    
 
+    $.ajax({
+        url : folder,
+        success: function (data) {
+            $(data).find("img").prevObject.attr("src", function (i, val) {	   	           
+            	
+            	//showPhotos(res)
+            	
+                newbox = $('#image').clone();
+                
+                newbox.attr('id', 'image-'+i);
+                newbox.attr('style', 'position:relative; display:inline-block;')
+                
+                newimg = newbox.find("#img");
+                newimg.attr('id','img-'+i);
+                newimg.attr('src',val);
+                newimg.attr('onclick', 'showModal("#img-'+i+'")');
+                
+                newtick = newbox.find("#tick");
+                newtick.attr('id','tick-'+i);
+                
+                newfull = newbox.find("#max-res-img");
+                newfull.attr('id','max-res-img-'+i);
+                newfull.attr('href', val);
+                
+                $("#photo-container").append(newbox);  	                
+            });
+        	$('#img').remove();
+            
+            $("#loader").hide();
+            $("#main-box").show();
+        }
+    });
 
+}
 
 // Funzione che prepara il modal
 function showModal(imgID){
