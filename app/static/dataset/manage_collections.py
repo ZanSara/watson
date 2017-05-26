@@ -18,7 +18,7 @@ lower_body_id="lower_body_8b6402"
 full_body_id="full_body_2ae404"
 fashion_blogger_id="fashon_blogger_e4ceff"
 
-#All the function are referred to the collection chosen here below
+##All the function are referred to the collection chosen here below
 #folder=join(cf.APP_STATIC, "dataset/collections/fashion_blogger")
 folder="app/static/dataset/collections/fashion_blogger"
 this_collection_id=fashion_blogger_id
