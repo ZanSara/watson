@@ -42,17 +42,22 @@ def addAllImagesFromFolder():
     for file in file_list:
             counter+=1
             print(counter)
-            url=normpath(join(folder,file))
+            url=folder+"/"+file
             print(url)
-            with open(url, 'rb') as img:           
+            print(normpath(url))
+            with open(url, 'rb') as img:   
+                print(img)        
                 json_cutted_images =utils.read_cutted_images()             
                 try:
                     metadata=json_cutted_images[str(file)]
                     visual_recognition.add_image(this_collection_id, img,metadata)               
                 except:
-                    metadata={"error":"Metadata not present"}
-                    print(str(file)+" not exists in fashion_cutted.txt")
-                    visual_recognition.add_image(this_collection_id, img,metadata)          
+                    try:
+                        metadata={"error":"Metadata not present"}
+                        print(str(file)+" not exists in fashion_cutted.txt")
+                        visual_recognition.add_image(this_collection_id, img,metadata)  
+                    except:          
+                        print(str(file)+"create an error, images not added")      
     print(getCollectionLength())
 def getCollectionLength():
     images=visual_recognition.list_images(this_collection_id)
@@ -95,10 +100,10 @@ print("created")
 
 #find similarities
 #with open(join(folder,"tt0005.jpg"), 'rb') as img: 
-    #res = visual_recognition.find_similar(this_collection_id,img, 50)#number of returned values
-    #similars=res["similar_images"]
-    #for elem in similars:
-        #print (elem['image_file'],elem['score'], elem["metadata"] )
+#    res = visual_recognition.find_similar(this_collection_id,img, 50)#number of returned values
+#    similars=res["similar_images"]
+#    for elem in similars:
+#        print (elem['image_file'],elem['score'], elem["metadata"] )
     #visual_recognition.classify(img)
 
     
