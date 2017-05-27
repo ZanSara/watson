@@ -1,13 +1,16 @@
 from flask import render_template, request, jsonify
-from app import app, results_code
-import json
+
+import json, urllib, io, os.path, string
 import requests as req
 from PIL import Image
 import config as cf
-import urllib, io
+
+from app import app, results_code
 from app.static.dataset import manage_collections as m
-import os.path
-import string
+from requests.exceptions import MissingSchema
+
+
+
 
 def getBestFashionBloggerAndClothes(data):
     similars = match_blogger(data)
@@ -34,15 +37,20 @@ def match_blogger(data, basewidth=200):
         y = res['y']
         w = res['w']
         h = res['h']
-        img_from_url = io.BytesIO( req.get( res['url'] ).content )  # Questo content e' uno stream binario.
-                                                                    #file = io.BytesIO(urllib.request.urlopen(data[i]['url']).read())
+        
+        try:
+            img_from_url = io.BytesIO( req.get( res['url'] ).content )  # Questo content e' uno stream binario.
+        except MissingSchema:
+            # Se fallisce era l'indirizzo di un'immagine locale, ovvero in forma ../static/uploads/<file-n>/full.png
+            # Viene convertito al volo in app/static/uploads/<file-n>/full.png
+            img_from_url = "app{}".format(res['url'][2:])
+            
         with Image.open(img_from_url) as img:
             img_cutted = img.crop( (x, y, x + w, y + h) )
             wpercent = basewidth / img_cutted.size[0]       #wpercent = basewidth / float(img_cutted.size[0])
             hsize = img_cutted.size[1] * wpercent           #hsize = int((float(img_cutted.size[1])*float(wpercent)))
             
             img_resized = img_cutted.resize( (basewidth, int(hsize)), Image.ANTIALIAS)
-
             img_resized.save("temp/out{}.jpg".format(i))
             
             similar = m.getKSimilar("temp/out{}.jpg".format(i), "fashon_blogger_e4ceff", 100)
