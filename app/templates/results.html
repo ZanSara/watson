@@ -6,7 +6,7 @@
         
         <div class="container text-center">
             <div class="full-outfit">
-                <img class="full-outfit" src="{{ data.best.image_file }}" alt="{{ data.best.image_file }}" onclick="$('#myModal').modal('show')">
+                <img class="full-outfit" src="{{ fashion }}/{{ data.best.image_file }}" alt="{{ data.best.image_file }}" onclick="$('#myModal').modal('show')">
             </div>
         </div>
 	    
@@ -29,15 +29,18 @@
                 {% if data.full %}
                     {% set name = "Full Body" %}
                     {% set code = "full-body" %}
+                    {% set basepath = full %}
                     {% set images = data.full %}
                     {% include "results-carousel.html" %} 
                 {% else %}
                     {% set name = "Upper Body" %}
                     {% set code = "upper-body" %}
+                    {% set basepath = upper %}
                     {% set images = data.upper %}
                     {% include "results-carousel.html" %} 
                     {% set name = "Lower Body" %}
                     {% set code = "lower-body" %}
+                    {% set basepath = lower %}
                     {% set images = data.lower %}
                     {% include "results-carousel.html" %} 
                 {% endif %}

@@ -113,12 +113,19 @@ def images():
 
 @app.route('/results', methods=['POST'])
 def results():
-    uploader.remove_path(session['logged_in'])
+    if 'logged_in' in session:
+        uploader.remove_path(session['logged_in'])
     
     data = json.loads(request.form['imageArray'])
     print("JSON received by /results: ", json.dumps(data, indent=4) )
     
     return render_template('results.html',
                             #jsondata = request.form['imageArray'],
+                            fashion = cf.FASHION_BLOGGER_WPATH,
+                            lower = cf.LOWER_BODY_WPATH,
+                            upper = cf.UPPER_BODY_WPATH,
+                            full = cf.FULL_BODY_WPATH,
                             data = data,
                             title='Outfit trovato')
+                            
+

@@ -10,19 +10,19 @@ import os.path
 import string
 
 def getBestFashionBloggerAndClothes(data):
-    similars = matchBlogger(data)
+    similars = match_blogger(data)
     if len(similars) < 1:
         return {'errore': 'Nessun elemento simile trovato'}
     best = similars[0]
     print('### S4P3: the most similar item is {} ({})'.format(best['image_file'], best['score']))
-    img = openPath(best['image_file'])
+    img = open_fashion(best['image_file'])
     print('### S4P3: metadata processing\n')
-    return matchClothes(img, best)
+    return match_clothes(img, best)
     
  
 
 
-def matchBlogger(data, basewidth=200):
+def match_blogger(data, basewidth=200):
     """ 
         Dato l'array in arrivo da /page2,
         taglia le immagini e ottiene le risposte da watson
@@ -64,14 +64,19 @@ def matchBlogger(data, basewidth=200):
 
 
 
-def openPath(path):
+def open_fashion(path):
     """
-        Dato il percorso da aprire, tenta di aprirlo in vari modi.
+        Data l'immagine di fashion blogger da aprire, tenta di aprirlo in vari modi.
         Ritorna un oggetto Image
     """
+    print("### open-path: the fashion blogger image to open is: {}".format(path))
+    path = "{}{}".format(cf.FASHION_BLOGGER_FPATH, path)
+    
     try:
         img2 = Image.open(path)     # tries to use the url obtained from watson (don't work in localhost)
         
+        
+    # Tutta questa parte qua sotto serve a qualcosa??    
     except:
         print('### openPath: localhost mode\n')
         
@@ -101,7 +106,7 @@ def openPath(path):
 
 
 
-def matchClothes(img, best, n_items=10):
+def match_clothes(img, best, n_items=10):
     """
         Data l'immagine di un fashion blogger e i metadati del ritaglio,
         ritorna un dizionario utile a essere inviato a /results
