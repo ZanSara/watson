@@ -5,7 +5,7 @@
 import json, os, mimetypes
 from os.path import join, dirname, normpath
 
-from app.static.dataset import utils
+import utils
 import config as cf
 from watson_developer_cloud import VisualRecognitionV3
 
@@ -18,8 +18,8 @@ fashion_blogger_id="fashon_blogger_e4ceff"
 
 ##All the function are referred to the collection chosen here below
 #folder=join(cf.APP_STATIC, "dataset/collections/fashion_blogger")
-folder="app/static/img/dataset/collections/fashion_blogger"
-#this_collection_id = fashion_blogger_id
+folder=""
+this_collection_id = upper_body_id
 
 #creation object for visual recognition    
 visual_recognition = VisualRecognitionV3('2016-05-20', api_key='5becfc0e7dc544e89e36230e9bb58a609280957c')
@@ -41,28 +41,36 @@ def createAllCollections():
     
     
 def addAllImagesFromFolder():
-    file_list=os.listdir(folder)
+    file_list=os.listdir("./")
     counter=0
     print("Number of images added from " + folder + " :")
     for file in file_list:
+            if (file[-4:]!=".jpg"):
+                continue
             counter+=1
             print(counter)
-            url=folder+"/"+file
-            print(url)
-            print(normpath(url))
+            url=file
             with open(url, 'rb') as img:   
-                print(img)        
-                json_cutted_images =utils.read_cutted_images()             
-                try:
-                    metadata=json_cutted_images[str(file)]
-                    visual_recognition.add_image(this_collection_id, img,metadata)               
-                except:
+                print(img)
+                if(this_collection_id==fashion_blogger_id):        
+                    json_cutted_images =utils.read_cutted_images()             
                     try:
-                        metadata={"error":"Metadata not present"}
-                        print(str(file)+" not exists in fashion_cutted.txt")
-                        visual_recognition.add_image(this_collection_id, img,metadata)  
-                    except:          
-                        print(str(file)+"create an error, images not added")      
+                        metadata=json_cutted_images[str(file)]
+                        visual_recognition.add_image(this_collection_id, img,metadata)               
+                    except:
+                        try:
+                            metadata={"error":"Metadata not present"}
+                            print(str(file)+" not exists in fashion_cutted.txt")
+                            visual_recognition.add_image(this_collection_id, img,metadata)  
+                        except:          
+                            print(str(file)+"create an error, images not added")
+                else:
+                    try:
+                        visual_recognition.add_image(this_collection_id, img)
+                        print(img)  
+                    except:
+                        print(img," not uploaded, Watson error...")  
+                        continue
     print(getCollectionLength())
     
     
@@ -74,12 +82,17 @@ def getCollectionLength():
 def deleteAllImagesInCollection():
     images=visual_recognition.list_images(this_collection_id)
     counter=0
-    for image in images["images"]:
-        counter+=1
-        print(counter)
-        visual_recognition.delete_image(this_collection_id,image["image_id"])
+    while(len(images["images"])!=0):
+        for image in images["images"]:
+            counter+=1
+            print(counter)
+            visual_recognition.delete_image(this_collection_id,image["image_id"])
+        images=visual_recognition.list_images(this_collection_id)
+        
+    images=visual_recognition.list_images(this_collection_id)
     if(len(images["images"])!=0):
-        print("collections not empty")
+        print(len(images["images"]))
+        print("collection is not empty")
         
         
 
@@ -102,15 +115,15 @@ def getKSimilar(src, collection, k=1):
             return similars
     
 
-#deleteAllImagesInCollection()
-#addAllImagesFromFolder()
+deleteAllImagesInCollection()
+addAllImagesFromFolder()
 
 #find similarities
-#with open(join(folder,"tt0005.jpg"), 'rb') as img: 
-   # res = visual_recognition.find_similar(this_collection_id,img, 50)#number of returned values
-    #similars=res["similar_images"]
-    #for elem in similars:
-     #   print (elem['image_file'],elem['score'], elem["metadata"] )
+with open(("img_00000000001.jpg"), 'rb') as img: 
+    res = visual_recognition.find_similar(this_collection_id,img, 50)#number of returned values
+    similars=res["similar_images"]
+    for elem in similars:
+        print (elem['image_file'],elem['score'], elem["metadata"] )
     #visual_recognition.classify(img)
 
     

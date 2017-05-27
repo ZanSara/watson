@@ -96,7 +96,7 @@
         var picker_btn_icon = $('<i class="'+settings.icon+'"></i>');
         
         // The actual file input which stays hidden
-        var picker_btn_input = $('<input id="'+n+'" type="file" name="'+settings.name+'" />');
+        var picker_btn_input = $('<input id="'+n+'" type="file" name="'+settings.name+""+n+'"  accept="image/*" />');
         
         
         // The actual element displayed
@@ -112,7 +112,7 @@
                 
                 // Create a preview once image has loaded
                 reader.onload = function(e) {
-                    var preview = create_preview(that, e.target.result, settings, );
+                    var preview = create_preview(that, e.target.result, settings );
                     
                     $(that).html(preview);
                 	add();
@@ -178,7 +178,7 @@ function add(){
 <div class="container"> 
     <br> 
     <div class="col-sm-8"> 
-        <form role="form" method ="post" action="/page2a" enctype="multipart/form-data" >
+        <form role="form" method ="post" action="/page2" enctype="multipart/form-data" >
             <legend>Carica le tue foto</legend> 
             <div class="row" id="riga">
                 <div class="form-group col-sm-2" id="toclone" > 
