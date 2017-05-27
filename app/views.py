@@ -1,15 +1,12 @@
 from flask import render_template, request, jsonify, session
 
-import json, urllib, io, os, random
+import json, urllib, io, os
 import requests as req
-from PIL import Image
 import config as cf
-import shutil
 
-from app import app, results_code
+from app import app, results_code, uploader
 from app.static.dataset import query_watson as q
 from app.static.dataset import manage_collections as m
-#from results_code import outfit_builder
 
 
 
@@ -54,73 +51,42 @@ def about():
 def page1():
     return render_template('page1.html',
                             title='Carica le tue foto dalla galleria')
-                           
-@app.route('/page2')
-def page2():
-    return render_template('page2.html',
-                                custom_css=["../static/cropper/dist/cropper.css"],
-                                custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
-                           title='Scegli le tue immagini')
+
                 
                            
-@app.route('/userPicture', methods=['GET', 'POST'])
-def userPicture():  
-    imgs = []
-    listLink = session['links']
-    loadedImages = ""
-    listLink = listLink.split(",")
-    for image in listLink:
-        loadedImages+="<img src='"+image+"'/>"
-        
-                        
-    return loadedImages#"<img src='../static/img/img0.jpg'/>"
+@app.route('/userPicture')
+def userPicture():
+    files = os.listdir("{}{}".format(cf.UPLOAD_FILE_PATH, session['logged_in']))
+    base_path = "{}{}".format(cf.UPLOAD_WEB_PATH, session['logged_in'])
+    
+    resdata = [ {'images': {
+                    'thumbnail': { 'url': '{}/{}/thumb.png'.format(base_path, f) } , 
+                    'standard_resolution': {'url': '{}/{}/full.png'.format(base_path, f) } 
+                 } }  for f in files ]
+    
+    return json.dumps(resdata)
+
+      
                  
-@app.route('/page2a', methods=['GET', 'POST'])
-def page2a():    
+@app.route('/page2', methods=['GET', 'POST'])
+def page2():
     if request.method == 'POST':
-        listLink = ""        
-        #if not session.get('logged_in',None):
-        rounded_number = int(round(random.uniform(0, 1), 5) * 100000)
-        session['logged_in'] = rounded_number
-        os.makedirs("app/static/img/"+str(rounded_number))
-        #else:
-        #    rounded_number = session['logged_in']
-        #    listLink = session['links']            
-        f = request.files       
-        for i in range(len(f)-1):
-            el = f["images"+str(i)]      #'image'+
-            listLink+="../static/img/"+str(rounded_number)+"/"+el.filename+","
-            el.save('app/static/img/'+str(rounded_number)+'/'+el.filename)
-        session['links'] = listLink
-        
-    return render_template('page2a.html',
+        session['logged_in'] = uploader.upload_photos(request.files)
+        return render_template('page2.html',
+                                local = 1,
                                 custom_css=["../static/cropper/dist/cropper.css"],
                                 custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
-                           title='Scegli le tue immagini')            
-
-@app.route('/page4')
-def page4():
-    
-    if request.method == 'POST':
-        json_data = request.form['imageArray']
-        bestFB=q.getBestFashionBlogger(json_data)
-        print(bestFB)
-        return json_data
+                                title='Scegli le tue immagini')  
+                                        
+    return render_template('page2.html',
+                            local = 0,
+                            custom_css=["../static/cropper/dist/cropper.css"],
+                            custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
+                            title='Scegli le tue immagini')
+                                          
 
 
-    
-# page2 manda i dati a page3
-# page3 ritorna la pagina di caricamento
-# page3 submitta i dati ricevuto da page2 cosi come sono
-# results calcola tutto e si mostra
 
-# OPPURE
-
-# page2 manda i dati a page3
-# page3 ritorna la pagina di caricamento
-# page3 processa i dati con una AJAX a service4page3
-# pare3 riceve i dati e submitta tutto a results
-# results riceve e mostra senza bisogno di processare niente
 
 @app.route('/service4page3')
 def service4page3():
@@ -132,7 +98,6 @@ def service4page3():
     
     watson_answer = q.getBestFashionBloggerAndClothes(data)
     #print( json.dumps(watson_answer, indent=4) )
-    #return q.getBestFashionBloggerAndClothes(json_data)
     return json.dumps( watson_answer )
   
 
@@ -144,36 +109,16 @@ def images():
                                 title='images')
 
 
-@app.route('/page3', methods=['POST'])
-def page3():
-
-    data = json.loads( request.form['imageArray'] )
-    print(json.dumps(data, indent=4))
-    
-    return render_template('page3.html',
-                            postdata = data,
-                            title='Loading...')
-    
-
 
 
 @app.route('/results', methods=['POST'])
 def results():
-    #cancella le immagini caricate dall' utente
-    shutil.rmtree("app/static/img/"+str(session["logged_in"]))
+    uploader.remove_path(session['logged_in'])
     
     data = json.loads(request.form['imageArray'])
     print("JSON received by /results: ", json.dumps(data, indent=4) )
-    #url = results_code.outfit_builder(request)
-    clothes_type =[
-                    {'code': 'full_body', 'name': 'Full Body', 'images': ["../static/dataset/collections/full_body/img_00000000119.jpg", "../static/dataset/collections/full_body/img_00000000140.jpg"] },
-                    {'code': 'upper_body', 'name': 'Upper Body', 'images': ["../static/dataset/collections/upper_body/img_00000000238.jpg", "../static/dataset/collections/upper_body/img_00000000361.jpg", "../static/dataset/collections/upper_body/img_00000000397.jpg"] },
-                    {'code': 'lower_body', 'name': 'Lower Body', 'images': ["../static/dataset/collections/lower_body/img_00000000501.jpg", "../static/dataset/collections/lower_body/img_00000001111.jpg"] }
-                  ] 
     
     return render_template('results.html',
-                            #full_outfit=url,
-                            jsondata = request.form['imageArray'],
-                            clothes_type = clothes_type,
+                            #jsondata = request.form['imageArray'],
                             data = data,
                             title='Outfit trovato')

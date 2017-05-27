@@ -11,3 +11,6 @@ secure_scheme_headers = { 'X-Forwarded-Proto': 'https' }
 APP_ROOT = os.path.join( os.path.dirname(os.path.abspath(__file__)), "app" )
 APP_STATIC = os.path.join(APP_ROOT, 'static')
 APP_TEMPLATE = os.path.join(APP_ROOT, 'templates')
+
+UPLOAD_FILE_PATH = "app/static/uploads/"
+UPLOAD_WEB_PATH = "../static/uploads/"

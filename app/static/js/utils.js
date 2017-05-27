@@ -1,51 +1,66 @@
 
 // Funzione che carica le foto da Instagram via AJAX
-function lastPhotos(){
-    var access_token=(window.location.href).split("=")[1]
-    
-    if (access_token == 'debug'){
-    
-        $.get( "/fake_login_service", function() {
+function loadPhotos(local){
+
+    if(local){
+        $.get( "/userPicture", function() {
         }).done(function(json_res) {
+        
             res = JSON.parse(json_res);
+            console.log("res from local: ", res);
             showPhotos(res);
             
         }).fail(function() {
             alert( "error" );
             
         });
- 
+        
     } else {
-        $.ajax({
-		        type: 'GET',
-		        url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token='+access_token+"&count=10&callback=?",
-		        xhrFields: {
-		            withCredentials: false
-            },
-		        crossDomain: true,
-		        dataType: "jsonp",
-		        
-            }).done(function(res) {
-                showPhotos(res);
+
+        var access_token=(window.location.href).split("=")[1]
+        
+        if (access_token == 'debug'){
+            $.get( "/fake_login_service", function() {
+            }).done(function(json_res) {
+                res = JSON.parse(json_res);
+                showPhotos(res.data);
                 
-		    }).fail(function(res) {
-                alert('Failed!');
-		    }); 
+            }).fail(function() {
+                alert( "error" );
+                
+            });
+        } else {
+            $.ajax({
+		            type: 'GET',
+		            url: 'https://api.instagram.com/v1/users/self/media/recent/?access_token='+access_token+"&count=10&callback=?",
+		            xhrFields: {
+		                withCredentials: false
+                },
+		            crossDomain: true,
+		            dataType: "jsonp",
+		            
+                }).done(function(res) {
+                    showPhotos(res.data);
+                    
+		        }).fail(function(res) {
+                    alert('Failed!');
+		        }); 
+        }
     }
 }
 
 
 
 // Funzione che renderizza le foto ottenute tramite lastPhotos()
-function showPhotos(res){
+function showPhotos(resdata){
 
     $("#pre-loader").show();
     $("#main-box").hide();
     $("#post-loader").hide(); // Who knows
     
-    console.log('res from Instagram API', res);
+    console.log('showPhotos received this RESDATA', resdata);
     
-    for (i = 0; i<res.data.length; i++){
+    for (i = 0; i<resdata.length; i++){
         
         newbox = $('#image').clone();
         
@@ -54,7 +69,7 @@ function showPhotos(res){
         
         newimg = newbox.find("#img");
         newimg.attr('id','img-'+i);
-        newimg.attr('src',res.data[i].images.thumbnail.url);
+        newimg.attr('src',resdata[i].images.thumbnail.url);
         newimg.attr('onclick', 'showModal("#img-'+i+'")');
         
         newtick = newbox.find("#tick");
@@ -62,7 +77,7 @@ function showPhotos(res){
         
         newfull = newbox.find("#max-res-img");
         newfull.attr('id','max-res-img-'+i);
-        newfull.attr('href', res.data[i].images.standard_resolution.url);
+        newfull.attr('href', resdata[i].images.standard_resolution.url);
         
         $("#photo-container").append(newbox);
     }
@@ -76,42 +91,7 @@ function showPhotos(res){
 //Funzione che renderizza le immagini caricate dall' utente
 function loadLocalPhotos(){
 	
-    var folder = "../userPicture";
-    
-
-    $.ajax({
-        url : folder,
-        success: function (data) {
-            $(data).find("img").prevObject.attr("src", function (i, val) {	   	           
-            	
-            	//showPhotos(res)
-            	
-                newbox = $('#image').clone();
-                
-                newbox.attr('id', 'image-'+i);
-                newbox.attr('style', 'position:relative; display:inline-block;')
-                
-                newimg = newbox.find("#img");
-                newimg.attr('id','img-'+i);
-                newimg.attr('src',val);
-                newimg.attr('onclick', 'showModal("#img-'+i+'")');
-                
-                newtick = newbox.find("#tick");
-                newtick.attr('id','tick-'+i);
-                
-                newfull = newbox.find("#max-res-img");
-                newfull.attr('id','max-res-img-'+i);
-                newfull.attr('href', val);
-                
-                $("#photo-container").append(newbox);  	                
-            });
-        	$('#img').remove();
-            
-            $("#loader").hide();
-            $("#main-box").show();
-        }
-    });
-
+	
 }
 
 // Funzione che prepara il modal

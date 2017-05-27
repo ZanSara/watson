@@ -73,7 +73,7 @@
     <script>
         
         // lastPhotos sta in /static/js/utils.js
-        document.addEventListener('DOMContentLoaded', lastPhotos() );
+        document.addEventListener('DOMContentLoaded', loadPhotos({{ local }}) );
 
         // Codice di cropper.js
         document.addEventListener('DOMContentLoaded', function () {
