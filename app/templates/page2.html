@@ -14,7 +14,7 @@
             <div class="col-md-8 col-md-offset-2" >
                 <p class="lead">Choose your favourite pictures, crop them and press Continue</p>    
                 <div id="errorAlert" class="alert alert-danger" style="display:none;" role="alert">Select at least one picture</div>
-            
+
                 <div id="photo-container" class="text-center">
 
                     <div id="image">
@@ -27,7 +27,7 @@
                    
                 </div>
                 
-                <button class="btn btn-danger btn-wide" onclick="getOutfitData()">Continue</button>
+                <button class="btn btn-danger btn-wide" onclick="getOutfitData()">Next</button>
             </div>
         </div>
         
@@ -49,11 +49,11 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title text-center" id="myModalLabel">Crop your picture</h4>
+            <h3 class="modal-title text-center" id="myModalLabel">Crop your picture</h3>
           </div>
-          <div class="modal-body">
-                <p>Crop your picture and then press Save</p>
-                <div class="img-container" >
+          <div class="modal-body text-center">
+                <h5>Crop your picture and then press Save</h5>
+                <div class="img-container" style='width:80%;margin:auto;'>
                     <img id="img2crop" src="../static/img/simple-pre-loader/images/loader-64x/Preloader_1.gif" alt="Picture">
                 </div>
           </div>

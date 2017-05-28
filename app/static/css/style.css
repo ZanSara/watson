@@ -68,12 +68,12 @@ body {
 
 .wide-title {
     color: white;
-    font-size: 28pt;
+    font-size: 26pt;
     font-weight: bold;
 }
 .wide-description {
     color: white;
-    font-size: 14pt;
+    font-size: 12pt;
 }
 .btn-wide {
     font-size: 16pt;
@@ -122,7 +122,7 @@ body {
 }
 
 #img2crop{ 
-    width: 80%;
+    width: 100%;
 }
 
 
