@@ -57,7 +57,15 @@ body {
     margin: 10%;
 }
 
+.lead{
+    color: #660000;
+}
 
+
+.col-centered{
+    float:none;
+    margin:10px auto;
+}
 
 
 
@@ -138,7 +146,7 @@ body {
     display:inline-block; /* QUESTO permette al div di stare attaccato all'immagine */
 }
 .full-outfit img{
-    max-height: 55vh;
+    max-height: 50vh;
     max-width: 100%;
 }
 .full-outfit a{

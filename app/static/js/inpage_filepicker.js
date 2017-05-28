@@ -152,7 +152,7 @@ $(document).ready(function() {
 
 function add(){
     n=n+1;
-    if( n>0 ){
+    if( n>1 ){
         document.getElementById("submitBtn").removeAttribute('disabled');
     } else {
         document.getElementById("submitBtn").setAttribute('disabled','disabled');
@@ -160,7 +160,7 @@ function add(){
 	var node1 = document.createElement("div");
 	var node2 = document.createElement("div");
 	node1.type = "image"
-    node1.className = "form-group col-lg-2 col-md-2 col-sm-3 col-xs-6 text-center";
+    node1.className = "form-group col-lg-2 col-md-2 col-sm-3 col-xs-6";
     node2.className = "img-picker" + n;
     node1.appendChild(node2);
     document.getElementById("riga").appendChild(node1);
