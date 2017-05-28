@@ -45,7 +45,12 @@ def about():
                             active_navbar_button="about",
                             background_class="light-background")
     
-
+@app.route('/privacy')
+def privacy():
+    return render_template('privacy.html',
+                            title='Privacy Policy',
+                            active_navbar_button="privacy",
+                            background_class="light-background")
 
 @app.route('/page1')
 def page1():
@@ -62,7 +67,7 @@ def userPicture():
     base_path = "{}{}".format(cf.UPLOAD_WEB_PATH, session['logged_in'])
     
     resdata = [ {'images': {
-                    'thumbnail': { 'url': '{}/{}/thumb.png'.format(base_path, f) } , 
+                    'thumbnail': { 'url': '{}/{}/thumb.png'.format(base_path, f) } ,
                     'standard_resolution': {'url': '{}/{}/full.png'.format(base_path, f) } 
                  } }  for f in files ]
     
@@ -75,13 +80,13 @@ def page2():
     if request.method == 'POST':
         session['logged_in'] = uploader.upload_photos(request.files)
         return render_template('page2.html',
-                                local = 1,
+                                local=1,
                                 custom_css=["../static/cropper/dist/cropper.css"],
                                 custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper.js"],
                                 title='Scegli le tue immagini')  
                                         
     return render_template('page2.html',
-                            local = 0,
+                            local=0,
                             custom_css=["../static/cropper/dist/cropper.css"],
                             custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
                             title='Scegli le tue immagini')
@@ -99,8 +104,8 @@ def service4page3():
     print(json.dumps(data[:10], indent=4))
     
     watson_answer = q.getBestFashionBloggerAndClothes(data)
-    #print( json.dumps(watson_answer, indent=4) )
-    return json.dumps( watson_answer )
+    # print( json.dumps(watson_answer, indent=4) )
+    return json.dumps(watson_answer)
   
 
 @app.route('/images')
@@ -119,15 +124,15 @@ def results():
         uploader.remove_path(session['logged_in'])
     
     data = json.loads(request.form['imageArray'])
-    print("JSON received by /results: ", json.dumps(data, indent=4) )
+    print("JSON received by /results: ", json.dumps(data, indent=4))
     
     return render_template('results.html',
-                            #jsondata = request.form['imageArray'],
-                            fashion = cf.FASHION_BLOGGER_WPATH,
-                            lower = cf.LOWER_BODY_WPATH,
-                            upper = cf.UPPER_BODY_WPATH,
-                            full = cf.FULL_BODY_WPATH,
-                            data = data,
+                            # jsondata = request.form['imageArray'],
+                            fashion=cf.FASHION_BLOGGER_WPATH,
+                            lower=cf.LOWER_BODY_WPATH,
+                            upper=cf.UPPER_BODY_WPATH,
+                            full=cf.FULL_BODY_WPATH,
+                            data=data,
                             title='Outfit trovato')
                             
 
