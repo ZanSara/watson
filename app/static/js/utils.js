@@ -152,22 +152,22 @@ function selectPicture(imgID, obj, imageInfo){
 
 // Funzione che, date le immagini tagliate, ottiene l'outfit con una AJAX.
 function getOutfitData() {
-
+    
+    data =  JSON.stringify( collectSelected() );
+    //console.log("stringify: ", data);
+    if( data == "[]" ){
+        $('#errorAlert').show();
+        return;
+    }
+    
     $("#pre-loader").hide(); // Who knows
     $("#main-box").hide();
     $("#post-loader").show();
-    
-    data =  JSON.stringify( collectSelected() );
-    console.log(data);
     
     $.get( "/service4page3", {'data':data}, function() {
     
         }).done(function(json_res) {
         
-            //alert( "Success!" );
-            //res = JSON.parse(json_res);
-            //console.log(res);
-            
             $('#imageArray').val(json_res);
             $('#imageForm').submit();
             
@@ -183,6 +183,7 @@ function getOutfitData() {
 // Funzione che raccoglie le informazioni sulle foto selezionate
 function collectSelected() {
     
+    $('#errorAlert').hide();
     // Calcola il numero di immagini di Instagram nella pagina
     images_number = $('[id*="image-"]').length;
     
@@ -195,6 +196,7 @@ function collectSelected() {
             selected_info.push( data );
         }
     }
+    console.log(images_number, selected_info.lenght);
     return selected_info;
 }
 

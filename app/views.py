@@ -50,7 +50,9 @@ def about():
 @app.route('/page1')
 def page1():
     return render_template('page1.html',
-                            title='Carica le tue foto dalla galleria')
+                            custom_css=["../static/css/filepicker.css"],
+                            custom_js=["../static/js/inpage_filepicker.js"],
+                                title='Carica le tue foto dalla galleria')
 
                 
                            
@@ -75,7 +77,7 @@ def page2():
         return render_template('page2.html',
                                 local = 1,
                                 custom_css=["../static/cropper/dist/cropper.css"],
-                                custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
+                                custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper.js"],
                                 title='Scegli le tue immagini')  
                                         
     return render_template('page2.html',
