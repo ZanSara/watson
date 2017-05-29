@@ -123,22 +123,22 @@ var n=0;
             var picker_preview_image = $('<img src="'+src+'" class="img-responsive img-rounded" />');
             
             // The remove image button
-            var picker_preview_remove = $('<button class="btn btn-link"><small>Remove</small></button>');
+            var picker_preview_remove = $('<button class="btn btn-link" onclick="remove('+n+')"><small>Remove</small></button>');
             
             
             // The preview element
 			
             var tetx = document.getElementById(String(n));
             tetx.className = "hidden";
-            var picker_preview = $('<div class="text-center"></div>')
+            var picker_preview = $('<div class="text-center" id="container'+n+'"></div>')
            
                 .append(picker_preview_image)
                 .append(picker_preview_remove).append(tetx);
             // Remove image listener
 			
              picker_preview_remove.click(function() {
-                var btn = create_btn(that, settings);
-                $(that).html(btn);
+                //var btn = create_btn(that, settings);
+                //$(that).html(btn);
             });
             
             return picker_preview;
@@ -167,3 +167,9 @@ function add(){
     $('.img-picker'+ n).imagePicker({name: 'images'});
 }
 
+function remove(n){
+	elementToRemove = document.getElementsByClassName("form-group col-lg-2 col-md-2 col-sm-3 col-xs-6 text-center")[n]
+	//elementToRemove = document.getElementById("container"+n);
+	elementToRemove.outerHTML = "";
+	delete elementToRemove;
+}
