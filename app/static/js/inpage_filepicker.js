@@ -123,7 +123,7 @@ var n=0;
             var picker_preview_image = $('<img src="'+src+'" class="img-responsive img-rounded" />');
             
             // The remove image button
-            var picker_preview_remove = $('<button class="btn btn-link" onclick="remove('+n+')"><small>Remove</small></button>');
+            var picker_preview_remove = $('<button class="btn btn-link"><small>Remove</small></button>');
             
             
             // The preview element
@@ -137,8 +137,12 @@ var n=0;
             // Remove image listener
 			
              picker_preview_remove.click(function() {
-                //var btn = create_btn(that, settings);
-                //$(that).html(btn);
+                var btn = create_btn(that, settings);
+                $(that).html(btn); 
+            		//elementToRemove = document.getElementsByClassName("form-group col-lg-2 col-md-2 col-sm-3 col-xs-6 text-center")[n]
+            		//elementToRemove = document.getElementById("container"+n);
+            		//elementToRemove.outerHTML = "";
+            		//delete elementToRemove;
             });
             
             return picker_preview;
@@ -167,9 +171,3 @@ function add(){
     $('.img-picker'+ n).imagePicker({name: 'images'});
 }
 
-function remove(n){
-	elementToRemove = document.getElementsByClassName("form-group col-lg-2 col-md-2 col-sm-3 col-xs-6 text-center")[n]
-	//elementToRemove = document.getElementById("container"+n);
-	elementToRemove.outerHTML = "";
-	delete elementToRemove;
-}
