@@ -1,32 +1,20 @@
 {% extends "base_template.html" %}
 {% block content %}
-    <div class="text-center">
     
-        <p class="lead">What about this new outfit?</p>
-        <h6>Click on the picture to find similar clothes</h6>
-        
-        <div class="container text-center">
+    <div class="container">
+    
+        <div class="col-md-6 col-xs-12 text-center"> <!--style="background: url({{ fashion }}/{{ data.best.image_file }}) no-repeat center; "-->
+            <p class="lead">What about this new outfit?</p>
+            <h6 class="mobile-only">Scroll down to find similar clothes</h6>
+            
             <div class="full-outfit">
-                <img class="full-outfit" src="{{ fashion }}/{{ data.best.image_file }}" alt="{{ data.best.image_file }}" onclick="$('#myModal').modal('show')">
+                <img src="{{ fashion }}/{{ data.best.image_file }}" alt="{{ data.best.image_file }}">
             </div>
         </div>
-	    
-    </div>
-    
-    
         
     
-    <!-- Modal -->
-    <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title text-center" id="myModalLabel">Here are the most similar clothes in store</h4>
-          </div>
-          
-          <div class="modal-body">
-              <div class="row">
+        <div class="col-md-6 col-xs-12 text-center">
+            <p class="lead">Here are the most similar clothes in store</p>
                 {% if data.full %}
                     {% set name = "Full Body" %}
                     {% set code = "full-body" %}
@@ -45,12 +33,9 @@
                     {% set images = data.lower %}
                     {% include "results-carousel.html" %} 
                 {% endif %}
-            </div>
-            
-          </div>
         </div>
-      </div>
-    </div>    
-    
+	    
+    </div>
+
     
 {% endblock %}
