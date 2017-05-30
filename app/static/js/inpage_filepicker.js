@@ -130,7 +130,7 @@ var n=0;
 			
             var tetx = document.getElementById(String(n));
             tetx.className = "hidden";
-            var picker_preview = $('<div class="text-center"></div>')
+            var picker_preview = $('<div class="text-center" id="container'+n+'"></div>')
            
                 .append(picker_preview_image)
                 .append(picker_preview_remove).append(tetx);
@@ -138,7 +138,11 @@ var n=0;
 			
              picker_preview_remove.click(function() {
                 var btn = create_btn(that, settings);
-                $(that).html(btn);
+                $(that).html(btn); 
+            		//elementToRemove = document.getElementsByClassName("form-group col-lg-2 col-md-2 col-sm-3 col-xs-6 text-center")[n]
+            		//elementToRemove = document.getElementById("container"+n);
+            		//elementToRemove.outerHTML = "";
+            		//delete elementToRemove;
             });
             
             return picker_preview;
