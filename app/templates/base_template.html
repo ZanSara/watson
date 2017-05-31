@@ -74,6 +74,7 @@
                 <ul class="nav navbar-nav">
                     <li {% if active_navbar_button == "home" %}class="active"{% endif %}><a href="/">Home</a></li>
                     <li {% if active_navbar_button == "about" %}class="active"{% endif %}><a href="/about">About</a></li>
+                    <li {% if active_navbar_button == "feedback" %}class="active"{% endif %}><a href="/feedback">Feedback</a></li>
                     {% if not active_navbar_button %}
                         <li><a href="https://instagram.com/accounts/logout">Logout</a></li>
                     {% endif %}

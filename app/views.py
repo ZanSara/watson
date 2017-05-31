@@ -44,6 +44,12 @@ def about():
                             title='About Us',
                             active_navbar_button="about",
                             background_class="light-background")
+@app.route('/feedback')
+def feedback():
+    return render_template('questionnaire.html',
+                            title='Questionnaire',
+                            active_navbar_button="feedback",
+                            background_class="light-background")
     
 @app.route('/privacy')
 def privacy():
@@ -83,13 +89,15 @@ def page2():
                                 local=1,
                                 custom_css=["../static/cropper/dist/cropper.css"],
                                 custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper.js"],
-                                title='Scegli le tue immagini')  
+                                title='Scegli le tue immagini',
+                                background_class="light-background")  
                                         
     return render_template('page2.html',
                             local=0,
                             custom_css=["../static/cropper/dist/cropper.css"],
                             custom_js=["../static/cropper/dist/cropper.js", "../static/js/inpage_cropper_code.js"],
-                            title='Scegli le tue immagini')
+                            title='Scegli le tue immagini',
+                            background_class="light-background")
                                           
 
 
@@ -133,6 +141,7 @@ def results():
                             upper=cf.UPPER_BODY_WPATH,
                             full=cf.FULL_BODY_WPATH,
                             data=data,
-                            title='Outfit trovato')
+                            title='Outfit trovato',
+                            background_class="light-background")
                             
 
