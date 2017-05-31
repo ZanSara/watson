@@ -52,7 +52,7 @@
   </head>
   
   
-  <body class="{{background_class}}">
+  <body>
       
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -84,7 +84,7 @@
     </nav>
 
 
-    <div style="padding: 50px 0; {% if not background_class %} background-color:white; {% endif %}">
+    <div class="{{background_class}}" style="padding: 50px 0; {% if not background_class %} background-color:white;{% endif %}">
       {% block content %}
       {% endblock %}
     </div> 
@@ -92,9 +92,9 @@
     
 
       <footer class="footer text-center">
-                      <a href="/">
-                    <img src="../static/img/EITeam_red_logo.png" style="height:60px; margin:10px;">
-                </a><br>
+        <a href="/">
+        <img src="../static/img/EITeam_red_logo.png" style="height:60px; margin:10px;">
+        </a><br>
         <a href="/privacy" target="_blank">Privacy Policy</a>
       </footer>
 
