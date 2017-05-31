@@ -156,7 +156,7 @@ $(document).ready(function() {
 
 function add(){
     n=n+1;
-    if( n>1 ){
+    if( n>0 ){
         document.getElementById("submitBtn").removeAttribute('disabled');
     } else {
         document.getElementById("submitBtn").setAttribute('disabled','disabled');
