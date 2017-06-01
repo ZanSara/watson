@@ -86,9 +86,9 @@ def deleteAllImagesInCollection():
 
 def getKSimilar(src, collection, k=1):
     i = 0    
-    if(collection=="fashon_blogger"):     
-        i = (randint(0,len(visual_recognition)-1))           
-        collection = fashion_blogger_id[i]
+    #if(collection=="fashon_blogger"):     
+    #    i = (randint(0,len(visual_recognition)-1))           
+    #    collection = fashion_blogger_id[i]
     #print("--- GETKSIM: src {}".format(src))
     with open(src, 'rb') as img: 
         similars = visual_recognition[i].find_similar(collection,img, k)["similar_images"]    #number of returned values  # collection was this_collection_id
