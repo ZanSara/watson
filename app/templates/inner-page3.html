@@ -33,13 +33,14 @@
 				        "Browsing the catalog",
 				        "Looking for fashion websites" ];
 				        
-		var elem = document.getElementById("changeText");
-		setInterval(change, 5000);
 		
-		function change() {
+		setInterval(function change() {
 			//count keep values from 0 to 9
+			var elem = document.getElementById("changeText");
 			count = Math.floor((Math.random() * 10) + 0);
 			elem.innerHTML = text[count];
-		}
+		}, 4000);
+		
+		
 		
 	</script>
