@@ -5,8 +5,8 @@ import requests as req
 import config as cf
 
 from app import app, results_code, uploader
-from app.static.dataset import query_watson as q
-from app.static.dataset import manage_collections as m
+from app.static.new_dataset import query_watson as q
+from app.static.new_dataset import manage_collections as m
 
 
 
@@ -177,7 +177,7 @@ def results():
         uploader.remove_path(session['logged_in'])
     
     data = json.loads(request.form['imageArray'])
-    print("JSON received by /results: ", json.dumps(data, indent=4))
+    #print("JSON received by /results: ", json.dumps(data, indent=4))
     
     return render_template('results.html',
                             # jsondata = request.form['imageArray'],

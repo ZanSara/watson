@@ -17,7 +17,7 @@
                             <div class="item {% if loop.index < 2 %} active {% endif %} carousel-image">
                               <img class="img-responsive center-block carousel-image" src="{{ basepath }}{{ item.image_file }}" alt="{{ item.image_file }}">
                               <div class="carousel-caption">
-                                <a href="/feedback"><button class="btn btn-danger" style="margin-bottom:10px;">Acquista Ora</button></a>
+                                <a href={{item.metadata.Image[0].href}} target="_blank"><button class="btn btn-danger" style="margin-bottom:10px;">Acquista Ora</button></a>
                               </div>
                             </div>
                         {% endfor %}
