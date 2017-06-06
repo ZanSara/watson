@@ -1,108 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-  	<link rel="image_src" href="http://stackoverflow.com/images/logo.gif" /> 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    
-    <meta name="description" content="2017 Project for Digital Innovation Lab course (powered by IBM Watson) ">
-    <meta name="author" content="">
-    <link rel="icon" href="../static/img/IBM_Watson_icon.png">
+<head>
 
-    <title>{{ title }} - EITeam Project</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta property="og:image"
+	content="http://www.coachesneedsocial.com/wp-content/uploads/2014/12/BannerWCircleImages-1.jpg" />
 
-    <!-- Bootstrap core CSS (online) -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- Bootstrap core CSS (offline) -->
-    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="../static/css/style.css">
-    <script type="text/javascript" src="../static/js/utils.js"></script>
-    <!-- Font-Awesome (embedded code) -->
-    <script src="https://use.fontawesome.com/ad32508123.js"></script>
-    
-         <!-- Bootstrap core JavaScript
+<meta property="og:description"
+	content="Coaches share their secrets to success so you can rock 2015. Join us for this inspiring, rejuvenating, motivating look at what secret sauce these coaches use to succeed in their business. This is for coaches of any level that are committed to changing the world. You will be elevated both in your life and your coaching business. Check out the topics below, there is something for everyone." />
+
+<meta property="og:url"
+	content="http://www.coachesneedsocial.com/coacheswisdomtelesummit/" />
+
+<meta property="og:title" content="Coaches Wisdom Telesummit" />
+<meta name="description"
+	content="2017 Project for Digital Innovation Lab course (powered by IBM Watson) ">
+<meta name="author" content="">
+<link rel="icon" href="../static/img/IBM_Watson_icon.png">
+
+<title>{{ title }} - EITeam Project</title>
+
+<!-- Bootstrap core CSS (online) -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous">
+<!-- Bootstrap core CSS (offline) -->
+<link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+<!-- Custom styles for this template -->
+<link rel="stylesheet" href="../static/css/style.css">
+<script type="text/javascript" src="../static/js/utils.js"></script>
+<!-- Font-Awesome (embedded code) -->
+<script src="https://use.fontawesome.com/ad32508123.js"></script>
+
+<!-- Bootstrap core JavaScript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script   type="text/javascript"
-			  src="https://code.jquery.com/jquery-1.9.1.min.js"
-			  integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ="
-			  crossorigin="anonymous"></script>
-	
-    <!-- Offline Bootstrap and jQuery js >
+<!-- Placed at the end of the document so the pages load faster -->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script type="text/javascript"
+	src="https://code.jquery.com/jquery-1.9.1.min.js"
+	integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ="
+	crossorigin="anonymous"></script>
+
+<!-- Offline Bootstrap and jQuery js >
     <script src="../static/bootstrap/jQuery/jquery-1.9.1.min.js"></script>
     <script src="../static/bootstrap/js/bootstrap.min.js"></script-->
-    
-    <!-- Latest compiled and minified JavaScript -->
-    <script type="text/javascript"
-            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
-            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
-            crossorigin="anonymous"></script>
-     
-            
-    <!-- CUSTOM HEAD CONTENT start -->
-    {% for css in custom_css %}
-        <link rel="stylesheet" href="{{ css }}">
-    {% endfor %}
-    {% for js in custom_js %}
-        <script type="text/javascript" src="{{ js }}"></script>
-    {% endfor %}
-    <!-- CUSTOM HEAD CONTENT end -->
-    
-  </head>
-  
-  
-  <body>
-      
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            
-            <div class="navbar-header">
-                <div class="pull-right">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <a href="/">
-                <img src="../static/img/EITeam_logo_nome.png" style="height:25px;margin-left:20px; margin-top:10px;">
-                    <img src="../static/img/EITeam_red_logo1.png" style="height:30px; margin-top:10px;">
-                </a>
-            </div>
-            <div id="navbar" class="collapse navbar-collapse pull-right">
-                <ul class="nav navbar-nav">
-                    <li {% if active_navbar_button == "home" %}class="active"{% endif %}><a href="/">Home</a></li>
-                    <li {% if active_navbar_button == "about" %}class="active"{% endif %}><a href="/about">About</a></li>
-                    <li {% if active_navbar_button == "feedback" %}class="active"{% endif %}><a href="/feedback">Feedback</a></li>
-                    {% if not active_navbar_button %}
-                        <li><a href="https://instagram.com/accounts/logout">Logout</a></li>
-                    {% endif %}
-                </ul>
-            </div><!--/.nav-collapse -->
-        </div>
-    </nav>
+
+<!-- Latest compiled and minified JavaScript -->
+<script type="text/javascript"
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
 
 
-    <div class="{{background_class}}" style="padding: 50px 0; {% if not background_class %} background-color:white;{% endif %}">
-      {% block content %}
-      {% endblock %}
-    </div> 
-    
-    
+<!-- CUSTOM HEAD CONTENT start -->
+{% for css in custom_css %}
+<link rel="stylesheet" href="{{ css }}">
+{% endfor %} {% for js in custom_js %}
+<script type="text/javascript" src="{{ js }}"></script>
+{% endfor %}
+<!-- CUSTOM HEAD CONTENT end -->
 
-      <footer class="footer text-center">
-        <a href="/">
-        <img src="../static/img/EITeam_red_logo.png" style="height:60px; margin:10px;">
-        </a><br>
-        <a href="/privacy" target="_blank">Privacy Policy</a>
-      </footer>
+</head>
 
-    </div> <!-- /container -->
 
-  </body>
+<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+
+			<div class="navbar-header">
+				<div class="pull-right">
+					<button type="button" class="navbar-toggle collapsed"
+						data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+						aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+				</div>
+				<a href="/"> <img src="../static/img/EITeam_logo_nome.png"
+					style="height: 25px; margin-left: 20px; margin-top: 10px;"> <img
+					src="../static/img/EITeam_red_logo1.png"
+					style="height: 30px; margin-top: 10px;">
+				</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse pull-right">
+				<ul class="nav navbar-nav">
+					<li {% if active_navbar_button== "home" %}class="active"{% endif %}><a
+						href="/">Home</a></li>
+					<li {% if active_navbar_button== "about" %}class="active"{% endif %}><a
+						href="/about">About</a></li>
+					<li {% if active_navbar_button== "feedback" %}class="active"{% endif %}><a
+						href="/feedback">Feedback</a></li> {% if not active_navbar_button %}
+					<li><a href="https://instagram.com/accounts/logout">Logout</a></li>
+					{% endif %}
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</nav>
+
+
+	<div class="{{background_class}}"
+		style="padding: 50px 0; {% if not background_class %} background-color:white;{% endif %}">
+		{% block content %} {% endblock %}</div>
+
+
+
+	<footer class="footer text-center">
+		<a href="/"> <img src="../static/img/EITeam_red_logo.png"
+			style="height: 60px; margin: 10px;">
+		</a><br> <a href="/privacy" target="_blank">Privacy Policy</a>
+	</footer>
+
+	</div>
+	<!-- /container -->
+
+</body>
 </html>
