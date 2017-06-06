@@ -102,11 +102,6 @@ def privacy():
                             title='Privacy Policy',
                             active_navbar_button="privacy",
                             background_class="light-background")
-@app.route('/home_screen')
-def home_screen():
-    return render_template('home_screen.html',
-                           title='screenshot')
-
 @app.route('/page1')
 def page1():
     return render_template('page1.html',
