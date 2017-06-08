@@ -123,6 +123,12 @@ def privacy():
                             title='Privacy Policy',
                             active_navbar_button="privacy",
                             background_class="light-background")
+@app.route('/cookie')
+def cookie():
+    return render_template('cookie-policy.html',
+                            title='Cookies Policy',
+                            active_navbar_button="cookie",
+                            background_class="light-background")
 @app.route('/page1')
 def page1():
     return render_template('page1.html',
