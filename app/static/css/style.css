@@ -540,3 +540,9 @@ body {
   width: 160px
 
 }
+
+.carousel-inner-tutorial .img-thumbnail {
+	background-color: #7f083f;
+    border: 1px solid #000000;
+    padding: 0px;
+}
