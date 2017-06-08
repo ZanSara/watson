@@ -522,3 +522,21 @@ body {
        
 .btn-instagram-custom-for-home{margin-left:5%; width:90%;}
 
+
+/* Tutorial style */
+
+.carousel-inner-tutorial{
+   height: 100%;
+}
+.carousel-inner-tutorial .item img {
+    margin-bottom: 0px;
+}
+
+
+#finalImg .btn{    
+  position: absolute;
+  bottom: 11%;
+  right: 24%;
+  width: 160px
+
+}

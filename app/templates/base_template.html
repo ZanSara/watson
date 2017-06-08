@@ -84,7 +84,7 @@
 			<div id="navbar" class="collapse navbar-collapse pull-right">
 				<ul class="nav navbar-nav">
 					<li {% if active_navbar_button== "home" %}class="active"{% endif %}><a
-						href="/">Home</a></li>
+						href="/home">Home</a></li>
 					<li {% if active_navbar_button== "about" %}class="active"{% endif %}><a
 						href="/about">About</a></li>
 					<li {% if active_navbar_button== "feedback" %}class="active"{% endif %}><a
@@ -99,7 +99,8 @@
 
 
 	<div class="{{background_class}}"
-		style="padding: 50px 0; {% if not background_class %} background-color:white;{% endif %}">
+		{% if title == "Tutorial"  %} style="padding: 20px 0 0 0; {% endif %}
+		{% if title != "Tutorial"  %} style="padding: 50px 0; {% endif %}{% if not background_class %} background-color:white;{% endif %}">
 		{% block content %} {% endblock %}</div>
 
 

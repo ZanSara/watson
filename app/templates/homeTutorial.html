@@ -1,0 +1,35 @@
+{% extends "base_template.html" %} {% block content %}
+
+
+<div class="row vertically-centered">
+	<script>
+		var local = window.location.origin
+		var url = "https://www.instagram.com/oauth/authorize/?client_id=62f7b14a1a6141a58748d143744e1538&redirect_uri="
+				+ local
+				+ "/page2&response_type=token&scope=basic+likes+public_content"
+	</script>
+
+	<div class="col-md-5 pull-right">
+		<div class="col-md-8 text-center">
+
+			<h1 class="text-center wide-title">Welcome to FitYou</h1>
+			<p class="wide-description">
+				<br /> <i>Thanks to IBM Watson technology, <br /> we
+					understand your style from your pictures and let you discover a new
+					fashionable outfit!<br /> <br /> <span style="color: #cccccc">Click
+						Start to watch how the app works and TRY IT!</span><br /> <br /></i>
+			</p>
+			<a href="/tutorial"><input type="button" value="S T A R T"
+				class="btn btn-danger btn-wide" style="margin-top:0px"></a>
+
+
+		</div>
+	</div>
+	<script>
+		document.getElementById("linkStart").href = url
+		var url2 = local + "/page1";
+		document.getElementById("link2").href = url2;
+	</script>
+
+</div>
+{% endblock %}

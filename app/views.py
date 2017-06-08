@@ -71,15 +71,26 @@ def testcode(code):
 ###############################################################
 
 
-
-
-
-
 @app.route('/')
+@app.route('/homeTutorial')
+def homeTutorial():
+    return render_template('homeTutorial.html',
+                            title='HomeTutorial',
+                            active_navbar_button="home",
+                            background_class="home-background")
+
 @app.route('/home')
 def home():
     return render_template('homepage.html',
                             title='Home',
+                            active_navbar_button="home",
+                            background_class="home-background")
+    
+
+@app.route('/tutorial')
+def tutorial():
+    return render_template('tutorial.html',
+                            title='Tutorial',
                             active_navbar_button="home",
                             background_class="home-background")
                            
