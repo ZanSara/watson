@@ -1,8 +1,9 @@
-from flask import render_template, request, jsonify, session, abort
+from flask import render_template, request, jsonify, session, abort, make_response
 
 import json, urllib, io, os
 import requests as req
 import config as cf
+
 
 from app import app, results_code, uploader
 from app.static.new_dataset import query_watson as q
@@ -74,18 +75,27 @@ def testcode(code):
 @app.route('/')
 @app.route('/homeTutorial')
 def homeTutorial():
-    return render_template('homeTutorial.html',
+    platform = request.user_agent.platform
+    phones = ["iPhone", "android", "blackberry", "Windows Phone"]    
+    if (platform in phones) and 'tutorial' not in request.cookies:
+        return render_template('homeTutorial.html',
                             title='HomeTutorial',
                             active_navbar_button="home",
                             background_class="home-background")
-
-@app.route('/home')
-def home():
     return render_template('homepage.html',
                             title='Home',
                             active_navbar_button="home",
                             background_class="home-background")
+        
+@app.route('/home')
+def home():
+    resp = make_response(render_template('homepage.html',
+                            title='Home',
+                            active_navbar_button="home",
+                            background_class="home-background"))
     
+    resp.set_cookie('tutorial', 'done')
+    return resp       
 
 @app.route('/tutorial')
 def tutorial():
