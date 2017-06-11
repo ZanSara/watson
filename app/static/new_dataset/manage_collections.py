@@ -19,8 +19,8 @@ fashion_blogger_id.append("fashon_blogger_e4ceff")
 fashion_blogger_id.append("fashionBloggers_919987")
 ##All the function are referred to the collection chosen here below
 #folder=join(cf.APP_STATIC, "dataset/collections/fashion_blogger")
-folder="app/static/dataset/collections/fashion_blogger"
-this_collection_id = fashion_blogger_id[1]
+folder="app/static/new_dataset/collections"
+this_collection_id = full_body_id
 
 #creation object for visual recognition  
 visual_recognition = []
@@ -111,11 +111,11 @@ def getKSimilar(src, collection, k=1):
 #addAllImagesFromFolder()
 
 #find similarities
-#with open(join(folder,"tt0005.jpg"), 'rb') as img: 
-   # res = visual_recognition.find_similar(this_collection_id,img, 50)#number of returned values
-    #similars=res["similar_images"]
+#with open(folder+"/tt00007.jpg", 'rb') as img: 
+    #res = visual_recognition[0].find_similar(this_collection_id,img, 50)#number of returned values
+    ##similars=res["similar_images"]
     #for elem in similars:
-     #   print (elem['image_file'],elem['score'], elem["metadata"] )
-    #visual_recognition.classify(img)
+       #print (elem['image_file'],elem['score'], elem["metadata"] )
+    #visual_recognition[0].classify(img)
 
     
