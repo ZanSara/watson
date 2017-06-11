@@ -15,15 +15,15 @@
 		{% set i = 0 %} {% for item in images %}
 		<div
 			class="item {% if loop.index < 2 %} active {% endif %} carousel-image">
-			<div>{{ item.metadata["Partial Description"][0].text }}</div>
+			<div>{{ item.metadata.description }}</div>
 			<img class="img-responsive center-block carousel-image"
-				src="{{ basepath }}{{ item.image_file }}"
+				src='{{item.metadata.img_src}}'
 				alt="{{ item.image_file }}">
 			<div class="carousel-caption">
-				<a href={{item.metadata.Image[0].href}} target="_blank"><button
+				<a href={{item.metadata.link_to_buy}} target="_blank"><button
 						type="button" class="btn btn-danger"
 						" style="margin-bottom: 10px;">Acquista Ora a
-						{{item.metadata.Price[0].text}}</button></a>
+						{{item.metadata.price}}</button></a>
 			</div>
 		</div>
 		{% endfor %}
