@@ -1,8 +1,9 @@
-from flask import render_template, request, jsonify, session, abort
+from flask import render_template, request, jsonify, session, abort, make_response
 
 import json, urllib, io, os
 import requests as req
 import config as cf
+
 
 from app import app, results_code, uploader
 from app.static.new_dataset import query_watson as q
@@ -71,15 +72,35 @@ def testcode(code):
 ###############################################################
 
 
-
-
-
-
 @app.route('/')
-@app.route('/home')
-def home():
+@app.route('/homeTutorial')
+def homeTutorial():
+    platform = request.user_agent.platform
+    phones = ["iPhone", "android", "blackberry", "Windows Phone"]    
+    if (platform in phones) and 'tutorial' not in request.cookies:
+        return render_template('homeTutorial.html',
+                            title='HomeTutorial',
+                            active_navbar_button="home",
+                            background_class="home-background")
     return render_template('homepage.html',
                             title='Home',
+                            active_navbar_button="home",
+                            background_class="home-background")
+        
+@app.route('/home')
+def home():
+    resp = make_response(render_template('homepage.html',
+                            title='Home',
+                            active_navbar_button="home",
+                            background_class="home-background"))
+    
+    resp.set_cookie('tutorial', 'done')
+    return resp       
+
+@app.route('/tutorial')
+def tutorial():
+    return render_template('tutorial.html',
+                            title='Tutorial',
                             active_navbar_button="home",
                             background_class="home-background")
                            
@@ -101,6 +122,12 @@ def privacy():
     return render_template('privacy.html',
                             title='Privacy Policy',
                             active_navbar_button="privacy",
+                            background_class="light-background")
+@app.route('/cookie')
+def cookie():
+    return render_template('cookie-policy.html',
+                            title='Cookies Policy',
+                            active_navbar_button="cookie",
                             background_class="light-background")
 @app.route('/page1')
 def page1():
